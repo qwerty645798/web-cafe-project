@@ -21,7 +21,7 @@
         "postWriter": "황인혁",
         "postDate": "2024.03.02",
         "postView": 12,
-        "postCategory": "Server"
+        "postCategory": "jQuery / Ajax"
     },
     {
         "id": "4",
@@ -33,11 +33,11 @@
     },
     {
         "id": "5",
-        "postTitle" : "display: flex를 이용한 배치",
+        "postTitle" : "네이버 드라이브 주소",
         "postWriter": "박일규",
         "postDate": "2024.03.13",
         "postView": 28,
-        "postCategory": "HTML / CSS"
+        "postCategory": "메모"
     },
     {
         "id": "6",
@@ -47,5 +47,4 @@
         "postView": 72,
         "postCategory": "Java"
     }
-    
 ]

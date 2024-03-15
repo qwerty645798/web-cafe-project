@@ -11,6 +11,12 @@
         input:not([type="text"]),button,select{
             cursor:pointer;
         }
+        a{
+            text-decoration:none;
+        }
+        input:not([type="text"]):hover,a:hover{
+            text-decoration:underline;
+        }
         input[type="text"],textarea{
             padding:15px;
         }
@@ -106,12 +112,16 @@
             padding:15%;
             width:90%;
             height:15%;
+            border:1px #D7D7D9 solid;
+            border-radius:8px;
         }
 	</style>
 	<script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 	<script>
 		$(function(){
+            $("writeBtn").click(function(){
 
+            });
 		});
 	</script>
 </head>
@@ -134,7 +144,7 @@
 
                 </div>
                 <textarea id="textarea"></textarea>
-                <div id="Btn"><input type="button" value="등록"></div>
+                <div id="Btn"><input type="button" id="writeBtn" value="등록"></div>
             </div>
             <div id="right">
                 <div id="tools2">

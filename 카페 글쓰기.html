@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 	<style>
+        @font-face {
+            font-family: 'AmericanTypewriterBold';
+            src: url('fonts/AmericanTypewriterBQ-Bold.otf') format('truetype');
+        }
         *{
             margin:0;
             box-sizing:border-box;
@@ -10,6 +14,8 @@
         }
         input:not([type="text"]),button,select,a{
             cursor:pointer;
+            outline:none;
+            border:1px #D7D7D9 solid;
         }
         a{
             text-decoration:none;
@@ -31,7 +37,7 @@
         }
         div#top{
             height:14.5%;
-            background-image:url("https://images.pexels.com/photos/46160/field-clouds-sky-earth-46160.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+            background-image:url("image/cloud.jpeg");
             background-size:cover;
             background-position:center;
         }
@@ -76,16 +82,46 @@
         }
         div#left>div#tools1{
             width:100%;height:5%;
+            border:1px #D7D7D9 solid;
+            display:flex;
+            background:#F5F6F8;
+        }
+        div#left>div#tools1>button{
+            outline:none;
             border:none;
-            background-image:url("image/글쓰기도구.png");
-            background-size:cover;
-            background-position:center;
+            width:6%; height:100%;
+            font-size:0.7em;
+            background:#F5F6F8;
+        }
+        div#left>div#tools1>button:hover{
+            color:#88D8AC;
+        }
+        div#left>div#tools1>button>img{
+            width:40%; height:40%;
+        }
+        div#left>div#tools2{
+            width:100%; height:3%;
+            border:1px #D7D7D9 solid;
+            background:#F5F6F8;
+            border-width:0 1px;
+        }
+        div#left>div#tools2>select{
+            margin:7px 0 auto 5px;
+            outline:none;
+            background:none;
+            border:none;
+        }
+        div#left>div#tools2>button{
+            font-family:"AmericanTypewriterBold", sans-serif;
+            width:3%; height:100%;
+            border:none;
+            background:#F5F6F8;
+            font-size:1.2em;
         }
         div#left>textarea{
             width:100%;
             height:50%;
             resize:none;
-            border-radius:10px;
             border:1px #D7D7D9 solid;
             outline-color:#D7D7D9;
         }
@@ -105,7 +141,7 @@
         div#right{
             width:20%; height:100%;
         }
-        div#right>div#tools2{
+        div#right>div#tools3{
             margin:10% 0 0 10%;
             font-size:0.8em;
             background:#F5F6F8;
@@ -141,13 +177,51 @@
                 </select><br>
                 <input type="text" placeholder="제목을 입력해주세요.">
                 <div id="tools1">
-
+                    <button><img src="image/picture.png"><br>사진</button>
+                    <button><img src="image/video.png"><br>동영상</button>
+                    <button><img src="image/스티커.png"><br>스티커</button>
+                    <button><img src="image/파일.png"><br>파일</button>
+                    <button><img src="image/링크.png"><br>링크</button>
+                    <button><img src="image/장소.png"><br>장소</button>
+                    <button><img src="image/투표.png"><br>투표</button>
+                    <button><img src="image/일정.png"><br>일정</button>
+                    <button><img src="image/표.png"><br>표</button>
+                    <button><img src="image/소스코드.png"><br>소스코드</button>
+                </div>
+                <div id="tools2">
+                    <select>
+                        <option value="본문">본문</option>
+                        <option value="인용구">인용구</option>
+                    </select>
+                    <select>
+                        <option value="기본서체" style="font-family: ;">기본서체</option>
+                        <option value="나눔고딕" style="font-family: 'Nanum Gothic', sans-serif;">나눔고딕</option>
+                        <option value="나눔명조" style="font-family: 'Nanum Myeongjo', serif;">나눔명조</option>
+                        <option value="나눔바른고딕" style="font-family: 'Nanum Barun Gothic', sans-serif;">나눔바른고딕</option>
+                        <option value="나눔스퀘어" style="font-family: 'Nanum Square', sans-serif;">나눔스퀘어</option>
+                    </select>
+                    <select>
+                        <option value="11">11</option>
+                        <option value="13">13</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="19">19</option>
+                        <option value="24">24</option>
+                        <option value="28">28</option>
+                        <option value="30">30</option>
+                        <option value="34">34</option>
+                        <option value="38">38</option>
+                    </select>&nbsp;&nbsp;&nbsp;
+                    <button style="width:2%;"><b>B</b></button>
+                    <button><i>I</i></button>
+                    <button><u>U</u></button>
+                    <button><s>T</s></button>
                 </div>
                 <textarea id="textarea"></textarea>
                 <div id="Btn"><input type="button" id="writeBtn" value="등록"></div>
             </div>
             <div id="right">
-                <div id="tools2">
+                <div id="tools3">
                     <input type="checkbox" checked> 댓글 허용<p></p>
                     <input type="checkbox" checked> 블로그 카페 공유 허용<p></p>
                     <input type="checkbox" checked> 복사 저장 허용<p></p>

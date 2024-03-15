@@ -41,6 +41,7 @@
         }
         div#main{
             width:100%; height:72%;
+            display:flex;
         }
         div#left{
             width:80%; height:100%;
@@ -56,6 +57,7 @@
             background:#F5F6F8;
             border-radius:10px;
             border:1px #D7D7D9 solid;
+            outline-color:#D7D7D9;
         }
         div#left>input{
             width:60%; height:4%;
@@ -63,8 +65,9 @@
             border-radius:10px;
             margin-top:1px;
             background:#F5F6F8;
+            outline-color:#D7D7D9;
         }
-        div#left>div#tools{
+        div#left>div#tools1{
             width:100%;height:5%;
             border:none;
             background-image:url("image/글쓰기도구.png");
@@ -77,6 +80,7 @@
             resize:none;
             border-radius:10px;
             border:1px #D7D7D9 solid;
+            outline-color:#D7D7D9;
         }
         div#left>div#Btn{
             text-align:right;
@@ -90,6 +94,17 @@
             border:1px #D7D7D9 solid;
             background:dodgerblue;
             color:white;
+        }
+        div#right{
+            width:20%; height:100%;
+        }
+        div#right>div#tools2{
+            margin:10% 0 0 10%;
+            font-size:0.8em;
+            background:#F5F6F8;
+            padding:15%;
+            width:90%;
+            height:15%;
         }
 	</style>
 	<script src="http://code.jquery.com/jquery-3.6.0.js"></script>
@@ -108,19 +123,26 @@
         </div>
         <div id="main">
             <div id="left">
+                <br>
                 <select>
                     <option value="자유게시판" >자유게시판</option>
                     <option value="이미지 갤러리">이미지 갤러리</option>
                 </select><br>
                 <input type="text" placeholder="제목을 입력해주세요.">
-                <div id="tools">
+                <div id="tools1">
 
                 </div>
                 <textarea id="textarea"></textarea>
                 <div id="Btn"><input type="button" value="등록"></div>
             </div>
             <div id="right">
-
+                <div id="tools2">
+                    <input type="checkbox" checked> 댓글 허용<p></p>
+                    <input type="checkbox" checked> 블로그 카페 공유 허용<p></p>
+                    <input type="checkbox" checked> 복사 저장 허용<p></p>
+                    <input type="checkbox" > 자동출처 허용<p></p>
+                    <input type="checkbox" > CCL 사용<p></p>
+                </div>
             </div>
         </div>
     </div>

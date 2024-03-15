@@ -19,7 +19,7 @@
         }
         div#top{
             height:14.5%;
-            background-image:url("https://images.pexels.com/photos/46160/field-clouds-sky-earth-46160.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+            background-image:url("image/cloud.jpeg");
             background-size:cover;
             background-position:center;
         }
@@ -64,6 +64,13 @@
         div#left_write{
             height:20%;
         }
+        div#left1>div#icon{
+            width:100%;
+            aspect-ratio:1/1;
+            background-image:url("image/icon.jpg");
+            background-size:cover;
+            background-position:center;
+        }
         div#right{
             width:80%;
             height:100%;
@@ -86,7 +93,9 @@
 	<script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 	<script>
 		$(function(){
-
+            $("#writeBtn").click(function(){
+                window.open("카페 글쓰기.html","_blank");
+            });
 		});
 	</script>
 </head>
@@ -102,6 +111,9 @@
             <div id="left">
                 <div id="left1">
                     회원정보
+                    <div id="icon">
+
+                    </div>
                     <div id="left_write">
                         <input type="button" id="writeBtn" value="글쓰기">
                     </div>

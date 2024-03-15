@@ -5,7 +5,8 @@
         "postWriter": "황인혁",
         "postDate": "2024.02.21",
         "postView": 3,
-        "postCategory": "HTML / CSS"
+        "postCategory": "HTML&CSS",
+        "postDetail": "대충 글 내용"
     },
     {
         "id": "2",
@@ -13,7 +14,8 @@
         "postWriter": "박상민",
         "postDate": "2024.02.27",
         "postView": 9,
-        "postCategory": "JavaScript"
+        "postCategory": "JavaScript",
+        "postDetail": "대충 글 내용"
     },
     {
         "id": "3",
@@ -21,7 +23,8 @@
         "postWriter": "황인혁",
         "postDate": "2024.03.02",
         "postView": 12,
-        "postCategory": "jQuery / Ajax"
+        "postCategory": "jQuery&Ajax",
+        "postDetail": "대충 글 내용"
     },
     {
         "id": "4",
@@ -29,7 +32,8 @@
         "postWriter": "박일규",
         "postDate": "2024.03.08",
         "postView": 20,
-        "postCategory": "JavaScript"
+        "postCategory": "JavaScript",
+        "postDetail": "대충 글 내용"
     },
     {
         "id": "5",
@@ -37,7 +41,8 @@
         "postWriter": "박일규",
         "postDate": "2024.03.13",
         "postView": 28,
-        "postCategory": "메모"
+        "postCategory": "메모",
+        "postDetail": "대충 글 내용"
     },
     {
         "id": "6",
@@ -45,6 +50,7 @@
         "postWriter": "황인혁",
         "postDate": "2024.03.14",
         "postView": 72,
-        "postCategory": "Java"
+        "postCategory": "Java",
+        "postDetail": "대충 글 내용"
     }
 ]

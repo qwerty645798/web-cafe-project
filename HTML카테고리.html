@@ -83,7 +83,7 @@
 <body>
     <header>
         <div id="content_top">
-            <h2 id="CategoryName">HTML / CSS</h2>
+            <h2 id="CategoryName">HTML & CSS</h2>
             <p id="postCounts"></p>
         </div>
     </header>
@@ -163,7 +163,7 @@
             init();
             $.getJSON('게시글 객체.json', function(data){
                 $.each(data, function(){
-                    if (this.postCategory == "HTML / CSS"){
+                    if (this.postCategory == "HTML&CSS"){
                         $("<tr class='post'>" +
                                 "<td>" + this.postCategory + "</td>" +
                                 "<td>" + this.postTitle + "</td>" +
@@ -175,6 +175,10 @@
                         $('#postCounts').html("<span>" + postNum + "</span>개의 게시글");
                     }
                 });
+                if (postNum == 0){
+                    $('<tr><td></td><td></td><td>등록된 게시글이 없습니다.</td><td></td><td></td></tr>').insertAfter('.postTh');
+                    $('#postCounts').html("<span>" + postNum + "</span>개의 게시글");
+                }
             });
         });
     </script>

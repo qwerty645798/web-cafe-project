@@ -30,8 +30,6 @@
             background: aliceblue;
         }
 
-        a:visited { text-decoration: none; }
-        span {font-weight: bold;}
         footer {
             margin: 10px;
         }
@@ -76,7 +74,24 @@
             font-size: 15px;
             text-decoration: none;
         }
+        .postTitleHL {text-decoration: none;}
+        .postWriterHL {text-decoration: none;}
+        .postTitleHL:hover {text-decoration: underline;}
+        .postWriterHL:hover {text-decoration: underline;}
+        a {text-decoration: none; color: black;}
+        a:visited {text-decoration: none; color: black;}
+        span {font-weight: bold;}
         
+        #userFloat {
+            display:none; position:absolute; 
+            width: 85px; height: 83px; font-size: 12px;
+            background: rgb(255, 204, 180);
+            top:100px; left:100px;
+        }
+        #userFloat li {
+            width: 100%; list-style-type: none; padding: 6px; box-sizing: border-box;
+        }
+        #userFloat li + li {border-top: 1px solid black;}
     </style>
     <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 </head>
@@ -101,6 +116,13 @@
                     </tr>
                 </table>
             </div>
+        </div>
+        <div id="userFloat">
+            <ul>
+                <li>게시글 보기</li>
+                <li>1:1 채팅</li>
+                <li>쪽지보내기</li>
+            </ul>
         </div>
     </section>
     <footer>
@@ -165,15 +187,25 @@
                 $.each(data, function(){
                     $("<tr class='post'>" +
                             "<td>" + this.postCategory + "</td>" +
-                            "<td>" + this.postTitle + "</td>" +
-                            "<td>" + this.postWriter + "</td>" +
+                            "<td>" + "<a href='" + this.postHTML + "' class='postTitleHL'>" + this.postTitle + "</a>" + "</td>" +
+                            "<td>" + "<a href='" + "#" + "' class='postWriterHL'>" + this.postWriter + "</a>" + "</td>" +
                             "<td>" + this.postDate + "</td>" +
                             "<td>" + this.postView + "</td>" +
                         "<tr>").insertAfter('.postTh');
                     postNum++;
                     $('#postCounts').html("<span>" + postNum + "</span>개의 게시글");
+                    $('.postWriterHL').click(function(e){
+                        $('#userFloat').fadeIn('fast');
+                        console.log(e.target);
+                        return false;
+                    });
                 });
+                if (postNum == 0){
+                    $('<tr><td></td><td></td><td>등록된 게시글이 없습니다.</td><td></td><td></td></tr>').insertAfter('.postTh');
+                    $('#postCounts').html("<span>" + postNum + "</span>개의 게시글");
+                }
             });
+            
         });
     </script>
 </body>

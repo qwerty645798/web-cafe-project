@@ -9,7 +9,7 @@
         #content_top {border-bottom: 2px solid black;}
         #postCounts {margin: 15px 0 13px 10px; font-size: 13px;}
 
-        table, tr, th, td{padding:2px; text-align: center;
+        table, tr, th, td{padding:2px; text-align: center; 
             width: 100%; border-collapse: collapse;
         }
         .postTh {font-size: 13px; background: rgb(181, 255, 185); height: 30px;}
@@ -83,7 +83,7 @@
 <body>
     <header>
         <div id="content_top">
-            <h2 id="CategoryName">JavaScript</h2>
+            <h2 id="CategoryName">자유게시판</h2>
             <p id="postCounts"></p>
         </div>
     </header>
@@ -163,17 +163,15 @@
             init();
             $.getJSON('게시글 객체.json', function(data){
                 $.each(data, function(){
-                    if (this.postCategory == "JavaScript"){
-                        $("<tr class='post'>" +
-                                "<td>" + this.postCategory + "</td>" +
-                                "<td>" + this.postTitle + "</td>" +
-                                "<td>" + this.postWriter + "</td>" +
-                                "<td>" + this.postDate + "</td>" +
-                                "<td>" + this.postView + "</td>" +
-                            "<tr>").insertAfter('.postTh');
-                        postNum++;
-                        $('#postCounts').html("<span>" + postNum + "</span>개의 게시글");
-                    }
+                    $("<tr class='post'>" +
+                            "<td>" + this.postCategory + "</td>" +
+                            "<td>" + this.postTitle + "</td>" +
+                            "<td>" + this.postWriter + "</td>" +
+                            "<td>" + this.postDate + "</td>" +
+                            "<td>" + this.postView + "</td>" +
+                        "<tr>").insertAfter('.postTh');
+                    postNum++;
+                    $('#postCounts').html("<span>" + postNum + "</span>개의 게시글");
                 });
                 if (postNum == 0){
                     $('<tr><td></td><td></td><td>등록된 게시글이 없습니다.</td><td></td><td></td></tr>').insertAfter('.postTh');

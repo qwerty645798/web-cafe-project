@@ -1,0 +1,51 @@
+[
+    {
+        "id": "1",
+        "postTitle" : "HTML ppt파일 모음",
+        "postWriter": "황인혁",
+        "postDate": "2024.02.21",
+        "postView": 3,
+        "postCategory": "HTML / CSS"
+    },
+    {
+        "id": "2",
+        "postTitle" : "자바스크립트 이벤트 문법",
+        "postWriter": "박상민",
+        "postDate": "2024.02.27",
+        "postView": 9,
+        "postCategory": "JavaScript"
+    },
+    {
+        "id": "3",
+        "postTitle" : "서버 호스팅 하는 법",
+        "postWriter": "황인혁",
+        "postDate": "2024.03.02",
+        "postView": 12,
+        "postCategory": "Server"
+    },
+    {
+        "id": "4",
+        "postTitle" : "JS 파일",
+        "postWriter": "박일규",
+        "postDate": "2024.03.08",
+        "postView": 20,
+        "postCategory": "JavaScript"
+    },
+    {
+        "id": "5",
+        "postTitle" : "display: flex를 이용한 배치",
+        "postWriter": "박일규",
+        "postDate": "2024.03.13",
+        "postView": 28,
+        "postCategory": "HTML / CSS"
+    },
+    {
+        "id": "6",
+        "postTitle" : "Java 환경설정",
+        "postWriter": "황인혁",
+        "postDate": "2024.03.14",
+        "postView": 72,
+        "postCategory": "Java"
+    }
+    
+]

@@ -1,0 +1,27 @@
+[
+    {
+        "id" : 1,
+        "cateName" : "HTML / CSS",
+        "value" : "HTML / CSS"
+    },
+    {
+        "id" : 2,
+        "cateName" : "JavaScript",
+        "value" : "JavaScript"
+    },
+    {
+        "id" : 3,
+        "cateName" : "jQuery / Ajax",
+        "value" : "jQuery / Ajax"
+    },
+    {
+        "id" : 4,
+        "cateName" : "Java",
+        "value" : "Java"
+    },
+    {
+        "id" : 5,
+        "cateName" : "메모",
+        "value" : "Memo"
+    }
+]

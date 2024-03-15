@@ -7,6 +7,22 @@
             font-family: 'AmericanTypewriterBold';
             src: url('fonts/AmericanTypewriterBQ-Bold.otf') format('truetype');
         }
+        @font-face {
+            font-family: '나눔고딕';
+            src: url('fonts/NanumGothic.ttf') format('truetype');
+        }
+        @font-face {
+            font-family: '나눔바른고딕';
+            src: url('fonts/NanumBarunGothic.ttf') format('truetype');
+        }
+        @font-face {
+            font-family: '나눔명조';
+            src: url('fonts/NanumMyeongjo.ttf') format('truetype');
+        }
+        @font-face {
+            font-family: '나눔스퀘어';
+            src: url('fonts/NanumSquareR.ttf') format('truetype');
+        }
         *{
             margin:0;
             box-sizing:border-box;
@@ -106,7 +122,7 @@
             border-width:0 1px;
         }
         div#left>div#tools2>select{
-            margin:7px 0 auto 5px;
+            margin: 0 0 auto 5px;
             outline:none;
             background:none;
             border:none;
@@ -118,12 +134,17 @@
             background:#F5F6F8;
             font-size:1.2em;
         }
+        div#left>div#tools2>input[type="color"]{
+            border:none;
+            width:3%; height:70%;
+        }
         div#left>textarea{
             width:100%;
             height:50%;
             resize:none;
             border:1px #D7D7D9 solid;
             outline-color:#D7D7D9;
+            font-size:30px;
         }
         div#left>div#Btn{
             text-align:right;
@@ -155,8 +176,45 @@
 	<script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 	<script>
 		$(function(){
-            $("writeBtn").click(function(){
+            $("writeBtn").click(function(){//제출버튼 아직 미완성
 
+            });
+            $("div#left>div#tools2>button").each(function(index,element){
+                $(element).click(function(){
+                    if($(this).css("color")=="rgb(0, 0, 0)"){
+                        $(this).css("color","#0db645");
+                    }else{
+                        $(this).css("color","black");
+                    }
+                });
+            });
+            $("#bold").click(function(){
+                if($('#textarea').css('font-weight')!="700"){
+                    $('#textarea').css('font-weight','bold');
+                }else{
+                    $('#textarea').css('font-weight','normal');
+                }
+            });
+            $("#italic").click(function(){
+                if($('#textarea').css('font-style')!="italic"){
+                    $('#textarea').css('font-style','italic');
+                }else{
+                    $('#textarea').css('font-style','normal');
+                }
+            });
+            $("#underline").click(function(){
+                if($('#textarea').css('text-decoration').includes("underline")){
+                    $('#textarea').css('text-decoration','none');
+                }else{
+                    $('#textarea').css('text-decoration','underline');
+                }
+            });
+            $("#line-through").click(function(){
+                if($('#textarea').css('text-decoration').includes("line-through")){
+                    $('#textarea').css('text-decoration','none');
+                }else{
+                    $('#textarea').css('text-decoration','line-through');
+                }
             });
 		});
 	</script>
@@ -175,7 +233,7 @@
                     <option value="자유게시판" >자유게시판</option>
                     <option value="이미지 갤러리">이미지 갤러리</option>
                 </select><br>
-                <input type="text" placeholder="제목을 입력해주세요.">
+                <input type="text" placeholder="제목을 입력해주세요."><br><br>
                 <div id="tools1">
                     <button><img src="image/picture.png"><br>사진</button>
                     <button><img src="image/video.png"><br>동영상</button>
@@ -193,14 +251,14 @@
                         <option value="본문">본문</option>
                         <option value="인용구">인용구</option>
                     </select>
-                    <select>
+                    <select onchange="$('#textarea').css('font-family',this.value)">
                         <option value="기본서체">기본서체</option>
-                        <option value="나눔고딕" style="font-family: 'Nanum Gothic', sans-serif;">나눔고딕</option>
-                        <option value="나눔명조" style="font-family: 'Nanum Myeongjo', serif;">나눔명조</option>
-                        <option value="나눔바른고딕" style="font-family: 'Nanum Barun Gothic', sans-serif;">나눔바른고딕</option>
-                        <option value="나눔스퀘어" style="font-family: 'Nanum Square', sans-serif;">나눔스퀘어</option>
+                        <option value="나눔고딕" style="font-family: '나눔고딕';">나눔고딕</option>
+                        <option value="나눔명조" style="font-family: '나눔명조';">나눔명조</option>
+                        <option value="나눔바른고딕" style="font-family: '나눔바른고딕';">나눔바른고딕</option>
+                        <option value="나눔스퀘어" style="font-family: '나눔스퀘어';">나눔스퀘어</option>
                     </select>
-                    <select>
+                    <select onchange="$('#textarea').css('font-size',this.value+'px')">
                         <option value="11">11</option>
                         <option value="13">13</option>
                         <option value="15">15</option>
@@ -208,14 +266,15 @@
                         <option value="19">19</option>
                         <option value="24">24</option>
                         <option value="28">28</option>
-                        <option value="30">30</option>
+                        <option value="30" selected>30</option>
                         <option value="34">34</option>
                         <option value="38">38</option>
                     </select>&nbsp;&nbsp;&nbsp;
-                    <button style="width:2%;"><b>B</b></button>
-                    <button><i>I</i></button>
-                    <button><u>U</u></button>
-                    <button><s>T</s></button>
+                    <button style="width:2%;" id="bold"><b>B</b></button>
+                    <button id="italic"><i>I</i></button>
+                    <button id="underline"><u>U</u></button>
+                    <button id="line-through"><s>T</s></button>
+                    <input type="color" onchange="$('#textarea').css('color',this.value)">
                 </div>
                 <textarea id="textarea"></textarea>
                 <div id="Btn"><input type="button" id="writeBtn" value="등록"></div>
@@ -223,7 +282,7 @@
             <div id="right">
                 <div id="tools3">
                     <input type="checkbox" checked> 댓글 허용<p></p>
-                    <input type="checkbox" checked> 블로그 카페 공유 허용<p></p>
+                    <input type="checkbox" checked> 카페 공유 허용<p></p>
                     <input type="checkbox" checked> 복사 저장 허용<p></p>
                     <input type="checkbox" > 자동출처 허용<p></p>
                     <input type="checkbox" > CCL 사용<p></p>

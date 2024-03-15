@@ -206,6 +206,7 @@
                 if($('#textarea').css('text-decoration').includes("underline")){
                     $('#textarea').css('text-decoration','none');
                 }else{
+                    if($('#textarea').css('text-decoration').includes("line-through")){return false;}
                     $('#textarea').css('text-decoration','underline');
                 }
             });
@@ -213,6 +214,7 @@
                 if($('#textarea').css('text-decoration').includes("line-through")){
                     $('#textarea').css('text-decoration','none');
                 }else{
+                    if($('#textarea').css('text-decoration').includes("underline")){return false;}
                     $('#textarea').css('text-decoration','line-through');
                 }
             });

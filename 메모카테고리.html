@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>content_page</title>
+    <style>
+        * {margin:0; padding:0;}
+        #content_top {border-bottom: 2px solid black;}
+        #postCounts {margin: 15px 0 13px 10px; font-size: 13px;}
+
+        table, tr, th, td{padding:2px; text-align: center;
+            width: 100%; border-collapse: collapse;
+        }
+        .postTh {font-size: 13px; background: rgb(181, 255, 185); height: 30px;}
+        td {font-size: 12px; padding: 5px;}
+        th:nth-child(1) {width: 15%;}
+        th:nth-child(2) {width: 25%;}
+        th:nth-child(3) {width: 20%;}
+        th:nth-child(4) {width: 20%;}
+        th:nth-child(5) {width: 10%;}
+
+        td:nth-child(1) {width: 15%;}
+        td:nth-child(2) {width: 30%;}
+        td:nth-child(3) {width: 20%;}
+        td:nth-child(4) {width: 20%;}
+        td:nth-child(5) {width: 15%;}
+
+        tr:nth-child(4n){
+            background: aliceblue;
+        }
+
+        a:visited { text-decoration: none; }
+        span {font-weight: bold;}
+        footer {
+            margin: 10px;
+        }
+        .footerBox, .searchArea, .searchBoxes  {
+            width: 100%;
+            background: rgb(243, 243, 243);
+        }
+        .pageNum {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .searchBoxes {
+            width: 100%;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            padding-bottom: 10px;
+        }
+        .searchBoxes div {
+            height:90%; 
+        }
+        #searTimes, #searDetail, .searchText, .searchBtn {
+            font-size: 10px;
+            height: 100%;
+            margin: 0 5px;
+            padding: 2px;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            flex-wrap: nowrap;
+            border-radius: 50px;
+        }
+        #searTimes {width: 70px; text-align: center;}
+        #searDetail {width: 100px; text-align: center;}
+        .searchText {width: 200px; padding-left: 1em;}
+        .searchBtn {width: 50px; background: dodgerblue; font-weight: bold; text-align: center; color: white;}
+        .pageMove {
+            display: flex;
+            margin: 15px;
+            color: black;
+            font-size: 15px;
+            text-decoration: none;
+        }
+        
+    </style>
+    <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
+</head>
+<body>
+    <header>
+        <div id="content_top">
+            <h2 id="CategoryName">메모</h2>
+            <p id="postCounts"></p>
+        </div>
+    </header>
+    <nav></nav>
+    <section>
+        <div id="articles_area">
+            <div>
+                <table class="articleTable">
+                    <tr class="postTh">
+                        <th class="category"></th>
+                        <th class="title">제목</th>
+                        <th class="writer">작성자</th>
+                        <th class="date">작성일</th>
+                        <th class="view">조회수</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="footerBox">
+            <div class="pageNum">
+                <a href="#" class="pageMove">1</a>
+            </div>
+            <div class="searchArea">
+                <form name="search" class="searchBoxes">
+                    <div class = "searchSelect">
+                        <select name="searTimes" id="searTimes">
+                            <option name="searTime" value="allTime" selected>전체기간</option>
+                            <option name="searTime" value="day">1일</option>
+                            <option name="searTime" value="week">1주</option>
+                            <option name="searTime" value="month">1개월</option>
+                            <option name="searTime" value="year">1년</option>
+                        </select>
+                        <select name="searDetail" id="searDetail">
+                            <option name="searDet" value="postAndComment" selected>게시글 + 댓글</option>
+                            <option name="searDet" value="postTitle">제목만</option>
+                            <option name="searDet" value="writer">글작성자</option>
+                            <option name="searDet" value="comment">댓글내용</option>
+                            <option name="searDet" value="commenter">댓글작성자</option>
+                        </select>
+                    </div>
+                    <div>
+                        <input class="searchText" id="searchText" type="text" placeholder="검색어를 입력해주세요.">
+                        <input class="searchBtn" type="button" value="검색">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </footer>
+    <script>
+        function init (){
+            let box = document.getElementById("searchText");
+            box.addEventListener('focus', function(){
+                this.placeholder = "";
+            });
+            box.addEventListener('blur', function(){
+                if (this.placeholder == ""){
+                    this.placeholder = "검색어를 입력해주세요.";
+                }
+            });
+        }
+        
+        // 글 쓰기 객체생성 함수 //
+        // function Post(category, title, writer, date, view){
+        //     this.postCategory = category;
+        //     this.postTitle = title;
+        //     this.postWriter = writer;
+        //     this.postDate = date;
+        //     this.postView = view;
+        // }
+        
+        $(function(){
+            let pageCount = $('.pageMove').length;
+            let lastPage = $('.pageMove:last').text();
+            let postNum = 0;
+            init();
+            $.getJSON('게시글 객체.json', function(data){
+                $.each(data, function(){
+                    if (this.postCategory == "메모"){
+                        $("<tr class='post'>" +
+                                "<td>" + this.postCategory + "</td>" +
+                                "<td>" + this.postTitle + "</td>" +
+                                "<td>" + this.postWriter + "</td>" +
+                                "<td>" + this.postDate + "</td>" +
+                                "<td>" + this.postView + "</td>" +
+                            "<tr>").insertAfter('.postTh');
+                        postNum++;
+                        $('#postCounts').html("<span>" + postNum + "</span>개의 게시글");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

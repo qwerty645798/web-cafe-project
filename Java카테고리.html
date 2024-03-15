@@ -175,6 +175,10 @@
                         $('#postCounts').html("<span>" + postNum + "</span>개의 게시글");
                     }
                 });
+                if (postNum == 0){
+                    $('<tr><td></td><td></td><td>등록된 게시글이 없습니다.</td><td></td><td></td></tr>').insertAfter('.postTh');
+                    $('#postCounts').html("<span>" + postNum + "</span>개의 게시글");
+                }
             });
         });
     </script>

@@ -128,6 +128,10 @@
             width: 100%;
             height: 100%;
         }
+        .cateMove {       /*카테고리 리스트*/
+            text-decoration: none;
+            color: black;
+        }
 	</style>
 	<script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 	<script>
@@ -173,22 +177,22 @@
                             클릭하시면 추가됩니다.</div>
                         <hr>
                         <ul>
-                            <li><a>전체글보기</a></li>
-                            <li><a>인기글</a></li>
+                            <li id="AllPost"><a class="cateMove" href="전체글.html" target="iFrame">전체글보기</a></li>
+                            <li id="PopularPost"><a class="cateMove" href="인기글.html" target="iFrame">인기글</a></li>
                             <hr>
-                            <li><a>공지사항</a></li>
-                            <li><a>자유게시판</a></li>
+                            <li id="Notification"><a class="cateMove" href="공지사항.html" target="iFrame">공지사항</a></li>
+                            <li id="FreePost"><a class="cateMove" href="자유게시판.html" target="iFrame">자유게시판</a></li>
                             <hr>
                             <li></li>
                             <hr>
-                            <li><a>메모</a></li>
-                            <li><a>HTML & CSS</a></li>
-                            <li><a>JavaScript</a></li>
-                            <li><a>jQuery & Ajax</a></li>
+                            <li id="Memo"><a class="cateMove" href="메모카테고리.html" target="iFrame">메모</a></li>
+                            <li id="HTML&CSS"><a class="cateMove" href="HTML카테고리.html" target="iFrame">HTML & CSS</a></li>
+                            <li id="JavaScript"><a class="cateMove" href="JS카테고리.html" target="iFrame">JavaScript</a></li>
+                            <li id="jQuery&Ajax"><a class="cateMove" href="jQueryAjax 카테고리.html" target="iFrame">jQuery & Ajax</a></li>
                             <hr>
-                            <li><a>git&github</a></li>
-                            <li><a>Java</a></li>
-                            <li><a>프로젝트진행</a></li>
+                            <li id="Git&Github"><a class="cateMove" href="Git카테고리.html" target="iFrame">Git & Github</a></li>
+                            <li id="Java"><a class="cateMove" href="Java카테고리.html" target="iFrame">Java</a></li>
+                            <li id="프로젝트진행"><a class="cateMove" href="프로젝트카테고리.html" target="iFrame">프로젝트진행</a></li>
                         </ul>
                 </div>
                 <div id="left3">
@@ -200,7 +204,7 @@
                     카페 특성
                 </div>
                 <div id="right2">
-                    <iframe class="frame" src="mainSection.html"></iframe>
+                    <iframe class="frame" name="iFrame" src="메인섹션.html"></iframe>
                 </div>
             </div>
         </div>

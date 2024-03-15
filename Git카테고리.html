@@ -83,7 +83,7 @@
 <body>
     <header>
         <div id="content_top">
-            <h2 id="CategoryName">JavaScript</h2>
+            <h2 id="CategoryName">Git & Github</h2>
             <p id="postCounts"></p>
         </div>
     </header>
@@ -163,7 +163,7 @@
             init();
             $.getJSON('게시글 객체.json', function(data){
                 $.each(data, function(){
-                    if (this.postCategory == "JavaScript"){
+                    if (this.postCategory == "Git&Github"){
                         $("<tr class='post'>" +
                                 "<td>" + this.postCategory + "</td>" +
                                 "<td>" + this.postTitle + "</td>" +

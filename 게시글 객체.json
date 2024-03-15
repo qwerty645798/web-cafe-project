@@ -6,7 +6,7 @@
         "postDate": "2024.02.21",
         "postView": 3,
         "postCategory": "HTML&CSS",
-        "postDetail": "대충 글 내용"
+        "postHTML": "test.html"
     },
     {
         "id": "2",
@@ -15,7 +15,7 @@
         "postDate": "2024.02.27",
         "postView": 9,
         "postCategory": "JavaScript",
-        "postDetail": "대충 글 내용"
+        "postHTML": "test.html"
     },
     {
         "id": "3",
@@ -24,7 +24,7 @@
         "postDate": "2024.03.02",
         "postView": 12,
         "postCategory": "jQuery&Ajax",
-        "postDetail": "대충 글 내용"
+        "postHTML": "test.html"
     },
     {
         "id": "4",
@@ -33,7 +33,7 @@
         "postDate": "2024.03.08",
         "postView": 20,
         "postCategory": "JavaScript",
-        "postDetail": "대충 글 내용"
+        "postHTML": "test.html"
     },
     {
         "id": "5",
@@ -42,7 +42,7 @@
         "postDate": "2024.03.13",
         "postView": 28,
         "postCategory": "메모",
-        "postDetail": "대충 글 내용"
+        "postHTML": "test.html"
     },
     {
         "id": "6",
@@ -51,6 +51,6 @@
         "postDate": "2024.03.14",
         "postView": 72,
         "postCategory": "Java",
-        "postDetail": "대충 글 내용"
+        "postHTML": "test.html"
     }
 ]

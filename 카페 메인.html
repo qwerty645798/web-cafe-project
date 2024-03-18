@@ -3,6 +3,11 @@
 <head>
 <meta charset="UTF-8">
 	<style>
+        @media(max-width:1000px){
+            button#up,button#down{
+                display:none;
+            }
+        }
         *:not(li,hr){
             margin:0;
             box-sizing:border-box;
@@ -70,6 +75,26 @@
         div#left1,div#left3{
             height:25%;
         }
+        div#left1>div#icon{
+            width:100%;
+            aspect-ratio:1/1;
+            background-image:url("image/icon.jpg");
+            background-size:cover;
+            background-position:center;
+        }
+        div#left1>div#left_write{
+            height:20%;
+            text-align:center;
+        }
+        div#left1>div#left_write>input{ /*글쓰기버튼*/
+            margin:3% auto;
+            width:90%;
+            height:80%;
+            border-radius:8px;
+            border:1px #D7D7D9 solid;
+            background:#5A5A5A;
+            color:white;
+        }
         div#left2{
             height:50%;
             padding:10px;
@@ -85,26 +110,13 @@
             list-style-position:inside;
             list-style-image:url("image/writeicon.png");
         }
-        div#left_write{
-            height:20%;
-            text-align:center;
+        div#left3{
+            padding:10px;
+            font-size:0.9em;
         }
-        div#left_write>input{ /*글쓰기버튼*/
-            margin:1% auto;
-            width:90%;
-            height:80%;
-            border-radius:8px;
-            border:1px #D7D7D9 solid;
-            background:#5A5A5A;
-            color:white;
-        }
-        div#left1>div#icon{
-            width:80%;
-            margin:5% auto;
-            aspect-ratio:1/1;
-            background-image:url("image/icon.jpg");
-            background-size:cover;
-            background-position:center;
+        div#left3>ul>li{
+            list-style-position:inside;
+            list-style-image:url("image/불.png");
         }
         div#right{
             width:80%;
@@ -131,6 +143,18 @@
         .cateMove {       /*카테고리 리스트*/
             text-decoration: none;
             color: black;
+        }
+        div#button{
+            position:fixed;
+            bottom:0; right:0;
+            width:5%; height:20%;
+        }
+        button#up,button#down{
+            width:100%; height:50%;
+            font-size:5em;
+            outline:none;
+            background:none;
+            border:none;
         }
 	</style>
 	<script src="http://code.jquery.com/jquery-3.6.0.js"></script>
@@ -163,7 +187,6 @@
         <div id="main">
             <div id="left">
                 <div id="left1">
-                    회원정보
                     <div id="icon">
 
                     </div>
@@ -183,7 +206,7 @@
                             <li id="Notification"><a class="cateMove" href="공지사항.html" target="iFrame">공지사항</a></li>
                             <li id="FreePost"><a class="cateMove" href="자유게시판.html" target="iFrame">자유게시판</a></li>
                             <hr>
-                            <li></li>
+                            <b>코딩 학습</b>
                             <hr>
                             <li id="Memo"><a class="cateMove" href="메모카테고리.html" target="iFrame">메모</a></li>
                             <li id="HTML&CSS"><a class="cateMove" href="HTML카테고리.html" target="iFrame">HTML & CSS</a></li>
@@ -196,7 +219,15 @@
                         </ul>
                 </div>
                 <div id="left3">
-                    실시간 카페이슈
+                    <b>최신 업데이트</b>
+                    <hr>
+                    <ul>
+                        <li>Java 환경설정</li>
+                        <li>네이버 드라이브 주소</li>
+                        <li>JS 파일</li>
+                        <li>서버 호스팅 하는법</li>
+                        <li>자바스크립트 이벤트 문법</li>
+                    </ul>
                 </div>
             </div>
             <div id="right">
@@ -208,6 +239,10 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div id="button">
+    <button id="up" onclick="window.scrollTo(0,0)">△</button>
+    <button id="down" onclick="window.scrollTo(0,document.body.scrollHeight)">▽</button>
     </div>
 	<script>
 

@@ -160,7 +160,7 @@
             top:50%; left:50%;
             transform:translate(-50%,-50%);
             z-index:2;
-            cursor:pointer;
+            cursor:crosshair;
             margin:auto;
             background:#F5F6F8;
         }
@@ -320,8 +320,11 @@
                     <button id="line-through"><s>T</s></button>
                     <input type="color" onchange="$('#textarea').css('color',this.value)">&nbsp;&nbsp;&nbsp;&nbsp;
                     <!--<button id="draw" style="font-size:1em; width:7%;"><b>그림판</b></button>-->
+                    &nbsp;&nbsp;&nbsp;&nbsp;<b>그림판</b>
                     <button id="pen">✒</button>
                     <input type="color" onchange="document.getElementById('canvas').getContext('2d').strokeStyle=this.value">
+                    <button onclick="document.getElementById('canvas').getContext('2d').strokeStyle='#F5F6F8';
+                    document.getElementById('canvas').getContext('2d').lineWidth=30;">X</button>
                 </div>
                 <div id="field">
                     <textarea id="textarea"></textarea>

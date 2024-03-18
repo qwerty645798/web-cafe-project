@@ -30,8 +30,6 @@
             background: aliceblue;
         }
 
-        a:visited { text-decoration: none; }
-        span {font-weight: bold;}
         footer {
             margin: 10px;
         }
@@ -76,6 +74,23 @@
             font-size: 15px;
             text-decoration: none;
         }
+        .postTitleHL {text-decoration: none;}
+        .postWriterHL {text-decoration: none;}
+        .postTitleHL:hover {text-decoration: underline;}
+        .postWriterHL:hover {text-decoration: underline;}
+        a {text-decoration: none; color: black;}
+        a:visited {text-decoration: none; color: black;}
+        span {font-weight: bold;}
+        
+        #userFloat {
+            display:none; position:absolute; 
+            width: 85px; height: 83px; font-size: 12px;
+            background: rgb(255, 204, 180);
+        }
+        #userFloat li {
+            width: 100%; list-style-type: none; padding: 6px; box-sizing: border-box;
+        }
+        #userFloat li:not(:first-child) {border-top: 1px solid black;}
         
     </style>
     <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
@@ -101,6 +116,13 @@
                     </tr>
                 </table>
             </div>
+        </div>
+        <div id="userFloat">
+            <ul>
+                <li class="userFloat"><a href="#" class="useFloatMenu">게시글 보기</ah></li>
+                <li class="userFloat"><a href="#" class="useFloatMenu">1:1 채팅</a></li>
+                <li class="userFloat"><a href="#" class="useFloatMenu">쪽지보내기</a></li>
+            </ul>
         </div>
     </section>
     <footer>
@@ -135,7 +157,7 @@
         </div>
     </footer>
     <script>
-        function init (){
+        function textBoxPH (){      // 텍스트 박스를 클릭시 placeholder를 숨기는 함수
             let box = document.getElementById("searchText");
             box.addEventListener('focus', function(){
                 this.placeholder = "";
@@ -156,20 +178,46 @@
         //     this.postView = view;
         // }
         
-        $(function(){
-            init();
+        $(function(){       //ready
+
+            textBoxPH();
+
+            // 게시판에 json파일 내부 정보를 토대로 글을 출력하는 코드
             $.getJSON('게시글 객체.json', function(data){
                 $.each(data, function(){
                     if (this.postView >= 20){
                         $("<tr class='post'>" +
                             "<td>" + this.postCategory + "</td>" +
-                            "<td>" + this.postTitle + "</td>" +
-                            "<td>" + this.postWriter + "</td>" +
+                            "<td>" + "<a href='" + this.postHTML + "'class='postTitleHL'>" + this.postTitle + "</a>" + "</td>" +
+                            "<td>" + "<a href='" + "#" + "'class='postWriterHL'>" + this.postWriter + "</a>" + "</td>" +
                             "<td>" + this.postDate + "</td>" +
                             "<td>" + this.postView + "</td>" +
                         "<tr>").insertAfter('.postTh');
                     }
                 });
+
+                // 작성자 클릭 시 해당 요소 아래에 툴팁이 나오는 코드 / 요소 바깥을 클릭하면 사라짐
+                $('.postWriterHL').on('click', function(e){
+                        let offset = $(this).offset();
+                        let triggerWidth = $(this).outerWidth();
+                        let ttWidth = $('#userFloat').outerWidth();
+                        let ttHeight = $('#userFloat').outerHeight();
+                        let ttTop = offset.top + $(this).outerHeight();
+                        $('#userFloat').css({'left': offset.left, 'top': ttTop});
+                        
+                        $('#userFloat').fadeIn('fast');
+                });
+                $('body').on('click', function(e){
+                    let $tgPoint = $(e.target);
+                    let $writerTT = $tgPoint.hasClass('postWriterHL');
+                    let $hlArea = $tgPoint.hasClass('userFloat');
+
+                    if (!$writerTT && !$hlArea){
+                        $('#userFloat').fadeOut('fast');
+                    }
+                });
+                // 여기까지 작성자 클릭
+
                 if (postNum == 0){
                     $('<tr><td></td><td></td><td>등록된 게시글이 없습니다.</td><td></td><td></td></tr>').insertAfter('.postTh');
                     $('#postCounts').html("<span>" + postNum + "</span>개의 게시글");

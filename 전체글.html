@@ -86,12 +86,11 @@
             display:none; position:absolute; 
             width: 85px; height: 83px; font-size: 12px;
             background: rgb(255, 204, 180);
-            top:100px; left:100px;
         }
         #userFloat li {
             width: 100%; list-style-type: none; padding: 6px; box-sizing: border-box;
         }
-        #userFloat li + li {border-top: 1px solid black;}
+        #userFloat li:not(:first-child) {border-top: 1px solid black;}
     </style>
     <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 </head>
@@ -119,9 +118,9 @@
         </div>
         <div id="userFloat">
             <ul>
-                <li>게시글 보기</li>
-                <li>1:1 채팅</li>
-                <li>쪽지보내기</li>
+                <li class="userFloat"><a href="#" class="useFloatMenu">게시글 보기</ah></li>
+                <li class="userFloat"><a href="#" class="useFloatMenu">1:1 채팅</a></li>
+                <li class="userFloat"><a href="#" class="useFloatMenu">쪽지보내기</a></li>
             </ul>
         </div>
     </section>
@@ -157,7 +156,7 @@
         </div>
     </footer>
     <script>
-        function init (){
+        function textBoxPH (){      // 텍스트 박스를 클릭시 placeholder를 숨기는 함수
             let box = document.getElementById("searchText");
             box.addEventListener('focus', function(){
                 this.placeholder = "";
@@ -169,37 +168,52 @@
             });
         }
         
-        // 글 쓰기 객체생성 함수 //
-        // function Post(category, title, writer, date, view){
-        //     this.postCategory = category;
-        //     this.postTitle = title;
-        //     this.postWriter = writer;
-        //     this.postDate = date;
-        //     this.postView = view;
-        // }
-        
-        $(function(){
+        $(function(){       // ready
+
+            // 페이지 수를 출력
             let pageCount = $('.pageMove').length;
             let lastPage = $('.pageMove:last').text();
             let postNum = 0;
-            init();
+
+            textBoxPH();
+            
+            // 게시판에 json파일 내부 정보를 토대로 글을 출력하는 코드
             $.getJSON('게시글 객체.json', function(data){
                 $.each(data, function(){
                     $("<tr class='post'>" +
                             "<td>" + this.postCategory + "</td>" +
-                            "<td>" + "<a href='" + this.postHTML + "' class='postTitleHL'>" + this.postTitle + "</a>" + "</td>" +
-                            "<td>" + "<a href='" + "#" + "' class='postWriterHL'>" + this.postWriter + "</a>" + "</td>" +
+                            "<td>" + "<a href='" + this.postHTML + "'class='postTitleHL'>" + this.postTitle + "</a>" + "</td>" +
+                            "<td>" + "<a href='" + "#" + "'class='postWriterHL'>" + this.postWriter + "</a>" + "</td>" +
                             "<td>" + this.postDate + "</td>" +
                             "<td>" + this.postView + "</td>" +
                         "<tr>").insertAfter('.postTh');
                     postNum++;
-                    $('#postCounts').html("<span>" + postNum + "</span>개의 게시글");
-                    $('.postWriterHL').click(function(e){
-                        $('#userFloat').fadeIn('fast');
-                        console.log(e.target);
-                        return false;
-                    });
+                    $('.postCounts').html("<span>" + postNum + "</span>개의 게시글");
                 });
+
+                // 작성자 클릭 시 해당 요소 아래에 툴팁이 나오는 코드 / 요소 바깥을 클릭하면 사라짐
+                $('.postWriterHL').on('click', function(e){
+                        let offset = $(this).offset();
+                        let triggerWidth = $(this).outerWidth();
+                        let ttWidth = $('#userFloat').outerWidth();
+                        let ttHeight = $('#userFloat').outerHeight();
+                        let ttTop = offset.top + $(this).outerHeight();
+                        $('#userFloat').css({'left': offset.left, 'top': ttTop});
+                        
+                        $('#userFloat').fadeIn('fast');
+                });
+                $('body').on('click', function(e){
+                    let $tgPoint = $(e.target);
+                    let $writerTT = $tgPoint.hasClass('postWriterHL');
+                    let $hlArea = $tgPoint.hasClass('userFloat');
+
+                    if (!$writerTT && !$hlArea){
+                        $('#userFloat').fadeOut('fast');
+                    }
+                });
+                // 여기까지 작성자 클릭
+
+                // 게시판에 아무런 글도 없을 경우 출력
                 if (postNum == 0){
                     $('<tr><td></td><td></td><td>등록된 게시글이 없습니다.</td><td></td><td></td></tr>').insertAfter('.postTh');
                     $('#postCounts').html("<span>" + postNum + "</span>개의 게시글");

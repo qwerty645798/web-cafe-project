@@ -162,6 +162,7 @@
             z-index:2;
             cursor:pointer;
             margin:auto;
+            background:#F5F6F8;
         }
         div#left>div#Btn{
             text-align:right;
@@ -256,7 +257,7 @@
                 context.stroke();
                 startX=e.offsetX,startY=e.offsetY;
             }
-            $("#sketchBtn").click(function(){
+            $("#pen").click(function(){
                 $("#canvas").toggle();
             });
 		});
@@ -317,8 +318,10 @@
                     <button id="italic"><i>I</i></button>
                     <button id="underline"><u>U</u></button>
                     <button id="line-through"><s>T</s></button>
-                    <input type="color" onchange="$('#textarea').css('color',this.value)">
-                    <input type="button" id="sketchBtn" value="그림판">
+                    <input type="color" onchange="$('#textarea').css('color',this.value)">&nbsp;&nbsp;&nbsp;&nbsp;
+                    <!--<button id="draw" style="font-size:1em; width:7%;"><b>그림판</b></button>-->
+                    <button id="pen">✒</button>
+                    <input type="color" onchange="document.getElementById('canvas').getContext('2d').strokeStyle=this.value">
                 </div>
                 <div id="field">
                     <textarea id="textarea"></textarea>

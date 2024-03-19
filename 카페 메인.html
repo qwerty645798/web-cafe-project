@@ -82,14 +82,14 @@
             background-size:cover;
             background-position:center;
         }
-        div#left1>div#left_write{
+        div#left1>div#left_welcome{
             height:20%;
             text-align:center;
         }
-        div#left1>div#left_write>input{ /*글쓰기버튼*/
+        div#left1>div#left_welcome>input{ 글쓰기버튼
             margin:3% auto;
-            width:90%;
-            height:80%;
+            width:80%;
+            height:60%;
             border-radius:8px;
             border:1px #D7D7D9 solid;
             background:#5A5A5A;
@@ -173,6 +173,28 @@
                     $("#hidemark").slideUp("fast");
                 }
             });
+            let userIndexString=localStorage.getItem("userIndex");
+            console.log(userIndexString);
+            if(userIndexString){
+                $("#sideBar").show();
+                let userIndex=JSON.parse(userIndexString);
+                let userDataString=localStorage.getItem("userData");
+                let userData=JSON.parse(userDataString);
+                let Index=userIndex[0].Index;
+                console.log(Index);
+                let userName=userData[Index].NAME;
+                console.log(userName);
+                $("#left_welcome").html("환영합니다 " + userName + "님<br><input type='button' id='logOutBtn' value='로그아웃'>");
+            }else{
+                $("#left_welcome").html("<input type='button' id='logInBtn' value='로그인' style='margin-top:5%'>");
+            }
+                $("#logOutBtn").click(function(){
+                    localStorage.removeItem("userIndex");
+                    window.open("카페 메인.html","_self");
+                });
+                $("#logInBtn").click(function(){
+                    window.open("카페 로그인.html","_self");
+                });
 		});
 	</script>
 </head>
@@ -190,8 +212,7 @@
                     <div id="icon">
 
                     </div>
-                    <div id="left_write">
-                        <input type="button" id="writeBtn" value="카페 글쓰기">
+                    <div id="left_welcome">
                     </div>
                 </div>
                 <div id="left2">
@@ -243,6 +264,61 @@
     <div id="button">
     <button id="up" onclick="window.scrollTo(0,0)">△</button>
     <button id="down" onclick="window.scrollTo(0,document.body.scrollHeight)">▽</button>
+    </div>
+    <div id="sideBar" style="
+        position:fixed;
+        left:0; top:20%;
+        width:100px; height:500px;
+        border:none;
+        display:none;
+    ">
+        <button style="
+            outline:none;
+            width:100%; height:20%;
+            border-radius:0 20px 0 0;
+            background-color:#5A5A5A;
+            border:none;
+            font-size:1.5em;
+            font-weight:bold;
+            color:white;
+        " onclick="window.open('카페 글쓰기.html','_self')">글쓰기</button>
+        <button style="
+            outline:none;
+            width:100%; height:20%;
+            background-color:#5A5A5A;
+            border:none;
+            font-size:1.5em;
+            font-weight:bold;
+            color:white;
+        ">그림판</button>
+        <button style="
+            outline:none;
+            width:100%; height:20%;
+            background-color:#5A5A5A;
+            border:none;
+            font-size:1.5em;
+            font-weight:bold;
+            color:white;
+        ">지도</button>
+        <button style="
+            outline:none;
+            width:100%; height:20%;
+            background-color:#5A5A5A;
+            border:none;
+            font-size:1.5em;
+            font-weight:bold;
+            color:white;
+        ">계산기</button>
+        <button style="
+            outline:none;
+            width:100%; height:20%;
+            border-radius:0 0 20px 0;
+            background-color:#5A5A5A;
+            border:none;
+            font-size:1.5em;
+            font-weight:bold;
+            color:white;
+        ">HTML</button>
     </div>
 	<script>
 

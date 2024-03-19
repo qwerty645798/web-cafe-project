@@ -4,20 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body{
+            text-align:center;
+        }
+    </style>
     <script>
         function check(){
-            let jsonDataString = localStorage.getItem("userData");
-            let jsonData = JSON.parse(jsonDataString);
+            let userDataString = localStorage.getItem("userData");
+            let userData = JSON.parse(userDataString);
             let id=document.getElementById("id").value;
             let pw=document.getElementById("pw").value;
-            for(let i=0; i<jsonData.length; i++){
-                if(jsonData[i].ID==id&&jsonData[i].PW==pw){
+            for(let i=0; i<userData.length; i++){
+                if(userData[i].ID==id&&userData[i].PW==pw){
                         let userIndex=[];
                         userIndex.push({
                             "Index":i
                         });
                         localStorage.setItem("userIndex", JSON.stringify(userIndex));
-                        alert("환영합니다" + jsonData[i].NAME + "님");
+                        alert("환영합니다 " + userData[i].NAME + "님");
                         window.open("카페 메인.html","_self");
                         return;
                 }     
@@ -28,8 +33,10 @@
     </script>
 </head>
 <body>
+    <h1>로그인</h1>
     아이디 <input type="text" id="id">
     비밀번호 <input type="password" id="pw">
-    <input type="button"onclick="check()" value="로그인">
+    <input type="button" onclick="check()" value="로그인">
+    <input type="button" onclick="window.open('카페회원정보.html','_self')" value="회원가입">
 </body>
 </html>

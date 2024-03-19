@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function check(){
+            let jsonDataString = localStorage.getItem("userData");
+            let jsonData = JSON.parse(jsonDataString);
+            let id=document.getElementById("id").value;
+            let pw=document.getElementById("pw").value;
+            for(let i=0; i<jsonData.length; i++){
+                if(jsonData[i].ID==id&&jsonData[i].PW==pw){
+                        let userIndex=[];
+                        userIndex.push({
+                            "Index":i
+                        });
+                        localStorage.setItem("userIndex", JSON.stringify(userIndex));
+                        alert("환영합니다" + jsonData[i].NAME + "님");
+                        window.open("카페 메인.html","_self");
+                        return;
+                }     
+            }
+            alert("아이디와 비밀번호가 일치하지 않습니다.");
+            window.open("카페 로그인.html","_self");
+        }
+    </script>
+</head>
+<body>
+    아이디 <input type="text" id="id">
+    비밀번호 <input type="password" id="pw">
+    <input type="button"onclick="check()" value="로그인">
+</body>
+</html>

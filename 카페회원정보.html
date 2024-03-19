@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            text-align:center;
+        }
+    </style>
+</head>
+<body>
+    <h3>회원가입</h3>
+    <hr>
+    <form>
+    아이디 : <input type="text" placeholder="ID를 입력하세요" id="ID">
+    비밀번호 : <input type="password" placeholder="비밀번호를 입력하세요" id="PW">
+    이름 : <input type="text" placeholder="홍길동" id="NAME">
+    <input type="submit" value="입력" onclick="go()">
+    </form>
+    <script>
+        function go(){
+            let ID=document.getElementById("ID").value;
+            let PW=document.getElementById("PW").value;
+            let NAME=document.getElementById("NAME").value;
+
+             
+            
+
+            let userData = [];
+            if(localStorage.length>0){
+                let jsonDataString = localStorage.getItem("userData");
+                let jsonData = JSON.parse(jsonDataString);
+                userData=jsonData;
+                console.log(userData);
+            }
+            
+             userData.push({
+                "ID": ID,
+                "PW": PW,
+                "NAME": NAME
+            });
+
+           
+            localStorage.setItem("userData", JSON.stringify(userData));
+
+            alert("회원가입이 완료되었습니다.");
+        }
+    </script>
+</body>
+</html>

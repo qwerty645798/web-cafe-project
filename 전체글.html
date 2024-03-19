@@ -118,7 +118,7 @@
         </div>
         <div id="userFloat">
             <ul>
-                <li class="userFloat"><a href="#" class="useFloatMenu">게시글 보기</ah></li>
+                <li class="userFloat"><a href="#" class="useFloatMenu">게시글 보기</a></li>
                 <li class="userFloat"><a href="#" class="useFloatMenu">1:1 채팅</a></li>
                 <li class="userFloat"><a href="#" class="useFloatMenu">쪽지보내기</a></li>
             </ul>
@@ -201,6 +201,8 @@
                         $('#userFloat').css({'left': offset.left, 'top': ttTop});
                         
                         $('#userFloat').fadeIn('fast');
+
+                        $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
                 });
                 $('body').on('click', function(e){
                     let $tgPoint = $(e.target);

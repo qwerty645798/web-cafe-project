@@ -15,20 +15,24 @@
             let userData = JSON.parse(userDataString);
             let id=document.getElementById("id").value;
             let pw=document.getElementById("pw").value;
-            for(let i=0; i<userData.length; i++){
-                if(userData[i].ID==id&&userData[i].PW==pw){
-                        let userIndex=[];
-                        userIndex.push({
-                            "Index":i
-                        });
-                        localStorage.setItem("userIndex", JSON.stringify(userIndex));
-                        alert("환영합니다 " + userData[i].NAME + "님");
-                        window.open("카페 메인.html","_self");
-                        return;
-                }     
+            if(userDataString){
+                for(let i=0; i<userData.length; i++){
+                    if(userData[i].ID==id&&userData[i].PW==pw){
+                            let userIndex=[];
+                            userIndex.push({
+                                "Index":i
+                            });
+                            localStorage.setItem("userIndex", JSON.stringify(userIndex));
+                            alert("환영합니다 " + userData[i].NAME + "님");
+                            window.open("카페 메인.html","_self");
+                            return;
+                    }     
+                }
             }
+            else{
             alert("아이디와 비밀번호가 일치하지 않습니다.");
             window.open("카페 로그인.html","_self");
+            }
         }
     </script>
 </head>

@@ -37,6 +37,9 @@
             background-size:cover;
             background-position:center;
         }
+        div#top:hover {
+            cursor:pointer;
+        }
         div#search{
             width:100%;
             height:3.5%;
@@ -86,7 +89,7 @@
             height:20%;
             text-align:center;
         }
-        div#left1>div#left_welcome>input{ 글쓰기버튼
+        div#left1>div#left_welcome>input{ /*글쓰기버튼*/
             margin:3% auto;
             width:80%;
             height:60%;
@@ -188,13 +191,19 @@
             }else{
                 $("#left_welcome").html("<input type='button' id='logInBtn' value='로그인' style='margin-top:5%'>");
             }
-                $("#logOutBtn").click(function(){
-                    localStorage.removeItem("userIndex");
-                    window.open("카페 메인.html","_self");
-                });
-                $("#logInBtn").click(function(){
-                    window.open("카페 로그인.html","_self");
-                });
+            $("#logOutBtn").click(function(){
+                localStorage.removeItem("userIndex");
+                window.open("카페 메인.html","_self");
+            });
+            $("#logInBtn").click(function(){
+                window.open("카페 로그인.html","_self");
+            });
+    
+
+            // 최 상단 이미지 배너 클릭 시 카페 최초 화면으로 이동
+            $('#top').click(function(){
+                location.href = "카페 메인.html";
+            });
 		});
 	</script>
 </head>

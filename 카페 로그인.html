@@ -26,7 +26,11 @@
                             alert("환영합니다 " + userData[i].NAME + "님");
                             window.open("카페 메인.html","_self");
                             return;
-                    }     
+                    }  
+                    else{
+                    alert("아이디와 비밀번호가 일치하지 않습니다.");
+                    window.open("카페 로그인.html","_self");
+                    }   
                 }
             }
             else{

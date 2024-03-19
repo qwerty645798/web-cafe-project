@@ -174,15 +174,17 @@
             let pageCount = $('.pageMove').length;
             let lastPage = $('.pageMove:last').text();
             let postNum = 0;
+            let allPostNum = 0;
 
             textBoxPH();
 
             // 게시판에 json파일 내부 정보를 토대로 글을 출력하는 코드
             $.getJSON('게시글 객체.json', function(data){
                 $.each(data, function(){
+                    allPostNum++;
                     if (this.postCategory == "메모"){
                         $("<tr class='post'>" +
-                            "<td>" + this.postCategory + "</td>" +
+                            "<td>" + allPostNum + "</td>" +
                             "<td>" + "<a href='" + this.postHTML + "'class='postTitleHL'>" + this.postTitle + "</a>" + "</td>" +
                             "<td>" + "<a href='" + "#" + "'class='postWriterHL'>" + this.postWriter + "</a>" + "</td>" +
                             "<td>" + this.postDate + "</td>" +
@@ -203,6 +205,8 @@
                         $('#userFloat').css({'left': offset.left, 'top': ttTop});
                         
                         $('#userFloat').fadeIn('fast');
+
+                        $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
                 });
                 $('body').on('click', function(e){
                     let $tgPoint = $(e.target);

@@ -18,8 +18,8 @@
         
         .sortArea {width: 100%; height: 80px; box-sizing: border-box; display: inline-block; word-break: break-all;}
             .sortList {width: 100%; padding: 35px 0 23px; box-sizing: border-box; display: inline-block; word-break: break-all;}
-            .sortBtn {padding-bottom: 10px; font-size: 13px; box-sizing: border-box;}
-            .sortBtn:not(:first-child) {margin-left: 15px;}
+            .sortList a {padding-bottom: 10px; font-size: 13px; box-sizing: border-box;}
+            .sortList a:not(:first-child) {margin-left: 15px;}
             .on {color: rgb(10, 196, 4); font-weight: bold; border-bottom: 2px solid rgb(10, 196, 4);}
 
             .subscribeBtnArea {width: 80px; height: 30px; padding: 0 20px 0 0; float:right; box-sizing: border-box;}
@@ -87,14 +87,14 @@
         <div id="content_top">
             <div class="userProfile"><img src="image/icon.jpg" class="profileIcon" alt="userProfile"></div>
             <div class="userInfomation">
-                <h3 id="userName">12</h3>
+                <h3 id="userName">userNameUnknown</h3>
                 <span id="postCounts"></span>
             </div>
             <div class="sortArea">
                 <div class="sortList">
-                    <a href="#" class="sortBtn">작성글</a>
-                    <a href="#" class="sortBtn">댓글단 글</a>
-                    <a href="#" class="sortBtn">카페북 페이지 보기</a>
+                    <a href="#" class="on">작성글</a>
+                    <a href="#">댓글단 글</a>
+                    <a href="#">카페북 페이지 보기</a>
                     <div class="subscribeBtnArea"><button class="subscribeBtn"><i class="iconPlusArea"><svg id="iconPlus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/></svg></i>구독</button></div>
                 </div>
             </div>
@@ -133,14 +133,26 @@
             let pageCount = $('.pageMove').length;
             let lastPage = $('.pageMove:last').text();
             let postNum = 0;
+            let allPostNum = 0;
+            let writeName;
+
+            // 작성글 검색으로 넘어왔을 때 해당 이름 값을 가져오는 코드
+            const serParams = new URLSearchParams(location.search);
+            for (const param of serParams) {
+                console.log(param);
+                writeName = param[1];
+            }
+            
+            $('#userName').text(writeName);
 
             // 게시판에 json파일 내부 정보를 토대로 글을 출력하는 코드
             $.getJSON('게시글 객체.json', function(data){
                 $.each(data, function(){
-                    if (this.postWriter == "황인혁") {
+                    allPostNum++;
+                    if (this.postWriter == writeName) {
                         postNum++;
                         $("<tr class='post'>" +
-                                "<td>" + (postNum) + "</td>" +
+                                "<td>" + allPostNum + "</td>" +
                                 "<td>" + "<a href='" + this.postHTML + "'class='postTitleHL'>" + this.postTitle + "</a>" + "</td>" +
                                 "<td>" + this.postDate + "</td>" +
                                 "<td>" + this.postView + "</td>" +
@@ -158,8 +170,7 @@
             });
 
             // 프로필 아래 필터 설정 이벤트
-            $('.sortList a[class="sortBtn"]:first-child').addClass('on');
-            $('.sortList a[class="sortBtn"]').on('click', function(){
+            $('.sortList a').on('click', function(){
                 if ($(this).siblings().hasClass('on')){
                     $(this).siblings().removeClass('on');
                 }
@@ -182,11 +193,11 @@
                     $(this).css({'border': defaultBorder, 'font-size': defaultFont, 'background': defaultBG, 'font-weight': 'normal'}).html(defaultText);
                     subs = 0;
                 }
-
             });
             
-            $('.letPost')
-            
+            $('.letPost').on('click', function(){
+                window.open("카페 글쓰기.html");
+            });
         });
     </script>
 </body>

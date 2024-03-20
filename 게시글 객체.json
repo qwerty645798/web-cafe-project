@@ -3,9 +3,9 @@
         "id": "1",
         "postTitle" : "HTML ppt파일 모음",
         "postWriter": "황인혁",
-        "postDate": "2024.02.21",
+        "postDate": "2024.02.16",
         "postView": 3,
-        "postCategory": "HTML&CSS",
+        "postCategory": "HTML / CSS",
         "postHTML": "test.html"
     },
     {
@@ -23,7 +23,7 @@
         "postWriter": "황인혁",
         "postDate": "2024.03.02",
         "postView": 12,
-        "postCategory": "jQuery&Ajax",
+        "postCategory": "jQuery / Ajax",
         "postHTML": "test.html"
     },
     {

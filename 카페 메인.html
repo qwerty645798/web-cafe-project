@@ -78,12 +78,16 @@
         div#left1,div#left3{
             height:25%;
         }
+        div#left1 {padding: 3%;}
         div#left1>div#icon{
             width:100%;
+            margin-bottom: 5px;
             aspect-ratio:1/1;
-            background-image:url("image/icon.jpg");
-            background-size:cover;
-            background-position:center;
+            background-origin: padding-box;
+            background-image: url("image/icon.jpg");
+            background-size: contain;
+            background-position: center;
+            border-radius: 50%;
         }
         div#left1>div#left_welcome{
             height:20%;
@@ -198,8 +202,12 @@
             $("#logInBtn").click(function(){
                 window.open("카페 로그인.html","_self");
             });
-    
 
+            // 카테고리 a 클릭 시 해당 카테고리의 text를 가지고 게시판 페이지로 이동
+            $('.cateMove:not(#popularPost)').on('click', function(){
+                $(this).prop('href', "게시판 페이지.html?cate=" + $(this).text());
+            });
+    
             // 최 상단 이미지 배너 클릭 시 카페 최초 화면으로 이동
             $('#top').click(function(){
                 location.href = "카페 메인.html";
@@ -230,22 +238,22 @@
                             클릭하시면 추가됩니다.</div>
                         <hr>
                         <ul>
-                            <li id="AllPost"><a class="cateMove" href="전체글.html" target="iFrame">전체글보기</a></li>
-                            <li id="PopularPost"><a class="cateMove" href="인기글.html" target="iFrame">인기글</a></li>
+                            <li id="AllPost"><a class="cateMove" href="" target="iFrame">전체글보기</a></li>
+                            <li id="PopularPost"><a class="cateMove" id="popularPost" href="인기글.html" target="iFrame">인기글</a></li>
                             <hr>
-                            <li id="Notification"><a class="cateMove" href="공지사항.html" target="iFrame">공지사항</a></li>
-                            <li id="FreePost"><a class="cateMove" href="자유게시판.html" target="iFrame">자유게시판</a></li>
+                            <li id="Notification"><a class="cateMove" href="" target="iFrame">공지사항</a></li>
+                            <li id="FreePost"><a class="cateMove" href="" target="iFrame">자유게시판</a></li>
                             <hr>
                             <b>코딩 학습</b>
                             <hr>
-                            <li id="Memo"><a class="cateMove" href="메모카테고리.html" target="iFrame">메모</a></li>
-                            <li id="HTML&CSS"><a class="cateMove" href="HTML카테고리.html" target="iFrame">HTML & CSS</a></li>
-                            <li id="JavaScript"><a class="cateMove" href="JS카테고리.html" target="iFrame">JavaScript</a></li>
-                            <li id="jQuery&Ajax"><a class="cateMove" href="jQueryAjax 카테고리.html" target="iFrame">jQuery & Ajax</a></li>
+                            <li id="Memo"><a class="cateMove" href="" target="iFrame">메모</a></li>
+                            <li id="HTML&CSS"><a class="cateMove" href="" target="iFrame">HTML / CSS</a></li>
+                            <li id="JavaScript"><a class="cateMove" href="" target="iFrame">JavaScript</a></li>
+                            <li id="jQuery&Ajax"><a class="cateMove" href="" target="iFrame">jQuery / Ajax</a></li>
                             <hr>
-                            <li id="Git&Github"><a class="cateMove" href="Git카테고리.html" target="iFrame">Git & Github</a></li>
-                            <li id="Java"><a class="cateMove" href="Java카테고리.html" target="iFrame">Java</a></li>
-                            <li id="프로젝트진행"><a class="cateMove" href="프로젝트카테고리.html" target="iFrame">프로젝트진행</a></li>
+                            <li id="Git&Github"><a class="cateMove" href="" target="iFrame">Git / Github</a></li>
+                            <li id="Java"><a class="cateMove" href="" target="iFrame">Java</a></li>
+                            <li id="프로젝트진행"><a class="cateMove" href="" target="iFrame">프로젝트진행</a></li>
                         </ul>
                 </div>
                 <div id="left3">
@@ -330,7 +338,7 @@
         ">HTML</button>
     </div>
 	<script>
-
+        
 	</script>
 </body>
 </html>

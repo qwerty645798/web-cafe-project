@@ -24,6 +24,7 @@
 
         .subscribeBtnArea {width: 80px; height: 30px; padding: 0 20px 0 0; float:right; box-sizing: border-box;}
         .subscribeBtn {width: 60px; height: 30px; border: 0; font-size: 13px; background: rgb(243, 243, 243); border-radius: 50px;}
+        .subscribeBtn:hover {cursor: pointer}
         .iconPlusArea {width: 1em; padding: 6px 5px 0 1px;box-sizing: border-box;}
         #iconPlus {width: 0.8em;}
         .subscribed {border: 1px solid rgb(10, 196, 4)}
@@ -49,6 +50,7 @@
         .letPostArea {width: 100%; height: 35px; margin: 10px 0 20px 0}
         .postBtnArea {width: 80px; height: 35px; padding: 0 20px 0 0; float:right; box-sizing: border-box;}
         .letPost {width: 65px; height: 35px; border: 0; background-color: rgb(235, 235, 235); border-radius: 5px; font-size: 12px; font-weight: bold;}
+        .letPost:hover {cursor: pointer}
 
         footer {
             margin: 10px;
@@ -92,9 +94,9 @@
             </div>
             <div class="sortArea">
                 <div class="sortList">
-                    <a href="#" class="on">작성글</a>
-                    <a href="#">댓글단 글</a>
-                    <a href="#">카페북 페이지 보기</a>
+                    <a href="#절대있을리없는아이디명" class="on">작성글</a>
+                    <a href="#절대있을리없는아이디명">댓글단 글</a>
+                    <a href="#절대있을리없는아이디명">카페북 페이지 보기</a>
                     <div class="subscribeBtnArea"><button class="subscribeBtn"><i class="iconPlusArea"><svg id="iconPlus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/></svg></i>구독</button></div>
                 </div>
             </div>
@@ -153,7 +155,7 @@
                         postNum++;
                         $("<tr class='post'>" +
                                 "<td>" + allPostNum + "</td>" +
-                                "<td>" + "<a href='" + this.postHTML + "'class='postTitleHL'>" + this.postTitle + "</a>" + "</td>" +
+                                "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.postTitle + "</a>" + "</td>" +
                                 "<td>" + this.postDate + "</td>" +
                                 "<td>" + this.postView + "</td>" +
                             "<tr>").insertAfter('.postTh');
@@ -167,6 +169,11 @@
                     $('<tr><td class="noPost" colspan="4">등록된 게시글이 없습니다.</td></tr>').insertAfter('.postTh');
                     $('#postCounts').html("작성글 <span>" + postNum + "</span>");
                 }
+            });
+
+            // 게시글 제목 a 클릭 시 해당 게시글의 title을 가지고 게시글 페이지로 이동
+            $('.postTitleHL').on('click', function(){
+                $(this).prop('href', "게시글.html?title=" + $(this).text());
             });
 
             // 프로필 아래 필터 설정 이벤트

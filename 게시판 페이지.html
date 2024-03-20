@@ -123,9 +123,9 @@
         </div>
         <div id="userFloat">
             <ul>
-                <li class="userFloat"><a href="#" class="useFloatMenu">게시글 보기</a></li>
-                <li class="userFloat"><a href="#" class="useFloatMenu">1:1 채팅</a></li>
-                <li class="userFloat"><a href="#" class="useFloatMenu">쪽지보내기</a></li>
+                <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">게시글 보기</a></li>
+                <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">1:1 채팅</a></li>
+                <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">쪽지보내기</a></li>
             </ul>
         </div>
     </section>
@@ -180,6 +180,7 @@
             let lastPage = $('.pageMove:last').text();
             let postNum = 0;
             let allPostNum = 0;
+            let cateName;
 
             textBoxPH();
 
@@ -200,26 +201,34 @@
                     allPostNum++;
                     if (cateName == "전체글보기"){
                         $("<tr class='post'>" +
-                            "<td>" + this.postCategory + "</td>" +
-                            "<td>" + "<a href='" + this.postHTML + "'class='postTitleHL'>" + this.postTitle + "</a>" + "</td>" +
-                            "<td>" + "<a href='" + "#" + "'class='postWriterHL'>" + this.postWriter + "</a>" + "</td>" +
-                            "<td>" + this.postDate + "</td>" +
-                            "<td>" + this.postView + "</td>" +
+                            "<td class='postCateHL'>" + this.postCategory + "</td>" +
+                            "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.postTitle + "</a>" + "</td>" +
+                            "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.postWriter + "</a>" + "</td>" +
+                            "<td class='postDateHL'>" + this.postDate + "</td>" +
+                            "<td class='postViewHL'>" + this.postView + "</td>" +
                         "</tr>").prependTo('tbody.postArea');
                         postNum++;
                     }
                     else if (this.postCategory == cateName){
                         $("<tr class='post'>" +
                             "<td>" + allPostNum + "</td>" +
-                            "<td>" + "<a href='" + this.postHTML + "'class='postTitleHL'>" + this.postTitle + "</a>" + "</td>" +
-                            "<td>" + "<a href='" + "#" + "'class='postWriterHL'>" + this.postWriter + "</a>" + "</td>" +
-                            "<td>" + this.postDate + "</td>" +
-                            "<td>" + this.postView + "</td>" +
+                            "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.postTitle + "</a>" + "</td>" +
+                            "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.postWriter + "</a>" + "</td>" +
+                            "<td class='postDateHL'>" + this.postDate + "</td>" +
+                            "<td class='postViewHL'>" + this.postView + "</td>" +
                         "</tr>").prependTo('tbody.postArea');
                         postNum++;
                     }
-                    
+                
                     $('.postCounts').html("<span>" + postNum + "</span>개의 게시글");
+                });
+
+                // 게시글 제목 a 클릭 시 해당 게시글의 text를 가지고 게시글 페이지로 이동
+                $('.postTitleHL').on('click', function(){
+                    $(this).prop('href', "게시글.html?title=" + $(this).text());
+                    // + "&writer=" + $(this).parent().next('td').find('a').text());
+                    // + "&date=" + $(this).closest('tr').find('.postDateHL').text() + "&view=" + $(this).closest('tr').find('.postViewHL').text() + "&cate=" + $(this).closest('tr').find('.postCateHL').text();
+                    // console.log($(this).text(), $(this).parent().next('td').find('a').text());
                 });
 
                 // 작성자 클릭 시 해당 요소 아래에 툴팁이 나오는 코드 / 요소 바깥을 클릭하면 사라짐
@@ -233,6 +242,7 @@
                         
                         $('#userFloat').fadeIn('fast');
 
+                        // 작성자 툴팁의 첫번째 a(작성글 보기)를 클릭 하면 해당 유저의 name 정보를 가지고 유저페이지로 이동
                         $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
                 });
                 $('body').on('click', function(e){
@@ -252,7 +262,6 @@
                     $('#postCounts').html("<span>" + postNum + "</span>개의 게시글");
                 }
             });
-            
         });
     </script>
 </body>

@@ -23,7 +23,7 @@
         }
         
         #articleHead {
-            width: 100%; height: 112px;
+            width: 100%; height: 124px;
             margin-bottom: 10px; padding-bottom: 5px;
             border-bottom: 1px solid black;
         }
@@ -32,7 +32,7 @@
         .category {margin: 0 0 0 15px; font-size: 13px; color: rgb(20, 184, 20); font-weight: bold;}
         .rightArrow {width: 10px; height: 10px; fill: rgb(20, 184, 20)}
 
-        .title {width: 100px; margin: 0 0 0 15px; font-weight: 500;}
+        .title {width: 90%; margin: 5px 0 0 15px; font-size: 25px; font-weight: 500;}
 
         .writerPostInfo {width: 100%; height: 50px; margin-bottom: 10px;}
         .writerInfo {width: 100%; height: 56px;}
@@ -152,7 +152,7 @@
             </div>
         </div>
         <div id="articleBody">
-            <p>postText</p>
+            <p class="text">postText</p>
         </div>
         <div id="userFloat">
             <ul>
@@ -185,16 +185,25 @@
             let lastPage = $('.pageMove:last').text();
             let postNum = 0;
             let allPostNum = 0;
-            let cateName;
+            let cateName, title, writer, date, view;
 
-            // 카테고리 클릭으로 넘어왔을 때 해당 이름 값을 가져오는 코드
+            // 게시글 제목 클릭으로 넘어왔을 때 해당 이름 값을 가져오는 코드
             const serParams = new URLSearchParams(location.search);
             for (const param of serParams) {
                 console.log(param);
-                cateName = param[1];
+                title = param[1];
+                // writer = param[3];
+                // date = param[5];
+                // view = param[7];
+                // cateName = param[9];
+
             }
             
-            $('#CategoryName').text(cateName);
+            $('.category').text(cateName);
+            $('.title').text(title);
+            $('.writer').text(writer);
+            $('.date').text(date);
+            $('.view').text(view);
             
             // 게시판에 json파일 내부 정보를 토대로 글을 출력하는 코드
             $.getJSON('게시글 객체.json', function(data){

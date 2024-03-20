@@ -34,7 +34,7 @@
         td:nth-child(4) {width: 20%;}
         td:nth-child(5) {width: 15%;}
 
-        tr:nth-child(4n){
+        tr:nth-child(2n){
             background: aliceblue;
         }
 
@@ -45,41 +45,12 @@
             width: 100%;
             background: rgb(243, 243, 243);
         }
-        .pageNum {
+        
+        .exp {
             display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .searchBoxes {
-            width: 100%;
-            height: 30px;
-            display: flex;
-            justify-content: center;
-            padding-bottom: 10px;
-        }
-        .searchBoxes div {
-            height:90%; 
-        }
-        #searTimes, #searDetail, .searchText, .searchBtn {
-            font-size: 10px;
-            height: 100%;
-            margin: 0 5px;
-            padding: 2px;
-            -moz-box-sizing: border-box;
-            -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-            flex-wrap: nowrap;
-            border-radius: 50px;
-        }
-        #searTimes {width: 70px; text-align: center;}
-        #searDetail {width: 100px; text-align: center;}
-        .searchText {width: 200px; padding-left: 1em;}
-        .searchBtn {width: 50px; background: dodgerblue; font-weight: bold; text-align: center; color: white;}
-        .pageMove {
-            display: flex;
-            margin: 15px;
+            margin-top: 35px;
             color: black;
-            font-size: 15px;
+            font-size: 14px;
             text-decoration: none;
         }
         .postTitleHL {text-decoration: none;}
@@ -102,6 +73,7 @@
         
     </style>
     <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/dayjs@1.11.10/dayjs.min.js"></script>
 </head>
 <body>
     <header>
@@ -117,7 +89,7 @@
                 <div class="formSelectBox">
                     <form>
                         <select name="recentSelect" id="recent">
-                            <option value="last7Days" class="item">최근 7일</option>
+                            <option value="last7Days" class="item" selected>최근 7일</option>
                             <option value="last30Days" class="item">최근 30일</option>
                             <option value="all" class="item">전체</option>
                         </select>
@@ -131,13 +103,18 @@
         <div id="articles_area">
             <div>
                 <table class="articleTable">
-                    <tr class="postTh">
-                        <th class="category"></th>
-                        <th class="title">제목</th>
-                        <th class="writer">작성자</th>
-                        <th class="date">작성일</th>
-                        <th class="view">조회수</th>
-                    </tr>
+                    <thead>
+                        <tr class="postTh">
+                            <th class="category"></th>
+                            <th class="title">제목</th>
+                            <th class="writer">작성자</th>
+                            <th class="date">작성일</th>
+                            <th class="view">조회수</th>
+                        </tr>
+                    </thead>
+                    <tbody class="postArea">
+
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -151,84 +128,51 @@
     </section>
     <footer>
         <div class="footerBox">
-            <div class="pageNum">
-                <a href="#" class="pageMove">1</a>
-            </div>
-            <div class="searchArea">
-                <form name="search" class="searchBoxes">
-                    <div class = "searchSelect">
-                        <select name="searTimes" id="searTimes">
-                            <option name="searTime" value="allTime" selected>전체기간</option>
-                            <option name="searTime" value="day">1일</option>
-                            <option name="searTime" value="week">1주</option>
-                            <option name="searTime" value="month">1개월</option>
-                            <option name="searTime" value="year">1년</option>
-                        </select>
-                        <select name="searDetail" id="searDetail">
-                            <option name="searDet" value="postAndComment" selected>게시글 + 댓글</option>
-                            <option name="searDet" value="postTitle">제목만</option>
-                            <option name="searDet" value="writer">글작성자</option>
-                            <option name="searDet" value="comment">댓글내용</option>
-                            <option name="searDet" value="commenter">댓글작성자</option>
-                        </select>
-                    </div>
-                    <div>
-                        <input class="searchText" id="searchText" type="text" placeholder="검색어를 입력해주세요.">
-                        <input class="searchBtn" type="button" value="검색">
-                    </div>
-                </form>
+            <div class="expArea">
+                <div class="exp">최근 7일간 작성된 게시글 중 카페 멤버에게 인기가 많았던 게시글 입니다.</div>
             </div>
         </div>
     </footer>
     <script>
-        function textBoxPH (){      // 텍스트 박스를 클릭시 placeholder를 숨기는 함수
-            let box = document.getElementById("searchText");
-            box.addEventListener('focus', function(){
-                this.placeholder = "";
-            });
-            box.addEventListener('blur', function(){
-                if (this.placeholder == ""){
-                    this.placeholder = "검색어를 입력해주세요.";
-                }
-            });
-        }
-        
-        // 글 쓰기 객체생성 함수 //
-        // function Post(category, title, writer, date, view){
-        //     this.postCategory = category;
-        //     this.postTitle = title;
-        //     this.postWriter = writer;
-        //     this.postDate = date;
-        //     this.postView = view;
-        // }
+            let postNum = 0;
+            let weekly = 0;
+            let monthly = 0;
+            let alltime = 0;
+            let popularityBenchmark = 0;
+            let $sel;
         
         $(function(){       //ready
-            let postNum = 0;
-            let rank = 0;
-
-            textBoxPH();
+            const now = dayjs();
+            now.format("YYYY.MM.DD HH:mm");
 
             // 게시판에 json파일 내부 정보를 토대로 글을 출력하는 코드
             $.getJSON('게시글 객체.json', function(data){
+                // 작성일 순으로 배열되어있던 객체들을 역순으로 바꿈
                 data.sort(function(a, b) {
                     return a.postView - b.postView;
                 });
+
+                // 글의 조회수가 설정한 기준점보다 높고, 작성일이 오늘 날짜-7일 한 것 보다 클 때 랭킹숫자 증가 (꼴찌값까지 증가시키기)
                 $.each(data, function(){
-                    if (this.postView >= 20){
-                        rank++;
+                    if (this.postView >= popularityBenchmark && this.postDate >= now.subtract(7, "day").format("YYYY.MM.DD")){
+                        weekly++;
                     }
                 });
+
+                // 글의 조회수가 설정한 기준점보다 높고, 작성일이 오늘 날짜-7일 한 것 보다 클 때 글 수를 증가시키고 출력, 랭킹숫자를 하나씩 감소시킴
                 $.each(data, function(){
-                    if (this.postView >= 20){
-                        postNum++;
-                        $("<tr class='post'>" +
-                        "<td>" + rank + "</td>" +
-                        "<td>" + "<a href='" + this.postHTML + "'class='postTitleHL'>" + this.postTitle + "</a>" + "</td>" +
-                        "<td>" + "<a href='" + "#" + "'class='postWriterHL'>" + this.postWriter + "</a>" + "</td>" +
-                        "<td>" + this.postDate + "</td>" +
-                        "<td>" + this.postView + "</td>" +
-                        "<tr>").insertAfter('.postTh');
-                        rank--;
+                    if (this.postView >= popularityBenchmark){
+                        if (this.postDate >= now.subtract(7, "day").format("YYYY.MM.DD")){
+                            postNum++;
+                            $("<tr class='post'>" +
+                            "<td>" + weekly + "</td>" +
+                            "<td>" + "<a href='" + this.postHTML + "'class='postTitleHL'>" + this.postTitle + "</a>" + "</td>" +
+                            "<td>" + "<a href='" + "#" + "'class='postWriterHL'>" + this.postWriter + "</a>" + "</td>" +
+                            "<td>" + this.postDate + "</td>" +
+                            "<td>" + this.postView + "</td>" +
+                            "</tr>").prependTo('tbody.postArea');
+                            weekly--;
+                        }
                     }
                 });
 
@@ -253,23 +197,89 @@
                         $('#userFloat').fadeOut('fast');
                     }
                 });
-                // 여기까지 작성자 클릭
 
                 if (postNum == 0){
                     $('<tr><td></td><td></td><td>인기글이 없습니다.</td><td></td><td></td></tr>').insertAfter('.postTh');
                 }
             });
             
-            // 프로필 아래 필터 설정 이벤트
-            // $('.filterBtnArea button[class="filterBtn"]:first-child').addClass('on');
-            $('.filterBtnArea button').on('click', function(){
-                if ($(this).siblings().hasClass('on')){
-                    $(this).siblings().removeClass('on');
-                }
-                $(this).addClass('on');
-            });
-
+        // 필터 설정 이벤트
+        $('.filterBtnArea button').on('click', function(){
+            if ($(this).siblings().hasClass('on')){
+                $(this).siblings().removeClass('on');
+            }
+            $(this).addClass('on');
         });
+        
+        // 최근 7일 등 작성일 필터를 change 할 때 발생하는 이벤트
+        $('#recent').on('change', function(){
+            $sel = $('#recent option:selected').val();
+            postNum = 0;
+            weekly = 0;
+            monthly = 0;
+            alltime = 0;
+            $.getJSON('게시글 객체.json', function(data){
+                data.sort(function(a, b) {
+                    return a.postView - b.postView;
+                });
+                $('.postArea tr').remove();
+                $.each(data, function(){
+                    if (this.postView >= popularityBenchmark){
+                        if (this.postDate >= now.subtract(7, "day").format("YYYY.MM.DD")){
+                            weekly++;
+                        }
+                        if (this.postDate >= now.subtract(30, "day").format("YYYY.MM.DD")){
+                            monthly++;
+                        }
+                        alltime++
+                    }
+                });
+                $.each(data, function(){
+                    if (this.postView >= popularityBenchmark){
+                        switch($sel){
+                            case "last7Days" : 
+                                if (this.postDate >= now.subtract(7, "day").format("YYYY.MM.DD")){
+                                    postNum++;
+                                    $("<tr class='post'>" +
+                                        "<td>" + weekly + "</td>" +
+                                        "<td>" + "<a href='" + this.postHTML + "'class='postTitleHL'>" + this.postTitle + "</a>" + "</td>" +
+                                        "<td>" + "<a href='" + "#" + "'class='postWriterHL'>" + this.postWriter + "</a>" + "</td>" +
+                                        "<td>" + this.postDate + "</td>" +
+                                        "<td>" + this.postView + "</td>" +
+                                    "</tr>").prependTo('tbody.postArea');
+                                    weekly--;
+                                }
+                                break;
+                            case "last30Days" : 
+                                if (this.postDate >= now.subtract(30, "day").format("YYYY.MM.DD")){
+                                    postNum++;
+                                    $("<tr class='post'>" +
+                                        "<td>" + monthly + "</td>" +
+                                        "<td>" + "<a href='" + this.postHTML + "'class='postTitleHL'>" + this.postTitle + "</a>" + "</td>" +
+                                        "<td>" + "<a href='" + "#" + "'class='postWriterHL'>" + this.postWriter + "</a>" + "</td>" +
+                                        "<td>" + this.postDate + "</td>" +
+                                        "<td>" + this.postView + "</td>" +
+                                    "</tr>").prependTo('tbody.postArea');
+                                    monthly--;
+                                }
+                                break;
+                            default : 
+                                postNum++;
+                                $("<tr class='post'>" +
+                                    "<td>" + alltime + "</td>" +
+                                    "<td>" + "<a href='" + this.postHTML + "'class='postTitleHL'>" + this.postTitle + "</a>" + "</td>" +
+                                    "<td>" + "<a href='" + "#" + "'class='postWriterHL'>" + this.postWriter + "</a>" + "</td>" +
+                                    "<td>" + this.postDate + "</td>" +
+                                    "<td>" + this.postView + "</td>" +
+                                "</tr>").prependTo('tbody.postArea');
+                                alltime--;
+                                break;
+                        }
+                    }
+                });
+            });
+        });
+    });     // ready end
     </script>
 </body>
 </html>

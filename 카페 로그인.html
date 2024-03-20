@@ -27,12 +27,14 @@
             padding:14px 17px 13px;
             border:1px #DADADA solid;
             border-radius:10px 10px 0 0;
+            border-bottom-width:0.5px;
         }
+
         div#content>div#PW{
             width:402px; height:47px;
             padding:14px 17px 13px;
             border:1px #DADADA solid;
-            border-top:none;
+            border-top-width:0.5px;
             border-radius:0 0 10px 10px;
         }
         #id,#pw{
@@ -65,6 +67,9 @@
             margin-top:20px;
             width:402px; height:50px;
             background:#03C75A;
+        }
+        ::placeholder {
+            color: #9BA1A3;
         }
     </style>
     <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
@@ -100,9 +105,28 @@
             window.open("카페 로그인.html","_self");
             }
         }
+        function enter(e){
+            console.log(e.key);
+            if(e.key=='Enter'){
+                check();
+            }
+            else{
+                return false;
+            }
+        }
         $(function(){
             $('div#tools>span').click(function(){
                 $('#loginIcon').toggleClass('bi-check-circle bi-check-circle-fill');
+            });
+            $("#id").focus(function(){
+                $("#ID").css("border-color","#03C75A");
+            }).blur(function(){
+                $("#ID").css("border-color","#DADADA");
+            });
+            $("#pw").focus(function(){
+                $("#PW").css("border-color","#03C75A");
+            }).blur(function(){
+                $("#PW").css("border-color","#DADADA");
             });
         });
     </script>
@@ -113,10 +137,10 @@
     </header>
     <div id="content">
         <div id="ID">
-            <input type="text" id="id" placeholder="아이디">
+            <input type="text" id="id" placeholder="아이디" onkeydown="enter()">
         </div>
         <div id="PW">
-            <input type="password" id="pw" placeholder="비밀번호">
+            <input type="password" id="pw" placeholder="비밀번호" onkeydown="enter(event)">
         </div>
         <div id="tools">
             <span><i id="loginIcon" class="bi-check-circle"></i>
@@ -124,8 +148,8 @@
         </div>
         <input type="button" id="login" onclick="check()" value="로그인" class="btn btn-success">
     </div>
-    <center>
-    <input type="button" onclick="window.open('카페회원정보.html','_self')" value="회원가입">
+    <center style="color:#888888; font-size:0.9em; margin-top:13px;">
+    <a>아이디 찾기</a> <span style="color:#DADADA"> &nbsp;&nbsp;|&nbsp;&nbsp; </span> <a>비밀번호 찾기</a> <span style="color:#DADADA"> &nbsp;&nbsp;|&nbsp;&nbsp; </span> <a href="카페회원정보.html" style="color:#888888; text-decoration:none;">회원가입</a>
     </center>
 </body>
 </html>

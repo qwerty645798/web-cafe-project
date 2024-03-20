@@ -10,25 +10,68 @@
             text-align:center;
         }
     </style>
+    <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 </head>
 <body>
     <h3>회원가입</h3>
     <hr>
+    <center>
     <form>
-    아이디 : <input type="text" placeholder="ID를 입력하세요" id="ID">
-    비밀번호 : <input type="password" placeholder="비밀번호를 입력하세요" id="PW">
-    이름 : <input type="text" placeholder="홍길동" id="NAME">
-    <input type="button" value="입력" onclick="go()">
+        <table>
+            <tr>
+                <td>아이디 : </td>
+                <td><input type="text" placeholder="ID를 입력하세요" id="ID"></td>
+            </tr>
+            <tr>
+                <td>비밀번호 : </td>
+                <td><input type="password" placeholder="비밀번호를 입력하세요" id="PW"></td>
+            </tr>
+            <tr>
+                <td>비밀번호확인 : </td>
+                <td style="width:15em;"><input type="password" placeholder="비밀번호를 입력하세요" id="PWC"><span id="warn" style="color:red;"></span></td>
+            </tr>
+            <tr>
+                <td>이름 : </td>
+                <td><input type="text" placeholder="홍길동" id="NAME"></td>
+            </tr>
+            <tr>
+                <td>휴대폰 번호 : </td>
+                <td><input type="text" placeholder="01012345678" id="TEL"></td>
+            </tr>
+            <tr>
+                <td>생년월일 : </td>
+                <td><input type="text" placeholder="19991231" id="BIRTH"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="button" value="입력" onclick="go()"></td>
+            </tr>
+        </table>
     </form>
+    </center>
     <script>
+        $(function(){
+            $("input").keydown(function(e){
+                if(e.key=="Enter"){
+                    go();
+                }
+            });
+        });
+        let td=document.getElementsByTagName("td");
+        for(let i=0; i<11; i=i+2){
+            td[i].style.textAlign="right";
+        }
         function go(){
             let ID=document.getElementById("ID").value;
             let PW=document.getElementById("PW").value;
+            let PWC=document.getElementById("PWC").value;
             let NAME=document.getElementById("NAME").value;
+            let TEL=document.getElementById("TEL").value;
+            let BIRTH=document.getElementById("BIRTH").value;
 
-             
             
-
+            
             let userData = [];
             if(localStorage.length>0){
                 let jsonDataString = localStorage.getItem("userData");
@@ -36,18 +79,29 @@
                 userData=jsonData;
                 console.log(userData);
             }
-            
-             userData.push({
-                "ID": ID,
-                "PW": PW,
-                "NAME": NAME
-            });
+            if(ID && PW && NAME && TEL && BIRTH){
+                userData.push({
+                    "ID": ID,
+                    "PW": PW,
+                    "NAME": NAME,
+                    "TEL" : TEL,
+                    "BIRTH" : BIRTH
+                });
+                
+                localStorage.setItem("userData", JSON.stringify(userData));
+                
+                alert("회원가입이 완료되었습니다.");
+                window.close();
+            }else{
+                if(PW != PWC){
+                    alert("비밀번호가 일치하지 않습니다.");
+                    location='카페회원정보.html';
 
-           
-            localStorage.setItem("userData", JSON.stringify(userData));
-
-            alert("회원가입이 완료되었습니다.");
-            window.open("카페 로그인.html","_self");
+                }else{
+                alert("다시 입력하세요.");
+                location='카페회원정보.html';
+                }
+            }
         }
     </script>
 </body>

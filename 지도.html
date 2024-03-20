@@ -6,15 +6,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        *{
+        /**{
             width:calc(100% - 2px); height:calc(100% - 2px);
             margin:0; padding:0;
+            border:none;
+        }*/
+        body{
+            background:aliceblue;
+        }
+        div#web{
+            width:1080px; height:900px;
+            border:none;
+            margin:auto; padding:0;
+        }
+        div#top{
+            width:100%; height:217.5px;
+            box-sizing:border-box;
+            border:none;
+            background-image: url("image/cloud.jpeg");
+            background-size: cover;
+            background-position: center;
+        }
+        div#search{
+            width:100%; height:52.5px;
+            box-sizing:border-box;
+            border:none;
+            border-bottom:1px black solid;
+            display:flex;
+        }
+        div#position{
+            width:100%; height:80px;
+            border:none;
+            box-sizing:border-box;
+        }
+        iframe#map{
+            margin-top:20px;
+            width:100%; height:550px;
+            box-sizing: border-box;
             border:none;
         }
     </style>
 </head>
 <body>
-    <iframe id="map"></iframe>
+    <div id="web">
+        <div id="top"></div>
+        <div id="search"><span style="font-size:1.2em; margin:auto 0;"><b>카페 지도</b></span></div>
+        <div id="position"></div>
+        <iframe id="map"></iframe>
+    </div>
     <script>
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition(success);
@@ -36,6 +75,8 @@
  	        map.src ="https://www.openstreetmap.org/export/embed.html?bbox=" + 
 		        (parseFloat(lon)-0.01) + "%2C" + (parseFloat(lat)-0.01) + "%2C" + 
 		        (parseFloat(lon)+0.01) + "%2C" + (parseFloat(lat) + 0.01);
+            
+            document.getElementById("position").innerHTML=`현재위치<br>위도 : ${lat}&deg;<br>경도 : ${lon}&deg;<br>오차 : ${acc}m`
         }
     </script>
 </body>

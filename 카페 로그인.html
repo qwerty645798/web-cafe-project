@@ -42,7 +42,7 @@
             padding:0 30px 0 0;
             outline:none;
             border:none;
-            cursor:pointer;
+            cursor:text;
             font-size:14px;
         }
         div#content>#tools{
@@ -70,6 +70,17 @@
         }
         ::placeholder {
             color: #9BA1A3;
+        }
+        center>button{
+            cursor:pointer;
+            text-decoration:none;
+            color:#888888;
+            background:none;
+            border:none;
+            outline:none;
+        }
+        center>button:hover{
+            text-decoration:underline;
         }
     </style>
     <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
@@ -133,11 +144,11 @@
 </head>
 <body>
     <header>
-        <img src="image/NAVER.jpg" width="170" height="80">
+        <img src="image/NAVER.jpg" width="170" height="80" style="cursor:pointer;" onclick="location='http://www.naver.com'">
     </header>
     <div id="content">
         <div id="ID">
-            <input type="text" id="id" placeholder="아이디" onkeydown="enter()">
+            <input type="text" id="id" placeholder="아이디" onkeydown="enter(event)">
         </div>
         <div id="PW">
             <input type="password" id="pw" placeholder="비밀번호" onkeydown="enter(event)">
@@ -149,7 +160,12 @@
         <input type="button" id="login" onclick="check()" value="로그인" class="btn btn-success">
     </div>
     <center style="color:#888888; font-size:0.9em; margin-top:13px;">
-    <a>아이디 찾기</a> <span style="color:#DADADA"> &nbsp;&nbsp;|&nbsp;&nbsp; </span> <a>비밀번호 찾기</a> <span style="color:#DADADA"> &nbsp;&nbsp;|&nbsp;&nbsp; </span> <a href="카페회원정보.html" style="color:#888888; text-decoration:none;">회원가입</a>
+    <button onclick="window.open('아이디 찾기.html', '_blank', 'left=700,top=200,width=500,height=400');
+    ">아이디 찾기</button> 
+    <span style="color:#DADADA"> &nbsp;&nbsp;|&nbsp;&nbsp; </span> 
+    <button onclick="window.open('비밀번호 찾기.html', '_blank', 'left=700,top=200,width=500,height=400');">비밀번호 찾기</button> 
+    <span style="color:#DADADA"> &nbsp;&nbsp;|&nbsp;&nbsp; </span> 
+    <button onclick="window.open('카페회원정보.html', '_blank', 'left=700,top=200,width=500,height=400');">회원가입</button>
     </center>
 </body>
 </html>

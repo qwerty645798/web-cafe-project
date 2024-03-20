@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            text-align:center;
+        }
+    </style>
+    <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
+    <script>
+        function findID(){
+            let userDataString = localStorage.getItem("userData");
+            if(userDataString){
+                let userData = JSON.parse(userDataString);
+                let ID=document.getElementById("ID").value;
+                let NAME=document.getElementById("NAME").value;
+                let BIRTH=document.getElementById("BIRTH").value;
+                let TEL=document.getElementById("TEL").value;
+                for(let i=0; i<userData.length; i++){
+                    if(userData[i].ID == ID && userData[i].NAME == NAME && userData[i].BIRTH == BIRTH && userData[i].TEL == TEL){
+                        document.write("<span>고객님의 비밀번호는 **" + userData[i].PW.split("").slice(2).join("") + "입니다.</span>");
+                        return false;
+                    }else{
+                        alert("등록되지 않은 정보입니다.");
+                        $("input").val("");
+                    }
+                }
+            }else{
+                alert("등록되지 않은 정보입니다.");
+                $("input").val("");
+            }
+        }
+        $(function(){
+            $("input").keydown(function(e){
+                if(e.key=="Enter"){
+                    findID();
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <H1>비밀번호 찾기</H1>
+    <center>
+        <table>
+            <tr>
+                <td style="text-align:right;">아이디 : </td>
+                <td><input type="text" id="ID" placeholder="아이디"></td>
+            </tr>
+            <tr>
+                <td style="text-align:right;">이름 : </td>
+                <td><input type="text" id="NAME" placeholder="홍길동"></td>
+            </tr>
+            <tr>
+                <td>생년월일 : </td>
+                <td><input type="text" id="BIRTH" placeholder="19991231"></td>
+            </tr>
+            <tr>
+                <td>전화번호 : </td>
+                <td><input type="text" id="TEL" placeholder="01012345678"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="text-align:right;"><button onclick="findID()">확인</button></td>
+            </tr>
+        </table>
+    </center>
+</body>
+</html>

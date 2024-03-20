@@ -152,7 +152,7 @@
             </div>
         </div>
         <div id="articleBody">
-            <p>postText</p>
+            <p class="text">postText</p>
         </div>
         <div id="userFloat">
             <ul>
@@ -192,9 +192,19 @@
             for (const param of serParams) {
                 console.log(param);
                 cateName = param[1];
+                title = param[1];
+                writer = param[1];
+                date = param[1];
+                view = param[1];
+                text = param[1];
             }
             
-            $('#CategoryName').text(cateName);
+            $('.category').text(cateName);
+            $('.title').text(title);
+            $('.writer').text(writer);
+            $('.date').text(date);
+            $('.view').text(view);
+            $('.').text(view);
             
             // 게시판에 json파일 내부 정보를 토대로 글을 출력하는 코드
             $.getJSON('게시글 객체.json', function(data){

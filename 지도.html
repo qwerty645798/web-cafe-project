@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            width:calc(100% - 2px); height:calc(100% - 2px);
+            margin:0; padding:0;
+            border:none;
+        }
+    </style>
+</head>
+<body>
+    <iframe id="map"></iframe>
+    <script>
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(success);
+        }else{
+            alert("지원하지 않음");
+        }
+        function success(position){
+            let lat = position.coords.latitude;
+            let lon = position.coords.longitude;
+            let acc = position.coords.accuracy;
+
+            lat = lat.toPrecision(6);
+            lon = lon.toPrecision(6);
+            acc = Math.floor(acc);
+
+            let now = new Date(position.timestamp);
+
+            let map = document.getElementById("map");
+ 	        map.src ="https://www.openstreetmap.org/export/embed.html?bbox=" + 
+		        (parseFloat(lon)-0.01) + "%2C" + (parseFloat(lat)-0.01) + "%2C" + 
+		        (parseFloat(lon)+0.01) + "%2C" + (parseFloat(lat) + 0.01);
+        }
+    </script>
+</body>
+</html>

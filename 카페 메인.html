@@ -159,6 +159,9 @@
             background:none;
             border:none;
         }
+        div#sideBar>button:hover{
+            text-decoration:underline;
+        }
 	</style>
 	<script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 	<script>
@@ -252,11 +255,11 @@
                     <b>최신 업데이트</b>
                     <hr>
                     <ul>
-                        <li>Java 환경설정</li>
-                        <li>네이버 드라이브 주소</li>
-                        <li>JS 파일</li>
-                        <li>서버 호스팅 하는법</li>
-                        <li>자바스크립트 이벤트 문법</li>
+                        <li><a>Java 환경설정</a></li>
+                        <li><a>네이버 드라이브 주소</a></li>
+                        <li><a>JS 파일</a></li>
+                        <li><a>서버 호스팅 하는법</a></li>
+                        <li><a>자바스크립트 이벤트 문법</a></li>
                     </ul>
                 </div>
             </div>
@@ -290,7 +293,7 @@
             font-size:1.5em;
             font-weight:bold;
             color:white;
-        " onclick="window.open('카페 글쓰기.html','_self')">글쓰기</button>
+        " onclick="location='카페 글쓰기.html'">글쓰기</button>
         <button style="
             outline:none;
             width:100%; height:20%;
@@ -308,7 +311,7 @@
             font-size:1.5em;
             font-weight:bold;
             color:white;
-        ">지도</button>
+        " onclick="location='지도.html'">지도</button>
         <button style="
             outline:none;
             width:100%; height:20%;

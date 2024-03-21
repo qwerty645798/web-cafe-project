@@ -2,7 +2,7 @@ let userDataString = localStorage.getItem("userData");
 >>"userData" == 로컬스토리지 "키"이름 // .getItem() == 로컬스토리지에서 정보 불러오기
 
 let userData = JSON.parse(userDataString);
->>불러온 정보를 읽을 수 있게 변환
+>>JSON 문자열을 JavaScript 객체로 변환
 
 userData의 value가 아래와 같다면 
 ({
@@ -35,7 +35,7 @@ userData.push({
     
 localStorage.setItem("userData", JSON.stringify(userData));
 >> .setItem() == 로컬스토리지에 저장 
->> JSON.stringify(userData) == 저장형식
+>> JSON.stringify(userData) ==  JavaScript 객체나 배열을 JSON 형식의 문자열로 변환
 >> "userData" 로컬스토리지 "키"이름 설정
 
 

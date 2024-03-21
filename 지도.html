@@ -41,7 +41,7 @@
             border:none;
             box-sizing:border-box;
         }
-        iframe#map{
+        div#map{
             margin-top:20px;
             width:100%; height:490px;
             box-sizing: border-box;
@@ -58,13 +58,14 @@
             text-decoration: underline;
         }
     </style>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=91923fd361ed583dba90f7d5171f8349"></script>
 </head>
 <body>
     <div id="web">
         <div id="top"></div>
         <div id="search"><span style="font-size:1.2em; margin:auto 0;"><b>카페 지도</b></span></div><a id="mapURL"style="float:right;">네이버 지도 바로가기</a>
         <div id="position"></div>
-        <iframe id="map"></iframe>
+        <div id="map"></div>
     </div>
     <script>
         let lat,lon;
@@ -82,17 +83,23 @@
             lon = lon.toPrecision(6);
             acc = Math.floor(acc);
 
-            let now = new Date(position.timestamp);
-
             let map = document.getElementById("map");
  	        map.src ="https://www.openstreetmap.org/export/embed.html?bbox=" + 
 		        (parseFloat(lon)-0.01) + "%2C" + (parseFloat(lat)-0.01) + "%2C" + 
 		        (parseFloat(lon)+0.01) + "%2C" + (parseFloat(lat) + 0.01);
             
-            document.getElementById("position").innerHTML=`현재위치<br>위도 : ${lat}&deg;<br>경도 : ${lon}&deg;<br>오차 : ${acc}m`
+            document.getElementById("position").innerHTML=`현재위치<br>위도 : ${lat}&deg;<br>경도 : ${lon}&deg;<br>오차 : ${acc}m`;
+            document.getElementById("mapURL").href=`https://map.naver.com/p/settings?c=${lat},${lon},10,0,dh`;
         }
-        if(lat == undefined || lon == undefined)lat=14.13,lon=0;
-        document.getElementById("mapURL").href=`https://map.naver.com/p/settings?c=${lat},${lon},10,0,dh`;
-    </script>
+        if(lat == undefined || lon == undefined)lat=37.4931,lon=127.022;
+    
+		var container = document.getElementById('map');
+		var options = {
+			center: new kakao.maps.LatLng(lat, lon),
+			level: 3
+		};
+
+		var map = new kakao.maps.Map(container, options);
+	</script>
 </body>
 </html>

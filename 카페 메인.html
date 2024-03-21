@@ -3,16 +3,6 @@
 <head>
 <meta charset="UTF-8">
 	<style>
-        @media(max-width:1000px),(max-height:500px){
-            div#upDownBtn{
-                width:2.5% !important; height:10% !important;
-                position:fixed !important;
-                right:5% !important; bottom:13% !important;
-            }
-            button#up,button#down{
-                font-size:3em !important;
-            }
-        }
         .border-box{/*테두리 크기를 합쳐야 하는 요소는 class="boder-box"사용하기*/
             box-sizing: border-box;
         }
@@ -97,10 +87,11 @@
         div#asideHeader>div#left_welcome{
             width:100%; height:20%;
             text-align:center;
+            font-weight: bold;
         }
         div#asideHeader>div#left_welcome>input{ /*글쓰기버튼*/
             margin:0 auto;
-            width:80%;
+            width:40%;
             height:60%;
             border-radius:8px;
             border:1px #D7D7D9 solid;
@@ -148,6 +139,7 @@
             height:25%;
             border:5px #EEEEEE solid;
             padding:30px;
+            box-shadow: 5px 0px 5px gray;
         }
         div#mainHeader>a{
             text-decoration:none;
@@ -159,6 +151,7 @@
         }
         div#mainArticle{/*iframe의 부모요소*/
             height:75%;
+            box-shadow: 5px 5px 5px gray;
         }
         .frame {/*mainArticle구역의 전체를 iframe 구역으로 설정*/
             width: 100%;
@@ -170,8 +163,8 @@
         }
         div#upDownBtn{/*페이지 우측 하단 버튼*/
             position:fixed;
-            bottom:0; right:0;
             width:5%; height:20%;
+            right:0; bottom:0;
         }
         button#up,button#down{/*div#upDownBtn의 자식요소*/
             width:100%; height:50%;
@@ -183,6 +176,21 @@
         div#sideBar>button:hover{/*상세 style을 인라인으로 설정해놓음*/
             text-decoration:underline;
         }
+        div#menu{
+        width:100px; height:100px;
+        position:fixed;
+        top:calc(20% - 100px); left:0%;
+        border:1px #5A5A5A solid;
+        background:#5A5A5A;
+        text-align: center;
+        padding-top:32px;
+        color:white;
+        display:none;
+        border-radius:0 20px 20px 0;
+        cursor:pointer;
+        font-size:1.5em;
+        font-weight: bold
+        }
         div#menu:hover{/*클릭시 div#sideBar를 보이게 하는 버튼 (페이지 좌측 상중단에 위치) 상세 style을 인라인으로 설정해놓음*/
             text-decoration:underline;
         }
@@ -193,7 +201,7 @@
             $("#writeBtn").click(function(){//글쓰기 버튼 누르면 글쓰기 웹페이지를 새창으로 불러오기
                 window.open("카페 글쓰기.html","_blank");
             });
-            $("#mark").click(function(){
+            $("#mark").click(function(){//즐겨찾기 메뉴 버튼 ▲ ▼
                 if($("#mark").html()=="▼"){
                     $("#mark").html("▲");
                     $("#hidemark").slideDown("fast");
@@ -236,6 +244,7 @@
             $('.border-box').click(function(){
                 $('.frame').prop('src', "게시판 페이지.html?cate=전체글보기");
             });
+
             //menu바 클릭시 sideBar 출현
             $("#menu,#sideBar").click(function(){
                 if($("#sideBar").css("display")=="none"){
@@ -245,6 +254,16 @@
                     $("#sideBar").fadeOut("fast");
                     $("#menu").css("border-radius","0 20px 20px 0");
                 }
+            });
+            
+            // 브라우저 크기가 변경될 때
+            window.addEventListener('resize', function(event){
+                    let a=1920-window.innerWidth;
+                    let b=953-window.innerHeight;
+                $("#upDownBtn").css({
+                    "right":a/30 + "px",
+                    "bottom":b/5 + "px"
+                });
             });
 		});
 	</script>
@@ -377,23 +396,7 @@
             color:white;
         ">HTML</button>
     </div>
-    <div style="
-        width:100px; height:100px;
-        position:fixed;
-        top:calc(20% - 100px); left:0%;
-        border:1px #5A5A5A solid;
-        background:#5A5A5A;
-        text-align: center;
-        padding-top:32px;
-        color:white;
-        display:none;
-        border-radius:0 20px 20px 0;
-        cursor:pointer;
-        font-size:1.5em;
-        font-weight: bold
-    " id="menu" class="border-box">menu</div>
-	<script>
-        
-	</script>
+    <div id="menu" class="border-box">menu</div>
+	
 </body>
 </html>

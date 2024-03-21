@@ -34,7 +34,7 @@
         .writerPostInfo {width: 100%; height: 50px; margin-bottom: 10px;}
         .writerInfo {width: 100%; height: 56px; }
         .writerName, .postInfo {display: flex;}
-        .leftInfo {width:600px; height: 100%; display: inline-block;}
+        .leftInfo {width:550px; height: 100%; display: inline-block;}
         .userProfile {width: 40px; height: 40px; margin: 0 10px 0 15px; box-sizing: border-box; float:left;}
         .profileIcon {width: 40px; height: 40px; border-radius: 50px;}
         
@@ -42,7 +42,7 @@
         .postInfo {font-size: 12px;}
         .postInfo span {text-align: center; margin: 2px 5px 0 0;}
         
-        .articleTool {width: 170px; height: 100%; float: right; padding: 20px 10px 0 10px; box-sizing: border-box;}
+        .articleTool {width: 170px; height: 100%; display: inline-block; padding: 10px; box-sizing: border-box;}
         .articleTool a:not(.etc) {font-size: 13px; font-weight: bold; margin-left: 10px;}
         a.etc {width: 25px; height: 25px; display:block; float: right; text-align: center;}
         #etcTooltip {display: none;}
@@ -52,7 +52,7 @@
             width: 100%; height: 25em; padding: 15px 15px; box-sizing: border-box;
         }
         .fileArea {width: 100%; height: 18px; padding: 0 10px; box-sizing: border-box;}
-        .file {font-size: 14px; float:right}
+        .file {font-size: 14px; float: right;}
         #fileTooltip {display: none;}
 
         table, tr, td{padding: 2px; text-align: center; 
@@ -211,18 +211,23 @@
             let allPostNum = 0;
             let cateName, title, writer, date, view;
 
-            // // 게시글 제목 클릭으로 넘어왔을 때 해당 이름 값을 가져오는 코드
-            // const serParams = new URLSearchParams(location.search);
+            // // 게시글 제목 클릭으로 넘어왔을 때 해당 text를 가져오는 코드
+            const serParams = new URLSearchParams(location.search);
+            for (const param of serParams){
+                title = param[1];
+                // console.log(title);
+            }
             // let queryParams = {};
 
             // for (const [key, value] of serParams) {
             //     console.log(`${key}: ${value}`);
             //     queryParams[key] = value;
             // }
-            // // console.log(queryParams);
+            // console.log(queryParams);
+
             // title = queryParams['title'];
             // writer = queryParams['writer'];
-            // date = queryParams['date'];
+            // date = queryParams['date'];          // a 앵커로 가져온 변수 param으로 게시물 출력하던 코드
             // view = queryParams['view'];
             // cateName = queryParams['cate'];
             
@@ -240,19 +245,52 @@
             //     });
             // });
 
-            // 게시판에 json파일 내부 정보를 토대로 글을 출력하는 코드
+            // json 파일 내부 게시글 객체와 로컬 스토리지의 게시글 객체 정보를 합쳐 userPost에 저장
+            let userPost = [];
+            let fileData = [];
             $.getJSON('게시글 객체.json', function(data){
-                $.each(data, function(){
+                const jsonFile = data;
+                fileData = jsonFile;
+                if(localStorage.length > 0){
+                    let userTextString = localStorage.getItem("userText");
+                    let userText = JSON.parse(userTextString);
+                    userPost = [...fileData, ...userText];
+                    // console.log(userPost);
+                }
+
+                // 게시글 페이지에 정보를 불러오는 코드
+                function searchByKey(array, key, value) {       // 특정 키 값이 포함된 배열을 찾는 함수
+                    return array.filter(item => item[key] === value);
+                }
+                const keyToSearch = 'TITLE';     // 검색할 키
+                const valueToSearch = title;    // 검색할 값
+                const result = searchByKey(userPost, keyToSearch, valueToSearch);     // 검색된 객체
+
+                $('.title').text(result[0].TITLE);
+                $('.writer').text(result[0].ID);
+                $('.date').text(result[0].DATE);
+                $('.view').text(" 조회 " + result[0].VIEW);
+                $('.category').text(result[0].SEL);
+                $('.text').text(result[0].TEXTAREA)
+                
+                console.log(result)
+
+
+                // 게시글 목록을 출력하는 코드
+                $.each(userPost, function(){
                     postNum++;
                 });
-                $.each(data, function(){
+                i = 0; 
+                $.each(userPost, function(){
                     if (postNum < 6){
                         $("<tr class='post'>" +
-                            "<td>" + "<a href='" + this.postHTML + "'class='postTitleHL'>" + this.postTitle + "</a>" + "</td>" +
-                            "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.postWriter + "</a>" + "</td>" +
-                            "<td>" + this.postDate + "</td>" +
+                            "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + userPost[i].TITLE + "</a>" + "</td>" +
+                            "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + userPost[i].ID + "</a>" + "</td>" +
+                            "<td>" + userPost[i].DATE + "</td>" +
                         "</tr>").prependTo('tbody.postArea');
+                        console.log(userPost[i].TITLE);
                     }
+                    
                 });
 
                 // 작성자 클릭 시 해당 요소 아래에 툴팁이 나오는 코드 / 요소 바깥을 클릭하면 사라짐
@@ -279,27 +317,27 @@
                 });
                 
                 // 첨부파일 보기 클릭 시 해당 요소 아래에 툴팁이 나오는 코드
-                $('.postWriterHL').on('click', function(e){
-                        let offset = $(this).offset();
-                        let triggerWidth = $(this).outerWidth();
-                        let ttWidth = $('#userFloat').outerWidth();
-                        let ttHeight = $('#userFloat').outerHeight();
-                        let ttTop = offset.top + $(this).outerHeight();
-                        $('#userFloat').css({'left': offset.left, 'top': ttTop});
+                // $('.postWriterHL').on('click', function(e){
+                //         let offset = $(this).offset();
+                //         let triggerWidth = $(this).outerWidth();
+                //         let ttWidth = $('#userFloat').outerWidth();
+                //         let ttHeight = $('#userFloat').outerHeight();
+                //         let ttTop = offset.top + $(this).outerHeight();
+                //         $('#userFloat').css({'left': offset.left, 'top': ttTop});
                         
-                        $('#userFloat').fadeIn('fast');
+                //         $('#userFloat').fadeIn('fast');
 
-                        $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
-                });
-                $('body').on('click', function(e){
-                    let $tgPoint = $(e.target);
-                    let $writerTT = $tgPoint.hasClass('postWriterHL');
-                    let $hlArea = $tgPoint.hasClass('userFloat');
+                //         $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
+                // });
+                // $('body').on('click', function(e){
+                //     let $tgPoint = $(e.target);
+                //     let $writerTT = $tgPoint.hasClass('postWriterHL');
+                //     let $hlArea = $tgPoint.hasClass('userFloat');
 
-                    if (!$writerTT && !$hlArea){
-                        $('#userFloat').fadeOut('fast');
-                    }
-                });
+                //     if (!$writerTT && !$hlArea){
+                //         $('#userFloat').fadeOut('fast');
+                //     }
+                // });
             });
             
         });

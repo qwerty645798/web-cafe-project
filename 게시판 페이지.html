@@ -203,8 +203,7 @@
                     let userTextString = localStorage.getItem("userText");
                     let userText = JSON.parse(userTextString);
                     userPost = [...fileData, ...userText];
-
-                    // console.log(userData);
+                    // console.log(userPost);
                 }
                 let i = 0;
                 $.each(userPost, function(){
@@ -218,7 +217,7 @@
                             "<td class='postViewHL'>" + userPost[i].VIEW + "</td>" +
                         "</tr>").prependTo('tbody.postArea');
                         postNum++;
-                        console.log(userPost[i].SEL, userPost[i].TITLE)
+                        // console.log(userPost[i].SEL);
                     }
                     else if (userPost[i].SEL == cateName){
                         $("<tr class='post'>" +
@@ -233,13 +232,48 @@
                     i++;
                     $('.postCounts').html("<span>" + postNum + "</span>개의 게시글");
                 });
-            });
-            
-            // 저장한 userData로 게시판에 글 목록 작성
-            
-            
-            
 
+                // 게시글 제목 a 클릭 시 해당 게시글의 text를 가지고 게시글 페이지로 이동
+                $('.postTitleHL').on('click', function(){
+                    $(this).prop('href', "게시글.html?title=" + $(this).text());
+                    // + 
+                    // "&writer=" + $(this).parent().next('td').find('a').text() + 
+                    // "&date=" + $(this).closest('tr').find('.postDateHL').text() + 
+                    // "&view=" + $(this).closest('tr').find('.postViewHL').text() + 
+                    // "&cate=" + $(this).closest('tr').find('.postCateHL').text());
+                });
+
+                // 작성자 클릭 시 해당 요소 아래에 툴팁이 나오는 코드 / 요소 바깥을 클릭하면 사라짐
+                $('.postWriterHL').on('click', function(e){
+                        let offset = $(this).offset();
+                        let triggerWidth = $(this).outerWidth();
+                        let ttWidth = $('#userFloat').outerWidth();
+                        let ttHeight = $('#userFloat').outerHeight();
+                        let ttTop = offset.top + $(this).outerHeight();
+                        $('#userFloat').css({'left': offset.left, 'top': ttTop});
+                        
+                        $('#userFloat').fadeIn('fast');
+
+                        // 작성자 툴팁의 첫번째 a(작성글 보기)를 클릭 하면 해당 유저의 name 정보를 가지고 유저페이지로 이동
+                        $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
+                });
+                $('body').on('click', function(e){
+                    let $tgPoint = $(e.target);
+                    let $writerTT = $tgPoint.hasClass('postWriterHL');
+                    let $hlArea = $tgPoint.hasClass('userFloat');
+
+                    if (!$writerTT && !$hlArea){
+                        $('#userFloat').fadeOut('fast');
+                    }
+                });
+                // 여기까지 작성자 클릭
+
+                // 게시판에 아무런 글도 없을 경우 출력
+                if (postNum == 0){
+                    $('<tr><td></td><td></td><td>등록된 게시글이 없습니다.</td><td></td><td></td></tr>').insertAfter('.postTh');
+                    $('#postCounts').html("<span>" + postNum + "</span>개의 게시글");
+                }
+            });
         });
     </script>
 </body>

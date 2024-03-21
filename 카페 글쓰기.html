@@ -278,8 +278,14 @@
             if(userIndexString){
                 let userIndex=JSON.parse(userIndexString);
                 let Index=userIndex[0].Index;
+                let ID;
+                let userDataString=localStorage.getItem("userData");
+                if(userDataString){
+                    let userData=JSON.parse(userDataString);
+                    ID=userData[Index].ID;
+                }
                 userText.push({
-                    "ID" : Index,
+                    "ID" : ID,
                     "SEL" : sel,
                     "TITLE" : title,
                     "TEXTAREA" : textarea

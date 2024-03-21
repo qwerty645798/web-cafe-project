@@ -262,7 +262,7 @@
             });
 		});
 
-        function update(){//글 등록 버튼 클릭시 로컬스토리지로 제목,선택계시판,내용 저장
+        function uplocal(){//글 등록 버튼 클릭시 로컬스토리지로 제목,선택계시판,내용 저장
             let title=document.getElementById("title").value;
             let sel=document.getElementById("sel").value;
             let textarea=document.getElementById("textarea").value;
@@ -284,11 +284,19 @@
                     let userData=JSON.parse(userDataString);
                     ID=userData[Index].ID;
                 }
+                let local=new Date();
+                let year=local.getFullYear();
+                let month=local.getMonth()+1;
+                if(month<10)month="0" + month;
+                let date=local.getDate();
+                if(date<10)date="0" + month;
                 userText.push({
                     "ID" : ID,
                     "SEL" : sel,
                     "TITLE" : title,
-                    "TEXTAREA" : textarea
+                    "TEXTAREA" : textarea,
+                    "VIEW" : 0,
+                    "DATE" : `${year}.${month}.${date}`
                 });
                 localStorage.setItem("userText", JSON.stringify(userText));
                 location="카페 메인.html";
@@ -367,7 +375,7 @@
                     <textarea id="textarea"></textarea>
                     <canvas id="canvas" width="842" height="518"></canvas>
                 </div>
-                <div id="Btn"><input type="button" id="writeBtn" value="등록" onclick="update()"></div>
+                <div id="Btn"><input type="button" id="writeBtn" value="등록" onclick="uplocal()"></div>
             </div>
             <div id="right">
                 <div id="tools3">

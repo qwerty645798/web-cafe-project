@@ -261,6 +261,36 @@
                 $("#canvas").toggle();
             });
 		});
+
+        function update(){//글 등록 버튼 클릭시 로컬스토리지로 제목,선택계시판,내용 저장
+            let title=document.getElementById("title").value;
+            let sel=document.getElementById("sel").value;
+            let textarea=document.getElementById("textarea").value;
+            
+            let userText=[];
+            let jsonDataString = localStorage.getItem("userText");
+            if(jsonDataString){
+                let jsonData = JSON.parse(jsonDataString);
+                userText=jsonData;
+                console.log(userText);
+            }
+            let userIndexString=localStorage.getItem("userIndex");
+            if(userIndexString){
+                let userIndex=JSON.parse(userIndexString);
+                let Index=userIndex[0].Index;
+                userText.push({
+                    "ID" : Index,
+                    "SEL" : sel,
+                    "TITLE" : title,
+                    "TEXTAREA" : textarea
+                });
+                localStorage.setItem("userText", JSON.stringify(userText));
+                location="카페 메인.html";
+            }else{
+                alert("세션이 만료되었습니다.");
+                location="카페 로그인.html";
+            }
+        }
 	</script>
 </head>
 <body>
@@ -274,11 +304,11 @@
         <div id="main">
             <div id="left">
                 <br>
-                <select>
+                <select id="sel">
                     <option value="자유게시판" >자유게시판</option>
                     <option value="이미지 갤러리">이미지 갤러리</option>
                 </select><br>
-                <input type="text" placeholder="제목을 입력해주세요."><br><br>
+                <input type="text" placeholder="제목을 입력해주세요." id="title"><br><br>
                 <div id="tools1">
                     <button><img src="image/picture.png"><br>사진</button>
                     <button><img src="image/video.png"><br>동영상</button>
@@ -331,7 +361,7 @@
                     <textarea id="textarea"></textarea>
                     <canvas id="canvas" width="842" height="518"></canvas>
                 </div>
-                <div id="Btn"><input type="button" id="writeBtn" value="등록"></div>
+                <div id="Btn"><input type="button" id="writeBtn" value="등록" onclick="update()"></div>
             </div>
             <div id="right">
                 <div id="tools3">

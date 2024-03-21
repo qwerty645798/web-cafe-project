@@ -73,8 +73,8 @@
             
             
             let userData = [];
-            if(localStorage.length>0){
-                let jsonDataString = localStorage.getItem("userData");
+            let jsonDataString = localStorage.getItem("userData");
+            if(jsonDataString){
                 let jsonData = JSON.parse(jsonDataString);
                 userData=jsonData;
                 console.log(userData);

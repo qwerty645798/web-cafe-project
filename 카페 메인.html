@@ -78,7 +78,7 @@
         }
         div#asideHeader,div#asideFooter{
             width:100%; height:25%;
-            border-top:3px black solid;
+            border-top:2px black solid;
         }
         div#asideHeader {
             padding: 3%;
@@ -112,7 +112,7 @@
             height:50%;
             padding:10px;
             font-size:0.9em;
-            border-top:3px black solid;
+            border-top:2px black solid;
         }
         div#asideMain>b>button{
             font-size:0.8em;
@@ -209,10 +209,10 @@
                 $("#menu").show();
                 $("#hidemarkBtn").show();
                 let userIndex=JSON.parse(userIndexString);
-                let userDataString=localStorage.getItem("userData");
-                let userData=JSON.parse(userDataString);
                 let Index=userIndex[0].Index;
                 console.log(Index);
+                let userDataString=localStorage.getItem("userData");
+                let userData=JSON.parse(userDataString);
                 let userName=userData[Index].NAME;
                 console.log(userName);
                 $("#left_welcome").html("환영합니다 " + userName + "님<br><input type='button' id='logOutBtn' value='로그아웃'>");

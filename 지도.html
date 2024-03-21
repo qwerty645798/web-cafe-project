@@ -11,13 +11,15 @@
             margin:0; padding:0;
             border:none;
         }*/
-        body{
+        body,html{
+            padding:0;
             background:aliceblue;
+            margin:0;
         }
         div#web{
-            width:1080px; height:900px;
+            width:1080px; height:700px;
             border:none;
-            margin:auto; padding:0;
+            margin:0 auto; padding:0;
         }
         div#top{
             width:100%; height:217.5px;
@@ -41,28 +43,39 @@
         }
         iframe#map{
             margin-top:20px;
-            width:100%; height:550px;
+            width:100%; height:490px;
             box-sizing: border-box;
             border:none;
+        }
+        a#mapURL{
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.5em;
+            color:dodgerblue;
+            cursor:pointer;
+        }
+        a#mapURL:hover{
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <div id="web">
         <div id="top"></div>
-        <div id="search"><span style="font-size:1.2em; margin:auto 0;"><b>카페 지도</b></span></div>
+        <div id="search"><span style="font-size:1.2em; margin:auto 0;"><b>카페 지도</b></span></div><a id="mapURL"style="float:right;">네이버 지도 바로가기</a>
         <div id="position"></div>
         <iframe id="map"></iframe>
     </div>
     <script>
+        let lat,lon;
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition(success);
         }else{
             alert("지원하지 않음");
         }
         function success(position){
-            let lat = position.coords.latitude;
-            let lon = position.coords.longitude;
+            lat = position.coords.latitude;
+            lon = position.coords.longitude;
             let acc = position.coords.accuracy;
 
             lat = lat.toPrecision(6);
@@ -78,6 +91,8 @@
             
             document.getElementById("position").innerHTML=`현재위치<br>위도 : ${lat}&deg;<br>경도 : ${lon}&deg;<br>오차 : ${acc}m`
         }
+        if(lat == undefined || lon == undefined)lat=14.13,lon=0;
+        document.getElementById("mapURL").href=`https://map.naver.com/p/settings?c=${lat},${lon},10,0,dh`;
     </script>
 </body>
 </html>

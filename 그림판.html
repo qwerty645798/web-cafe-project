@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /**{
+            width:calc(100% - 2px); height:calc(100% - 2px);
+            margin:0; padding:0;
+            border:none;
+        }*/
+        body,html{
+            padding:0;
+            background:aliceblue;
+            margin:0;
+        }
+        div#web{
+            width:1080px; height:700px;
+            border:none;
+            margin:0 auto; padding:0;
+        }
+        div#top{
+            width:100%; height:217.5px;
+            box-sizing:border-box;
+            border:none;
+            background-image: url("image/cloud.jpeg");
+            background-size: cover;
+            background-position: center;
+        }
+        div#name{
+            width:100%; height:52.5px;
+            box-sizing:border-box;
+            border:none;
+            display:flex;
+        }
+        div#margin{
+            width:20%;
+            box-sizing:border-box;
+        }
+        .btn{
+            width:7%; height:100%;
+            background:yellowgreen;
+            box-sizing:border-box;
+            border:1px black solid;
+        }
+        div#map{
+            width:100%; height:680px;
+            box-sizing: border-box;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+        }
+        a#mapURL{
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.5em;
+            color:dodgerblue;
+            cursor:pointer;
+        }
+        a#mapURL:hover{
+            text-decoration: underline;
+        }
+        canvas{
+            background:#DADADA;
+        }
+        div#cursor{
+            position:absolute;
+            background:black;
+        }
+    </style>
+</head>
+<body>
+    <div id="web">
+        <div id="top"></div>
+        <div id="name">
+            <span style="font-size:1.2em; margin:auto 0; width:10%;"><b>그림판</b></span>
+            <div id="margin"></div>
+            <button class="btn" onclick="draw('black',2)">펜</button>
+            <button class="btn" onclick="draw('#DADADA',100)">지우개</button>
+            <input class="btn" type="color" onchange="draw(this.value)">
+        </div>
+        <div id="map">
+            <canvas id="canvas" width="1080" height="680"></canvas>
+        </div>
+        <div id="cursor"></div>
+    </div>
+    <script>
+        function draw(color,width){
+            let canvas,context,cursor;
+            cursor=document.getElementById("cursor");
+            canvas = document.getElementById("canvas");
+            context = canvas.getContext("2d");
+            context.lineWidth=width;
+            context.strokeStyle=color;
+            let startX,startY,draw;
+            canvas.onmousedown=function(e){
+                startX=e.offsetX,startY=e.offsetY;
+                draw=true;
+            }
+            canvas.onmouseup=function(){
+                draw=false;
+            }
+            canvas.onmousemove=function(e){
+                if(!draw){return;}
+                cursor.style.top=e.clientY + "px";
+                cursor.style.left=e.clientX + "px";
+                cursor.style.width=width + "px";
+                cursor.style.height=width + "px";
+                cursor.style.borderRadius=width + "px";
+
+                context.beginPath();
+                context.moveTo(startX,startY);
+                context.lineTo(e.offsetX,e.offsetY);
+                context.stroke();
+                startX=e.offsetX,startY=e.offsetY;
+            }
+        }
+        console.log(window.innerWidth, window.innerHeight)
+    </script>
+</body>
+</html>

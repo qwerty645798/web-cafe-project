@@ -6,7 +6,8 @@
     <title>content_page</title>
     <style>
         * {margin:0; padding:0;}
-        .articleTop {width: 100%; height: 2.5em; padding-bottom: 10px;}
+        section {padding: 20px;}
+        .articleTop {width: 100%; height: 2.5em;}
         .articleBtnArea {float: right; width: 160px; height: 2.5em;}
         .articleBtnArea div{
             height: 2.5em; margin: 5px 5px 0 0; padding: 8px;
@@ -15,16 +16,12 @@
             box-sizing: border-box; background: rgb(235, 235,235);
             border-radius: 10px;
         }
-        .nextArtArea {
-            width: 80px;
-        }
-        .artIndexArea {
-            width: 60px;
-        }
+        .nextArtArea {width: 80px;}
+        .artIndexArea {width: 60px;}
         
         #articleHead {
             width: 100%; height: 124px;
-            margin-bottom: 10px; padding-bottom: 5px;
+            margin-bottom: 20px; padding-bottom: 20px;
             border-bottom: 1px solid black;
         }
         .articleTitle {width: 100%; margin-bottom: 10px;}
@@ -35,8 +32,9 @@
         .title {width: 90%; margin: 5px 0 0 15px; font-size: 25px; font-weight: 500;}
 
         .writerPostInfo {width: 100%; height: 50px; margin-bottom: 10px;}
-        .writerInfo {width: 100%; height: 56px;}
-        .writerName, .postInfo {display: flex; width: 200px;}
+        .writerInfo {width: 100%; height: 56px; }
+        .writerName, .postInfo {display: flex;}
+        .leftInfo {width:600px; height: 100%; display: inline-block;}
         .userProfile {width: 40px; height: 40px; margin: 0 10px 0 15px; box-sizing: border-box; float:left;}
         .profileIcon {width: 40px; height: 40px; border-radius: 50px;}
         
@@ -44,13 +42,18 @@
         .postInfo {font-size: 12px;}
         .postInfo span {text-align: center; margin: 2px 5px 0 0;}
         
-        .articleTool {width: 120px; display: flex; float:right; box-sizing: border-box; justify-content: center;}
-        .articleTool a {font-size: 13px; font-weight: bold; margin-right: 5px;}
+        .articleTool {width: 170px; height: 100%; float: right; padding: 20px 10px 0 10px; box-sizing: border-box;}
+        .articleTool a:not(.etc) {font-size: 13px; font-weight: bold; margin-left: 10px;}
+        a.etc {width: 25px; height: 25px; display:block; float: right; text-align: center;}
+        #etcTooltip {display: none;}
 
 
         #articleBody {
-            width: 100%; height: 25em; padding: 20px 15px;
+            width: 100%; height: 25em; padding: 15px 15px; box-sizing: border-box;
         }
+        .fileArea {width: 100%; height: 18px; padding: 0 10px; box-sizing: border-box;}
+        .file {font-size: 14px; float:right}
+        #fileTooltip {display: none;}
 
         table, tr, td{padding: 2px; text-align: center; 
             width: 100%; border-collapse: collapse;
@@ -137,28 +140,49 @@
                     <img src="image/icon.jpg" class="profileIcon" alt="userProfile">
                 </div>
                 <div class="writerInfo">
-                    <div class="writerName">
-                        <a href="#절대있을리없는아이디명" class="writer">postWriter</a>
-                    </div>
-                    <div class="postInfo">
-                        <span class="date">postDate</span>
-                        <span class="view">postView</span>
+                    <div class="leftInfo">
+                        <div class="writerName">
+                            <a href="#절대있을리없는아이디명" class="writer">postWriter</a>
+                        </div>
+                        <div class="postInfo">
+                            <span class="date">postDate</span>
+                            <span class="view">postView</span>
+                        </div>
                     </div>
                     <div class="articleTool">
                         <a href="#comment" class="comment">댓글 0</a>
                         <a href="#절대있을리없는아이디명" class="url">URL 복사</a>
+                        <a href="#절대있을리없는아이디명" class="etc"><svg xmlns="http://www.w3.org/2000/svg" height="25" width="25" viewBox="0 0 128 512"><path fill="#949494" d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z"/></svg></a>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="fileArea"><a href="#절대있을리없는아이디명" class="file">첨부파일 보기</a></div>
         <div id="articleBody">
             <p class="text">postText</p>
         </div>
         <div id="userFloat">
             <ul>
-                <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">게시글 보기</a></li>
-                <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">1:1 채팅</a></li>
-                <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">쪽지보내기</a></li>
+                <li class="userFloat"><a href="#절대있을리없는아이디명" class="userFloatMenu">게시글 보기</a></li>
+                <li class="userFloat"><a href="#절대있을리없는아이디명" class="userFloatMenu">1:1 채팅</a></li>
+                <li class="userFloat"><a href="#절대있을리없는아이디명" class="userFloatMenu">쪽지보내기</a></li>
+            </ul>
+        </div>
+        <div id="etcTooltip">
+            <ul>
+                <li class="print">
+                    <span>파일명</span>
+                    <a href="#절대있을리없는아이디명" class="printBtn">인쇄하기</a>
+                </li>
+            </ul>
+        </div>
+        <div id="fileTooltip">
+            <ul>
+                <li class="fileDown">
+                    <span>파일명</span>
+                    <a href="#절대있을리없는아이디명" class="fileDownBtn">내 PC 저장</a>
+                    <a href="#절대있을리없는아이디명" class="cloudDownBtn">클라우드 저장</a>
+                </li>
             </ul>
         </div>
     </section>
@@ -189,26 +213,37 @@
 
             // 게시글 제목 클릭으로 넘어왔을 때 해당 이름 값을 가져오는 코드
             const serParams = new URLSearchParams(location.search);
-            for (const param of serParams) {
-                console.log(param);
-                title = param[1];
-                // writer = param[3];
-                // date = param[5];
-                // view = param[7];
-                // cateName = param[9];
+            let queryParams = {};
 
+            for (const [key, value] of serParams) {
+                console.log(`${key}: ${value}`);
+                queryParams[key] = value;
             }
+            // console.log(queryParams);
+            title = queryParams['title'];
+            writer = queryParams['writer'];
+            date = queryParams['date'];
+            view = queryParams['view'];
+            cateName = queryParams['cate'];
             
-            $('.category').text(cateName);
             $('.title').text(title);
             $('.writer').text(writer);
             $('.date').text(date);
-            $('.view').text(view);
+            $('.view').text(" 조회 " + view);
+            $('.category').text(cateName);
             
+            $.getJSON('게시글 객체.json', function(data){
+                $.each(data, function(){
+                    if (title == this.postTitle){
+                        $('.text').text(this.postText);
+                    }
+                });
+            });
+
             // 게시판에 json파일 내부 정보를 토대로 글을 출력하는 코드
             $.getJSON('게시글 객체.json', function(data){
                 $.each(data, function(){
-                    postNum;
+                    postNum++;
                 });
                 $.each(data, function(){
                     if (postNum < 6){
@@ -221,6 +256,29 @@
                 });
 
                 // 작성자 클릭 시 해당 요소 아래에 툴팁이 나오는 코드 / 요소 바깥을 클릭하면 사라짐
+                $('.postWriterHL').on('click', function(e){
+                        let offset = $(this).offset();
+                        let triggerWidth = $(this).outerWidth();
+                        let ttWidth = $('#userFloat').outerWidth();
+                        let ttHeight = $('#userFloat').outerHeight();
+                        let ttTop = offset.top + $(this).outerHeight();
+                        $('#userFloat').css({'left': offset.left, 'top': ttTop});
+                        
+                        $('#userFloat').fadeIn('fast');
+
+                        $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
+                });
+                $('body').on('click', function(e){
+                    let $tgPoint = $(e.target);
+                    let $writerTT = $tgPoint.hasClass('postWriterHL');
+                    let $hlArea = $tgPoint.hasClass('userFloat');
+
+                    if (!$writerTT && !$hlArea){
+                        $('#userFloat').fadeOut('fast');
+                    }
+                });
+                
+                // 첨부파일 보기 클릭 시 해당 요소 아래에 툴팁이 나오는 코드
                 $('.postWriterHL').on('click', function(e){
                         let offset = $(this).offset();
                         let triggerWidth = $(this).outerWidth();

@@ -6,7 +6,7 @@
         "postDate": "2024.02.16",
         "postView": 3,
         "postCategory": "HTML / CSS",
-        "postHTML": "test.html"
+        "postText": "HTML 파워포인트 파일은 좌 상단 다운로드 버튼으로 다운 받을 수 있습니다."
     },
     {
         "id": "2",
@@ -15,7 +15,7 @@
         "postDate": "2024.02.27",
         "postView": 9,
         "postCategory": "JavaScript",
-        "postHTML": "test.html"
+        "postText": "addEventListener, on-이벤트이름 등"
     },
     {
         "id": "3",
@@ -24,7 +24,7 @@
         "postDate": "2024.03.02",
         "postView": 12,
         "postCategory": "jQuery / Ajax",
-        "postHTML": "test.html"
+        "postText": "닷홈 페이지에서 무료 호스팅 가능"
     },
     {
         "id": "4",
@@ -33,7 +33,7 @@
         "postDate": "2024.03.08",
         "postView": 20,
         "postCategory": "JavaScript",
-        "postHTML": "test.html"
+        "postText": "localtext.js"
     },
     {
         "id": "5",
@@ -42,7 +42,7 @@
         "postDate": "2024.03.13",
         "postView": 28,
         "postCategory": "메모",
-        "postHTML": "test.html"
+        "postText": "https://naver.me/x58ojOAD"
     },
     {
         "id": "6",
@@ -51,6 +51,6 @@
         "postDate": "2024.03.14",
         "postView": 72,
         "postCategory": "Java",
-        "postHTML": "test.html"
+        "postText": "이클립스가 어쩌구 탐캣이 어쩌구 window-preference가 어쩌구"
     }
 ]

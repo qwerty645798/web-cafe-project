@@ -225,10 +225,11 @@
 
                 // 게시글 제목 a 클릭 시 해당 게시글의 text를 가지고 게시글 페이지로 이동
                 $('.postTitleHL').on('click', function(){
-                    $(this).prop('href', "게시글.html?title=" + $(this).text());
-                    // + "&writer=" + $(this).parent().next('td').find('a').text());
-                    // + "&date=" + $(this).closest('tr').find('.postDateHL').text() + "&view=" + $(this).closest('tr').find('.postViewHL').text() + "&cate=" + $(this).closest('tr').find('.postCateHL').text();
-                    // console.log($(this).text(), $(this).parent().next('td').find('a').text());
+                    $(this).prop('href', "게시글.html?title=" + $(this).text() + 
+                    "&writer=" + $(this).parent().next('td').find('a').text() + 
+                    "&date=" + $(this).closest('tr').find('.postDateHL').text() + 
+                    "&view=" + $(this).closest('tr').find('.postViewHL').text() + 
+                    "&cate=" + $(this).closest('tr').find('.postCateHL').text());
                 });
 
                 // 작성자 클릭 시 해당 요소 아래에 툴팁이 나오는 코드 / 요소 바깥을 클릭하면 사라짐
@@ -262,6 +263,43 @@
                     $('#postCounts').html("<span>" + postNum + "</span>개의 게시글");
                 }
             });
+
+            // localStorage 참조해서 글 목록 생성
+
+            let userIndex = [];
+            if(localStorage.length>0){
+                let userDataString = localStorage.getItem("userIndex");
+                let userData = JSON.parse(userDataString);
+                userIndex=userData;
+                console.log(userIndex);
+            }
+
+            $.each(userIndex, function(){
+                allPostNum++;
+                if (cateName == "전체글보기"){
+                    $("<tr class='post'>" +
+                        "<td class='postCateHL'>" + this.userIndex.SEL + "</td>" +
+                        "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.userIndex.TITLE + "</a>" + "</td>" +
+                        "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.userIndex.ID + "</a>" + "</td>" +
+                        "<td class='postDateHL'>" + this.userIndex.DATE + "</td>" +
+                        "<td class='postViewHL'>" + this.userIndex.VIEW + "</td>" +
+                    "</tr>").prependTo('tbody.postArea');
+                    postNum++;
+                }
+                else if (this.userIndex.SEL == cateName){
+                    $("<tr class='post'>" +
+                        "<td>" + allPostNum + "</td>" +
+                        "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.userIndex.TITLE + "</a>" + "</td>" +
+                        "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.userIndex.ID + "</a>" + "</td>" +
+                        "<td class='postDateHL'>" + this.userIndex.DATE + "</td>" +
+                        "<td class='postViewHL'>" + this.userIndex.VIEW + "</td>" +
+                    "</tr>").prependTo('tbody.postArea');
+                    postNum++;
+                }
+            
+                $('.postCounts').html("<span>" + postNum + "</span>개의 게시글");
+            });
+            
         });
     </script>
 </body>

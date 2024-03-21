@@ -1,0 +1,41 @@
+let userDataString = localStorage.getItem("userData");
+>>"userData" == 로컬스토리지 "키"이름 // .getItem() == 로컬스토리지에서 정보 불러오기
+
+let userData = JSON.parse(userDataString);
+>>불러온 정보를 읽을 수 있게 변환
+
+userData의 value가 아래와 같다면 
+({
+    "ID" : A,
+    "PW" : B,
+    "NAME" : C
+},{
+    "ID" : D,
+    "PW" : E,
+    "NAME" : F
+}
+);
+userData[0].ID == "A";
+userData[1].NAME == "F"
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+let userData = [];
+>> 배열 선언
+
+userData.push({ 
+    "ID": ID,
+    "PW": PW,
+    "NAME": NAME,
+    "TEL" : TEL,
+    "BIRTH" : BIRTH
+});
+    
+localStorage.setItem("userData", JSON.stringify(userData));
+>> .setItem() == 로컬스토리지에 저장 
+>> JSON.stringify(userData) == 저장형식
+>> "userData" 로컬스토리지 "키"이름 설정
+
+

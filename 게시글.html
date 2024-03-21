@@ -211,34 +211,34 @@
             let allPostNum = 0;
             let cateName, title, writer, date, view;
 
-            // 게시글 제목 클릭으로 넘어왔을 때 해당 이름 값을 가져오는 코드
-            const serParams = new URLSearchParams(location.search);
-            let queryParams = {};
+            // // 게시글 제목 클릭으로 넘어왔을 때 해당 이름 값을 가져오는 코드
+            // const serParams = new URLSearchParams(location.search);
+            // let queryParams = {};
 
-            for (const [key, value] of serParams) {
-                console.log(`${key}: ${value}`);
-                queryParams[key] = value;
-            }
-            // console.log(queryParams);
-            title = queryParams['title'];
-            writer = queryParams['writer'];
-            date = queryParams['date'];
-            view = queryParams['view'];
-            cateName = queryParams['cate'];
+            // for (const [key, value] of serParams) {
+            //     console.log(`${key}: ${value}`);
+            //     queryParams[key] = value;
+            // }
+            // // console.log(queryParams);
+            // title = queryParams['title'];
+            // writer = queryParams['writer'];
+            // date = queryParams['date'];
+            // view = queryParams['view'];
+            // cateName = queryParams['cate'];
             
-            $('.title').text(title);
-            $('.writer').text(writer);
-            $('.date').text(date);
-            $('.view').text(" 조회 " + view);
-            $('.category').text(cateName);
+            // $('.title').text(title);
+            // $('.writer').text(writer);
+            // $('.date').text(date);
+            // $('.view').text(" 조회 " + view);
+            // $('.category').text(cateName);
             
-            $.getJSON('게시글 객체.json', function(data){
-                $.each(data, function(){
-                    if (title == this.postTitle){
-                        $('.text').text(this.postText);
-                    }
-                });
-            });
+            // $.getJSON('게시글 객체.json', function(data){
+            //     $.each(data, function(){
+            //         if (title == this.postTitle){
+            //             $('.text').text(this.postText);
+            //         }
+            //     });
+            // });
 
             // 게시판에 json파일 내부 정보를 토대로 글을 출력하는 코드
             $.getJSON('게시글 객체.json', function(data){

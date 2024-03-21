@@ -1,56 +1,50 @@
 [
     {
-        "id": "1",
-        "postTitle" : "HTML ppt파일 모음",
-        "postWriter": "황인혁",
-        "postDate": "2024.02.16",
-        "postView": 3,
-        "postCategory": "HTML / CSS",
-        "postText": "HTML 파워포인트 파일은 좌 상단 다운로드 버튼으로 다운 받을 수 있습니다."
+        "ID": 1,
+        "SEL": "HTML / CSS",
+        "TITLE" : "HTML ppt파일 모음",
+        "TEXTAREA": "HTML 파워포인트 파일은 좌 상단 다운로드 버튼으로 다운 받을 수 있습니다.",
+        "DATE": "2024.02.16",
+        "VIEW": 3
     },
     {
-        "id": "2",
-        "postTitle" : "자바스크립트 이벤트 문법",
-        "postWriter": "박상민",
-        "postDate": "2024.02.27",
-        "postView": 9,
-        "postCategory": "JavaScript",
-        "postText": "addEventListener, on-이벤트이름 등"
+        "ID": 5,
+        "SEL": "JavaScript",
+        "TITLE" : "자바스크립트 이벤트 문법",
+        "TEXTAREA": "addEventListener, on-이벤트이름 등",
+        "DATE": "2024.02.27",
+        "VIEW": 9
     },
     {
-        "id": "3",
-        "postTitle" : "서버 호스팅 하는 법",
-        "postWriter": "황인혁",
-        "postDate": "2024.03.02",
-        "postView": 12,
-        "postCategory": "jQuery / Ajax",
-        "postText": "닷홈 페이지에서 무료 호스팅 가능"
+        "ID": 1,
+        "SEL": "jQuery / Ajax",
+        "TITLE" : "서버 호스팅 하는 법",
+        "TEXTAREA": "닷홈 페이지에서 무료 호스팅 가능",
+        "DATE": "2024.03.02",
+        "VIEW": 12
     },
     {
-        "id": "4",
-        "postTitle" : "JS 파일",
-        "postWriter": "박일규",
-        "postDate": "2024.03.08",
-        "postView": 20,
-        "postCategory": "JavaScript",
-        "postText": "localtext.js"
+        "ID": 4,
+        "SEL": "JavaScript",
+        "TITLE" : "JS 파일",
+        "TEXTAREA": "localtext.js",
+        "DATE": "2024.03.08",
+        "VIEW": 20
     },
     {
-        "id": "5",
-        "postTitle" : "네이버 드라이브 주소",
-        "postWriter": "박일규",
-        "postDate": "2024.03.13",
-        "postView": 28,
-        "postCategory": "메모",
-        "postText": "https://naver.me/x58ojOAD"
+        "ID": 4,
+        "SEL": "메모",
+        "TITLE" : "네이버 드라이브 주소",
+        "TEXTAREA": "https://naver.me/x58ojOAD",
+        "DATE": "2024.03.13",
+        "VIEW": 28
     },
     {
-        "id": "6",
-        "postTitle" : "Java 환경설정",
-        "postWriter": "황인혁",
-        "postDate": "2024.03.14",
-        "postView": 72,
-        "postCategory": "Java",
-        "postText": "이클립스가 어쩌구 탐캣이 어쩌구 window-preference가 어쩌구"
+        "ID": 1,
+        "SEL": "Java",
+        "TITLE" : "Java 환경설정",
+        "TEXTAREA": "이클립스가 어쩌구 탐캣이 어쩌구 window-preference가 어쩌구",
+        "DATE": "2024.03.14",
+        "VIEW": 72
     }
 ]

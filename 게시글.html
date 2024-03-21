@@ -277,20 +277,20 @@
 
 
                 // 게시글 목록을 출력하는 코드
+                postNum = 0; 
                 $.each(userPost, function(){
-                    postNum++;
-                });
-                i = 0; 
-                $.each(userPost, function(){
-                    if (postNum < 6){
+                    if (postNum >= 5){
+                        return false;
+                    }
+                    else {
                         $("<tr class='post'>" +
                             "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + userPost[i].TITLE + "</a>" + "</td>" +
                             "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + userPost[i].ID + "</a>" + "</td>" +
                             "<td>" + userPost[i].DATE + "</td>" +
                         "</tr>").prependTo('tbody.postArea');
                         console.log(userPost[i].TITLE);
+                        postNum++;
                     }
-                    
                 });
 
                 // 작성자 클릭 시 해당 요소 아래에 툴팁이 나오는 코드 / 요소 바깥을 클릭하면 사라짐
@@ -339,7 +339,6 @@
                 //     }
                 // });
             });
-            
         });
     </script>
 </body>

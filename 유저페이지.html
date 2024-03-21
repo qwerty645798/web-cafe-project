@@ -13,7 +13,8 @@
             .profileIcon { width:80px; height: 80px; border-radius: 50px;}
 
         .userInfomation {width: 50%; height: 80px; box-sizing: border-box; display: inline-block;  word-break: break-all;}
-            #userName {margin: 20px 0 5px; padding-left: 20px; box-sizing: border-box;}
+            .userName {margin: 20px 0 5px; padding-left: 20px; box-sizing: border-box;}
+            .userName:hover {cursor: pointer;}
             #postCounts {padding-left: 20px; font-size: 13px; box-sizing: border-box;}
         
         .sortArea {width: 100%; height: 80px; box-sizing: border-box; display: inline-block; word-break: break-all;}
@@ -52,6 +53,16 @@
         .letPost {width: 65px; height: 35px; border: 0; background-color: rgb(235, 235, 235); border-radius: 5px; font-size: 12px; font-weight: bold;}
         .letPost:hover {cursor: pointer}
 
+        #userFloat {
+            display:none; position:absolute; 
+            width: 85px; height: 83px; font-size: 12px;
+            background: rgb(255, 204, 180);
+        }
+        #userFloat li {
+            width: 100%; list-style-type: none; padding: 6px; box-sizing: border-box;
+        }
+        #userFloat li:not(:first-child) {border-top: 1px solid black;}
+
         footer {
             margin: 10px;
         }
@@ -89,7 +100,7 @@
         <div id="content_top">
             <div class="userProfile"><img src="image/icon.jpg" class="profileIcon" alt="userProfile"></div>
             <div class="userInfomation">
-                <h3 id="userName">userNameUnknown</h3>
+                <h3 class="userName">userNameUnknown</h3>
                 <span id="postCounts"></span>
             </div>
             <div class="sortArea">
@@ -120,6 +131,13 @@
                 <button class="letPost">글쓰기</button>
             </div>
         </div>
+        <div id="userFloat">
+            <ul>
+                <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">게시글 보기</a></li>
+                <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">1:1 채팅</a></li>
+                <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">쪽지보내기</a></li>
+            </ul>
+        </div>
     </section>
     <footer>
         <div class="footerBox">
@@ -141,27 +159,38 @@
             // 작성글 검색으로 넘어왔을 때 해당 이름 값을 가져오는 코드
             const serParams = new URLSearchParams(location.search);
             for (const param of serParams) {
-                console.log(param);
+                // console.log(param);
                 writeName = param[1];
+                $('.userName').text(writeName);
             }
             
-            $('#userName').text(writeName);
-
             // 게시판에 json파일 내부 정보를 토대로 글을 출력하는 코드
+            // json 파일 내 객체와 localstorage 내 객체를 합쳐 userData에 저장
+            let userPost = [];
+            let fileData = [];
             $.getJSON('게시글 객체.json', function(data){
-                $.each(data, function(){
+                const jsonFile = data;
+                fileData = jsonFile;
+                if(localStorage.length > 0){
+                    let userTextString = localStorage.getItem("userText");
+                    let userText = JSON.parse(userTextString);
+                    userPost = [...fileData, ...userText];
+                    // console.log(userPost);
+                }
+                let i = 0;
+                $.each(userPost, function(){
                     allPostNum++;
-                    if (this.postWriter == writeName) {
+                    if (userPost[i].ID == writeName) {
                         postNum++;
                         $("<tr class='post'>" +
                                 "<td>" + allPostNum + "</td>" +
-                                "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.postTitle + "</a>" + "</td>" +
-                                "<td>" + this.postDate + "</td>" +
-                                "<td>" + this.postView + "</td>" +
+                                "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + userPost[i].TITLE + "</a>" + "</td>" +
+                                "<td>" + userPost[i].DATE + "</td>" +
+                                "<td>" + userPost[i].VIEW + "</td>" +
                             "<tr>").insertAfter('.postTh');
                         $('#postCounts').html("작성글 <span>" + postNum + "</span>");
-                        $('#userName').html(this.postWriter);
                     }
+                    i++;
                 });
 
                 // 게시판에 아무런 글도 없을 경우 출력
@@ -175,6 +204,31 @@
             $('.postTitleHL').on('click', function(){
                 $(this).prop('href', "게시글.html?title=" + $(this).text());
             });
+
+            // 작성자 클릭 시 해당 요소 아래에 툴팁이 나오는 코드 / 요소 바깥을 클릭하면 사라짐
+            $('.userName').on('click', function(e){
+                let offset = $(this).offset();
+                let triggerWidth = $(this).outerWidth();
+                let ttWidth = $('#userFloat').outerWidth();
+                let ttHeight = $('#userFloat').outerHeight();
+                let ttTop = offset.top + $(this).outerHeight();
+                $('#userFloat').css({'left': offset.left, 'top': ttTop});
+                
+                $('#userFloat').fadeIn('fast');
+
+                // 작성자 툴팁의 첫번째 a(작성글 보기)를 클릭 하면 해당 유저의 name 정보를 가지고 유저페이지로 이동
+                $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
+            });
+            $('body').on('click', function(e){
+                let $tgPoint = $(e.target);
+                let $writerTT = $tgPoint.hasClass('userName');
+                let $hlArea = $tgPoint.hasClass('userFloat');
+
+                if (!$writerTT && !$hlArea){
+                    $('#userFloat').fadeOut('fast');
+                }
+            });
+            // 여기까지 작성자 클릭
 
             // 프로필 아래 필터 설정 이벤트
             $('.sortList a').on('click', function(){

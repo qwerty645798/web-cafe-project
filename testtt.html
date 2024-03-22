@@ -1,20 +1,77 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-	<meta charset="utf-8"/>
-	<title>Kakao 지도 시작하기</title>
-</head>
-<body>
-	<div id="map" style="width:500px;height:400px;"></div>
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=발급받은 APP KEY를 넣으시면 됩니다."></script>
-	<script>
-		var container = document.getElementById('map');
-		var options = {
-			center: new kakao.maps.LatLng(33.450701, 126.570667),
-			level: 3
-		};
-
-		var map = new kakao.maps.Map(container, options);
-	</script>
-</body>
+	<head>
+		<meta charset="utf-8">
+		<style>
+			div#sort{
+				display:flex;
+			}
+			button,input{
+				width:100px; height:100px;
+				font-weight: bold;
+				font-size: 1.5em;
+				color:white;
+				background:dodgerblue;
+				display:inline-block;
+				margin-left:10px;
+			}
+		</style>
+		<script src="http://code.jquery.com/jquery-3.6.0.js"></script>
+	</head>
+	<body>
+		<div id="sort">
+			<button onclick="pen()">pen</button>
+			<button onclick="brush()">brush</button>
+			<input type="color" onchange="rgb(this)">
+			<button onclick="eraser()">eraser</button>
+		</div>
+		<canvas id="canvas" width="800" height="400">
+		</canvas>
+		<script>
+			let timerID;
+			let cursor=document.getElementById("cursor");
+			let canvas=document.getElementById("canvas");
+			canvas.style.backgroundColor="rgb(240,240,240)";
+			let context=canvas.getContext("2d");
+			let X,Y,Z=1;
+			let drawing=false;
+			context.fillStyle="black";
+			function pen(){
+				Z=1;
+				if(context.fillStyle=canvas.style.backgroundColor){
+					context.fillStyle="black";
+				}
+			}
+			function brush(){
+				Z=5;
+				if(context.fillStyle=canvas.style.backgroundColor){
+					context.fillStyle="black";
+				}
+			}
+			function rgb(obj){
+				console.log(obj.value);
+				context.fillStyle=obj.value;
+			}
+			function eraser(){
+				console.log(canvas.style.backgroundColor);
+				context.fillStyle=canvas.style.backgroundColor;
+				Z=50;
+			}
+			canvas.onmousedown=function(e){
+				X=e.offsetX, Y=e.offsetY;
+				drawing=true;
+			}
+			canvas.onmouseup=function(){
+				drawing=false;
+			}
+			canvas.onmousemove=function(e){
+				if(drawing){
+					context.beginPath();
+					context.arc(X, Y, Z, 0, Math.PI * 2);
+					context.fill();
+					X=e.offsetX, Y=e.offsetY;
+				}
+			}
+		</script>
+	</body>
 </html>

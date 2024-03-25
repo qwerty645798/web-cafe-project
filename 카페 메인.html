@@ -307,6 +307,7 @@
             let colorI=0;
             let glitterColor=["red","orange","yellow","green","blue","navy","purple"];
             $("html").mousemove(function(e){
+                if(document.getElementsByTagName("div").length>=150)return false;
                 let i = colorI % 7;
                 let div = document.createElement("div");
                 div.style.backgroundColor = glitterColor[i];

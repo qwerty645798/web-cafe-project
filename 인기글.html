@@ -63,14 +63,13 @@
         
         #userFloat {
             display:none; position:absolute; 
-            width: auto; height: auto; font-size: 12px;
-            background: #3b3b3b;
+            width: 85px; height: 83px; font-size: 12px;
+            background: rgb(255, 204, 180);
         }
         #userFloat li {
             width: 100%; list-style-type: none; padding: 6px; box-sizing: border-box;
         }
-        #userFloat li:not(:first-child) {border-top: 1px solid #fff;}
-        #userFloat li a {color: #fff;}
+        #userFloat li:not(:first-child) {border-top: 1px solid black;}
         
     </style>
     <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
@@ -119,6 +118,13 @@
                 </table>
             </div>
         </div>
+        <div id="userFloat">
+            <ul>
+                <li class="userFloat"><a href="#" class="useFloatMenu">게시글 보기</ah></li>
+                <li class="userFloat"><a href="#" class="useFloatMenu">1:1 채팅</a></li>
+                <li class="userFloat"><a href="#" class="useFloatMenu">쪽지보내기</a></li>
+            </ul>
+        </div>
     </section>
     <footer>
         <div class="footerBox">
@@ -128,144 +134,61 @@
         </div>
     </footer>
     <script>
-        let postNum = 0;
-        let weekly = 0;
-        let monthly = 0;
-        let alltime = 0;
-        let popularityCutOff = 0;
-        let $sel;
-
-        // 로컬 스토리지에서 객체를 가져오는 함수
-        function getUserText() {
-            let userText = [];
-            if (localStorage.length > 0) {
-                let userTextString = localStorage.getItem("userText");
-                userText = JSON.parse(userTextString) || [];
-            }
-            return userText;
-        }
-
-        // 파일에서 객체를 가져오는 함수
-        function getFileData(callback) {
-            $.getJSON('게시글 객체.json', function(data) {
-                callback(data);
-            });
-        }
+            let postNum = 0;
+            let weekly = 0;
+            let monthly = 0;
+            let alltime = 0;
+            let popularityBenchmark = 0;
+            let $sel;
         
         $(function(){       //ready
             const now = dayjs();
             now.format("YYYY.MM.DD HH:mm");
 
-            let userText = getUserText()
-
-            getFileData(function(fileData){
-                const userPost = userText.concat(fileData.filter(item => !userText.some(obj => obj.TITLE === item.TITLE)));
-
-                userPost.sort((a, b) => a.VIEW - b.VIEW);
+            // 게시판에 json파일 내부 정보를 토대로 글을 출력하는 코드
+            $.getJSON('게시글 객체.json', function(data){
+                // 작성일 순으로 배열되어있던 객체들을 역순으로 바꿈
+                data.sort(function(a, b) {
+                    return a.postView - b.postView;
+                });
 
                 // 글의 조회수가 설정한 기준점보다 높고, 작성일이 오늘 날짜-7일 한 것 보다 클 때 랭킹숫자 증가 (꼴찌값까지 증가시키기)
-                $.each(userPost, function(){
-                    if (this.VIEW >= popularityCutOff && this.DATE >= now.subtract(7, "day").format("YYYY.MM.DD")){
+                $.each(data, function(){
+                    if (this.postView >= popularityBenchmark && this.postDate >= now.subtract(7, "day").format("YYYY.MM.DD")){
                         weekly++;
                     }
                 });
 
                 // 글의 조회수가 설정한 기준점보다 높고, 작성일이 오늘 날짜-7일 한 것 보다 클 때 글 수를 증가시키고 출력, 랭킹숫자를 하나씩 감소시킴
-                $.each(userPost, function(){
-                    if (this.VIEW >= popularityCutOff){
-                        if (this.DATE >= now.subtract(7, "day").format("YYYY.MM.DD")){
+                $.each(data, function(){
+                    if (this.postView >= popularityBenchmark){
+                        if (this.postDate >= now.subtract(7, "day").format("YYYY.MM.DD")){
                             postNum++;
                             $("<tr class='post'>" +
                             "<td>" + weekly + "</td>" +
-                            "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.TITLE + "</a>" + "</td>" +
-                            "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.ID + "</a>" + "</td>" +
-                            "<td>" + this.DATE + "</td>" +
-                            "<td>" + this.VIEW + "</td>" +
+                            "<td>" + "<a href='" + this.postHTML + "'class='postTitleHL'>" + this.postTitle + "</a>" + "</td>" +
+                            "<td>" + "<a href='" + "#" + "'class='postWriterHL'>" + this.postWriter + "</a>" + "</td>" +
+                            "<td>" + this.postDate + "</td>" +
+                            "<td>" + this.postView + "</td>" +
                             "</tr>").prependTo('tbody.postArea');
                             weekly--;
                         }
                     }
                 });
-                if (postNum == 0){
-                    $('<tr><td></td><td></td><td>인기글이 없습니다.</td><td></td><td></td></tr>').prependTo('tbody.postArea');
-                }
-
-                $('#recent').on('change', function(){
-                    $sel = $('#recent option:selected').val();
-                    postNum = 0;
-                    weekly = 0;
-                    monthly = 0;
-                    alltime = 0;
-                    $('.postArea tr').remove();
-                    $.each(userPost, function(){
-                        if (this.VIEW >= popularityCutOff){
-                            if (this.DATE >= now.subtract(7, "day").format("YYYY.MM.DD")){
-                                weekly++;
-                            }
-                            if (this.DATE >= now.subtract(30, "day").format("YYYY.MM.DD")){
-                                monthly++;
-                            }
-                            alltime++
-                        }
-                    });
-                    $.each(userPost, function(){
-                        if (this.VIEW >= popularityCutOff){
-                            switch($sel){
-                                case "last7Days" : 
-                                    if (this.DATE >= now.subtract(7, "day").format("YYYY.MM.DD")){
-                                        postNum++;
-                                        $("<tr class='post'>" +
-                                            "<td>" + weekly + "</td>" +
-                                            "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.TITLE + "</a>" + "</td>" +
-                                            "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.ID + "</a>" + "</td>" +
-                                            "<td>" + this.DATE + "</td>" +
-                                            "<td>" + this.VIEW + "</td>" +
-                                        "</tr>").prependTo('tbody.postArea');
-                                        weekly--;
-                                    }
-                                    break;
-                                case "last30Days" : 
-                                    if (this.DATE >= now.subtract(30, "day").format("YYYY.MM.DD")){
-                                        postNum++;
-                                        $("<tr class='post'>" +
-                                            "<td>" + monthly + "</td>" +
-                                            "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.TITLE + "</a>" + "</td>" +
-                                            "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.ID + "</a>" + "</td>" +
-                                            "<td>" + this.DATE + "</td>" +
-                                            "<td>" + this.VIEW + "</td>" +
-                                        "</tr>").prependTo('tbody.postArea');
-                                        monthly--;
-                                    }
-                                    break;
-                                default : 
-                                    postNum++;
-                                    $("<tr class='post'>" +
-                                        "<td>" + alltime + "</td>" +
-                                        "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.TITLE + "</a>" + "</td>" +
-                                        "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.ID + "</a>" + "</td>" +
-                                        "<td>" + this.DATE + "</td>" +
-                                        "<td>" + this.VIEW + "</td>" +
-                                    "</tr>").prependTo('tbody.postArea');
-                                    alltime--;
-                                    break;
-                            }
-                        }
-                    });
-                });
 
                 // 작성자 클릭 시 해당 요소 아래에 툴팁이 나오는 코드 / 요소 바깥을 클릭하면 사라짐
                 $('.postWriterHL').on('click', function(e){
-                    let offset = $(this).offset();
-                    let triggerWidth = $(this).outerWidth();
-                    let ttWidth = $('#userFloat').outerWidth();
-                    let ttHeight = $('#userFloat').outerHeight();
-                    let ttTop = offset.top + $(this).outerHeight();
-                    $('#userFloat').css({'left': offset.left, 'top': ttTop});
-                    $('#userFloat').fadeIn('fast');
+                        let offset = $(this).offset();
+                        let triggerWidth = $(this).outerWidth();
+                        let ttWidth = $('#userFloat').outerWidth();
+                        let ttHeight = $('#userFloat').outerHeight();
+                        let ttTop = offset.top + $(this).outerHeight();
+                        $('#userFloat').css({'left': offset.left, 'top': ttTop});
+                        $('#userFloat').fadeIn('fast');
 
-                    $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
+                        $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
                 });
-                $(document).on('click', function(e){
+                $('body').on('click', function(e){
                     let $tgPoint = $(e.target);
                     let $writerTT = $tgPoint.hasClass('postWriterHL');
                     let $hlArea = $tgPoint.hasClass('userFloat');
@@ -275,30 +198,88 @@
                     }
                 });
 
-                // 게시글 제목 a 클릭 시 해당 게시글의 text를 가지고 게시글 페이지로 이동
-                $('.postTitleHL').on('click', function(){
-                    $(this).prop('href', "게시글.html?title=" + $(this).text());
-                });
-
-            });
-
-                
-            // 필터 설정 이벤트
-            $('.filterBtnArea button').on('click', function(){
-                if ($(this).siblings().hasClass('on')){
-                    $(this).siblings().removeClass('on');
+                if (postNum == 0){
+                    $('<tr><td></td><td></td><td>인기글이 없습니다.</td><td></td><td></td></tr>').insertAfter('.postTh');
                 }
-                $(this).addClass('on');
             });
-
-        });     // ready end
+            
+        // 필터 설정 이벤트
+        $('.filterBtnArea button').on('click', function(){
+            if ($(this).siblings().hasClass('on')){
+                $(this).siblings().removeClass('on');
+            }
+            $(this).addClass('on');
+        });
+        
+        // 최근 7일 등 작성일 필터를 change 할 때 발생하는 이벤트
+        $('#recent').on('change', function(){
+            $sel = $('#recent option:selected').val();
+            postNum = 0;
+            weekly = 0;
+            monthly = 0;
+            alltime = 0;
+            $.getJSON('게시글 객체.json', function(data){
+                data.sort(function(a, b) {
+                    return a.postView - b.postView;
+                });
+                $('.postArea tr').remove();
+                $.each(data, function(){
+                    if (this.postView >= popularityBenchmark){
+                        if (this.postDate >= now.subtract(7, "day").format("YYYY.MM.DD")){
+                            weekly++;
+                        }
+                        if (this.postDate >= now.subtract(30, "day").format("YYYY.MM.DD")){
+                            monthly++;
+                        }
+                        alltime++
+                    }
+                });
+                $.each(data, function(){
+                    if (this.postView >= popularityBenchmark){
+                        switch($sel){
+                            case "last7Days" : 
+                                if (this.postDate >= now.subtract(7, "day").format("YYYY.MM.DD")){
+                                    postNum++;
+                                    $("<tr class='post'>" +
+                                        "<td>" + weekly + "</td>" +
+                                        "<td>" + "<a href='" + this.postHTML + "'class='postTitleHL'>" + this.postTitle + "</a>" + "</td>" +
+                                        "<td>" + "<a href='" + "#" + "'class='postWriterHL'>" + this.postWriter + "</a>" + "</td>" +
+                                        "<td>" + this.postDate + "</td>" +
+                                        "<td>" + this.postView + "</td>" +
+                                    "</tr>").prependTo('tbody.postArea');
+                                    weekly--;
+                                }
+                                break;
+                            case "last30Days" : 
+                                if (this.postDate >= now.subtract(30, "day").format("YYYY.MM.DD")){
+                                    postNum++;
+                                    $("<tr class='post'>" +
+                                        "<td>" + monthly + "</td>" +
+                                        "<td>" + "<a href='" + this.postHTML + "'class='postTitleHL'>" + this.postTitle + "</a>" + "</td>" +
+                                        "<td>" + "<a href='" + "#" + "'class='postWriterHL'>" + this.postWriter + "</a>" + "</td>" +
+                                        "<td>" + this.postDate + "</td>" +
+                                        "<td>" + this.postView + "</td>" +
+                                    "</tr>").prependTo('tbody.postArea');
+                                    monthly--;
+                                }
+                                break;
+                            default : 
+                                postNum++;
+                                $("<tr class='post'>" +
+                                    "<td>" + alltime + "</td>" +
+                                    "<td>" + "<a href='" + this.postHTML + "'class='postTitleHL'>" + this.postTitle + "</a>" + "</td>" +
+                                    "<td>" + "<a href='" + "#" + "'class='postWriterHL'>" + this.postWriter + "</a>" + "</td>" +
+                                    "<td>" + this.postDate + "</td>" +
+                                    "<td>" + this.postView + "</td>" +
+                                "</tr>").prependTo('tbody.postArea');
+                                alltime--;
+                                break;
+                        }
+                    }
+                });
+            });
+        });
+    });     // ready end
     </script>
-    <div id="userFloat">
-        <ul>
-            <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">게시글 보기</ah></li>
-            <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">1:1 채팅</a></li>
-            <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">쪽지보내기</a></li>
-        </ul>
-    </div>
 </body>
 </html>

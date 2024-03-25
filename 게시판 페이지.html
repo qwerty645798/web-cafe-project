@@ -81,16 +81,22 @@
         a {text-decoration: none; color: #000;}
         a:visited {text-decoration: none;}
         span {font-weight: bold;}
+
+        .letPostArea {width: 100%; height: 35px; margin: 10px 0 20px 0}
+        .postBtnArea {width: 80px; height: 35px; padding: 0 20px 0 0; float:right; box-sizing: border-box;}
+        .letPost {width: 65px; height: 35px; border: 0; background-color: rgb(235, 235, 235); border-radius: 5px; font-size: 12px; font-weight: bold;}
+        .letPost:hover {cursor: pointer}
         
         #userFloat {
             display:none; position:absolute; 
-            width: 85px; height: 83px; font-size: 12px;
-            background: rgb(255, 204, 180);
+            width: auto; height: auto; font-size: 12px;
+            background: #3b3b3b;
         }
         #userFloat li {
             width: 100%; list-style-type: none; padding: 6px; box-sizing: border-box;
         }
-        #userFloat li:not(:first-child) {border-top: 1px solid black;}
+        #userFloat li:not(:first-child) {border-top: 1px solid #fff;}
+        #userFloat li a {color: #fff;}
     </style>
     <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 </head>
@@ -121,12 +127,10 @@
                 </table>
             </div>
         </div>
-        <div id="userFloat">
-            <ul>
-                <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">게시글 보기</a></li>
-                <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">1:1 채팅</a></li>
-                <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">쪽지보내기</a></li>
-            </ul>
+        <div class="letPostArea">
+            <div class="postBtnArea">
+                <button class="letPost">글쓰기</button>
+            </div>
         </div>
     </section>
     <footer>
@@ -161,7 +165,34 @@
         </div>
     </footer>
     <script>
-        function textBoxPH (){      // 텍스트 박스를 클릭시 placeholder를 숨기는 함수
+        // 페이지 URL에서 title을 가져오는 함수
+        function getTitleURl() {    
+            const serParams = new URLSearchParams(location.search);
+            for (const param of serParams){
+                return param[1];
+                // console.log(title);
+            }
+        }  
+
+        // 로컬 스토리지에서 객체를 가져오는 함수
+        function getUserText() {
+            let userText = [];
+            if (localStorage.length > 0) {
+                let userTextString = localStorage.getItem("userText");
+                userText = JSON.parse(userTextString) || [];
+            }
+            return userText;
+        }
+
+        // 파일에서 객체를 가져오는 함수
+        function getFileData(callback) {
+            $.getJSON('게시글 객체.json', function(data) {
+                callback(data);
+            });
+        }
+        
+        // 텍스트 박스를 클릭시 placeholder를 숨기는 함수
+        function textBoxPH (){      
             let box = document.getElementById("searchText");
             box.addEventListener('focus', function(){
                 this.placeholder = "";
@@ -193,18 +224,11 @@
             
             $('#CategoryName').text(cateName);
             
-            // json 파일 내 객체와 localstorage 내 객체를 합쳐 userData에 저장
-            let userPost = [];
-            let fileData = [];
-            $.getJSON('게시글 객체.json', function(data){
-                const jsonFile = data;
-                fileData = jsonFile;
-                if(localStorage.length > 0){
-                    let userTextString = localStorage.getItem("userText");
-                    let userText = JSON.parse(userTextString);
-                    userPost = [...fileData, ...userText];
-                    // console.log(userPost);
-                }
+            let userText = getUserText()
+
+            getFileData(function(fileData){
+                const userPost = userText.concat(fileData.filter(item => !userText.some(obj => obj.TITLE === item.TITLE)));
+
                 let i = 0;
                 $.each(userPost, function(){
                     allPostNum++;
@@ -257,7 +281,7 @@
                         // 작성자 툴팁의 첫번째 a(작성글 보기)를 클릭 하면 해당 유저의 name 정보를 가지고 유저페이지로 이동
                         $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
                 });
-                $('body').on('click', function(e){
+                $(document).on('click', function(e){
                     let $tgPoint = $(e.target);
                     let $writerTT = $tgPoint.hasClass('postWriterHL');
                     let $hlArea = $tgPoint.hasClass('userFloat');
@@ -274,7 +298,17 @@
                     $('#postCounts').html("<span>" + postNum + "</span>개의 게시글");
                 }
             });
+            $('.letPost').on('click', function(){
+                window.open("카페 글쓰기.html");
+            });
         });
     </script>
+    <div id="userFloat">
+        <ul>
+            <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">게시글 보기</a></li>
+            <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">1:1 채팅</a></li>
+            <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">쪽지보내기</a></li>
+        </ul>
+    </div>
 </body>
 </html>

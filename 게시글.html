@@ -8,7 +8,7 @@
         * {margin:0; padding:0;}
         section {padding: 20px;}
         .articleTop {width: 100%; height: 2.5em;}
-        .articleBtnArea {float: right; width: 160px; height: 2.5em;}
+        .articleBtnArea {float: right; width: auto; height: 2.5em;}
         .articleBtnArea div{
             height: 2.5em; margin: 5px 5px 0 0; padding: 8px;
             font-size: 14px; text-align: center; 
@@ -37,23 +37,46 @@
         .leftInfo {width:550px; height: 100%; display: inline-block;}
         .userProfile {width: 40px; height: 40px; margin: 0 10px 0 15px; box-sizing: border-box; float:left;}
         .profileIcon {width: 40px; height: 40px; border-radius: 50px;}
-        
+        .profileIcon2 {width: 40px; height: 40px; margin: 0 10px 0 15px; box-sizing: border-box; border-radius: 50px;}
         
         .postInfo {font-size: 12px;}
         .postInfo span {text-align: center; margin: 2px 5px 0 0;}
         
-        .articleTool {width: 170px; height: 100%; display: inline-block; padding: 10px; box-sizing: border-box;}
-        .articleTool a:not(.etc) {font-size: 13px; font-weight: bold; margin-left: 10px;}
+        .articleTool {width: auto; height: 100%; float: right; padding: 10px; box-sizing: border-box;}
+        .articleTool a:not(.etc) {font-size: 13px; font-weight: bold; margin-right: 10px;}
         a.etc {width: 25px; height: 25px; display:block; float: right; text-align: center;}
-        #etcTooltip {display: none;}
+        #etcTooltip {
+            display:none; position:absolute; 
+            width: auto; font-size: 12px;
+            background: #3b3b3b;
+        }
+        #etcTooltip li, #etcTooltip li a {
+            width: 100%; list-style-type: none; padding: 6px; box-sizing: border-box; color: #FFF;
+        }
+        #etcTooltip a:nth-child(2) {border-right: 1px solid #fff;}
 
 
         #articleBody {
             width: 100%; height: 25em; padding: 15px 15px; box-sizing: border-box;
         }
+        .mainArticle {width: 100%; height: auto;}
+        .moreArea {width: 100%; height: 40px; box-sizing: border-box; overflow: hidden;}
+        .writerArticle {width: auto; height: 100%; display: flex; align-items: center;}
+        .writerArtTextArea {box-sizing: border-box;}
+        .writerArticleText {font-size: 13px; line-height: 20px;}
+
+
         .fileArea {width: 100%; height: 18px; padding: 0 10px; box-sizing: border-box;}
         .file {font-size: 14px; float: right;}
-        #fileTooltip {display: none;}
+        #fileTooltip {
+            display:none; position:absolute; 
+            width: auto; font-size: 12px;
+            background: #3b3b3b;
+        }
+        #fileTooltip li, #fileTooltip li a:nth-child(3) {
+            width: 100%; list-style-type: none; padding: 6px; box-sizing: border-box; color: #FFF;
+        }
+        #fileTooltip li a:nth-child(2) {padding: 6px 0 6px 12px; box-sizing: border-box; color: #fff;}
 
         table, tr, td{padding: 2px; text-align: center; 
             width: 100%; border-collapse: collapse;
@@ -99,13 +122,14 @@
         
         #userFloat {
             display:none; position:absolute; 
-            width: 85px; height: 83px; font-size: 12px;
-            background: rgb(255, 204, 180);
+            width: auto; height: auto; font-size: 12px;
+            background: #3b3b3b;
         }
         #userFloat li {
             width: 100%; list-style-type: none; padding: 6px; box-sizing: border-box;
         }
-        #userFloat li:not(:first-child) {border-top: 1px solid black;}
+        #userFloat li:not(:first-child) {border-top: 1px solid #fff;}
+        #userFloat li a {color: #fff;}
     </style>
     <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 </head>
@@ -113,14 +137,8 @@
     <header>
         <div class="articleTop">
             <div class="articleBtnArea">
-                <div class="nextArtArea">
-                    <a href="게시판 페이지.html" target="iFrame" class="nextArticle">
-                        <?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'><svg height="16px" id="arrowDown" style="enable-background:new 0 0 512 512;" version="1.1" viewBox="-50 0 512 384" width="16px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon points="396.6,160 416,180.7 256,352 96,180.7 115.3,160 256,310.5 "/></svg>
-                        <span>다음글</span>
-                    </a>
-                </div>
                 <div class="artIndexArea">
-                    <a href="게시판 페이지.html" target="iFrame" class="articleIndex">
+                    <a href="#절대있을리없는아이디명" target="iFrame" class="articleIndex">
                         <span>목록</span>
                     </a>
                 </div>
@@ -137,7 +155,7 @@
             </div>
             <div class="writerPostInfo">
                 <div class="userProfile">
-                    <img src="image/icon.jpg" class="profileIcon" alt="userProfile">
+                    <img src="image/icon.jpg" class="profileIcon" alt="userProfileIcon">
                 </div>
                 <div class="writerInfo">
                     <div class="leftInfo">
@@ -150,40 +168,23 @@
                         </div>
                     </div>
                     <div class="articleTool">
-                        <a href="#comment" class="comment">댓글 0</a>
-                        <a href="#절대있을리없는아이디명" class="url">URL 복사</a>
-                        <a href="#절대있을리없는아이디명" class="etc"><svg xmlns="http://www.w3.org/2000/svg" height="25" width="25" viewBox="0 0 128 512"><path fill="#949494" d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z"/></svg></a>
+                        <a href="#절대있을리없는아이디명" class="copyURL">URL 복사</a>
+                        <a href="#절대있을리없는아이디명" class="etc"><svg class="dotImg" xmlns="http://www.w3.org/2000/svg" height="25" width="25" viewBox="0 0 128 512"><path fill="#949494" d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z"/></svg></a>
                     </div>
                 </div>
             </div>
         </div>
         <div class="fileArea"><a href="#절대있을리없는아이디명" class="file">첨부파일 보기</a></div>
         <div id="articleBody">
-            <p class="text">postText</p>
+            <div class="mainArticle">
+                <p class="text">postText</p>
+            </div>
         </div>
-        <div id="userFloat">
-            <ul>
-                <li class="userFloat"><a href="#절대있을리없는아이디명" class="userFloatMenu">게시글 보기</a></li>
-                <li class="userFloat"><a href="#절대있을리없는아이디명" class="userFloatMenu">1:1 채팅</a></li>
-                <li class="userFloat"><a href="#절대있을리없는아이디명" class="userFloatMenu">쪽지보내기</a></li>
-            </ul>
-        </div>
-        <div id="etcTooltip">
-            <ul>
-                <li class="print">
-                    <span>파일명</span>
-                    <a href="#절대있을리없는아이디명" class="printBtn">인쇄하기</a>
-                </li>
-            </ul>
-        </div>
-        <div id="fileTooltip">
-            <ul>
-                <li class="fileDown">
-                    <span>파일명</span>
-                    <a href="#절대있을리없는아이디명" class="fileDownBtn">내 PC 저장</a>
-                    <a href="#절대있을리없는아이디명" class="cloudDownBtn">클라우드 저장</a>
-                </li>
-            </ul>
+        <div class="moreArea">
+            <a href="#절대있을리없는아이디명" class="writerArticle">
+                <img src="image/icon.jpg" class="profileIcon2" alt="userProfileIcon">
+                <span class="writerArticleText"><strong class="writer">userName</strong>님의 게시글 더보기</span>
+            </a>
         </div>
     </section>
     <footer>
@@ -202,144 +203,200 @@
         </div>
     </footer>
     <script>
-        $(function(){       // ready
+        // 페이지 URL에서 title을 가져오는 함수
+        function getTitleURl() {    
+            const serParams = new URLSearchParams(location.search);
+            for (const param of serParams){
+                return param[1];
+                // console.log(title);
+            }
+        }  
 
+        // 로컬 스토리지에서 객체를 가져오는 함수
+        function getUserText() {
+            let userText = [];
+            if (localStorage.length > 0) {
+                let userTextString = localStorage.getItem("userText");
+                userText = JSON.parse(userTextString) || [];
+            }
+            return userText;
+        }
+
+        // 파일에서 객체를 가져오는 함수
+        function getFileData(callback) {
+            $.getJSON('게시글 객체.json', function(data) {
+                callback(data);
+            });
+        }
+
+        // url 복사기능
+        function clip(){
+            var url = '';
+            var textArea = document.createElement("textarea");
+            document.body.appendChild(textArea);
+            url = window.document.location.href;
+            textArea.value = url;
+            textArea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textArea);
+            alert("클립보드에 URL이 복사되었습니다.");
+        }
+
+        $(function(){       // ready
             // 페이지 수를 출력
             let pageCount = $('.pageMove').length;
             let lastPage = $('.pageMove:last').text();
             let postNum = 0;
             let allPostNum = 0;
-            let cateName, title, writer, date, view;
-
-            // // 게시글 제목 클릭으로 넘어왔을 때 해당 text를 가져오는 코드
-            const serParams = new URLSearchParams(location.search);
-            for (const param of serParams){
-                title = param[1];
-                // console.log(title);
-            }
-            // let queryParams = {};
-
-            // for (const [key, value] of serParams) {
-            //     console.log(`${key}: ${value}`);
-            //     queryParams[key] = value;
-            // }
-            // console.log(queryParams);
-
-            // title = queryParams['title'];
-            // writer = queryParams['writer'];
-            // date = queryParams['date'];          // a 앵커로 가져온 변수 param으로 게시물 출력하던 코드
-            // view = queryParams['view'];
-            // cateName = queryParams['cate'];
+            let cateName, writer, date, view;
+            let title = getTitleURl();
             
-            // $('.title').text(title);
-            // $('.writer').text(writer);
-            // $('.date').text(date);
-            // $('.view').text(" 조회 " + view);
-            // $('.category').text(cateName);
-            
-            // $.getJSON('게시글 객체.json', function(data){
-            //     $.each(data, function(){
-            //         if (title == this.postTitle){
-            //             $('.text').text(this.postText);
-            //         }
-            //     });
-            // });
+            let userText = getUserText();
+            getFileData(function(fileData){
+                const userPost = userText.concat(fileData.filter(item => !userText.some(obj => obj.TITLE === item.TITLE)));
 
-            // json 파일 내부 게시글 객체와 로컬 스토리지의 게시글 객체 정보를 합쳐 userPost에 저장
-            let userPost = [];
-            let fileData = [];
-            $.getJSON('게시글 객체.json', function(data){
-                const jsonFile = data;
-                fileData = jsonFile;
-                if(localStorage.length > 0){
-                    let userTextString = localStorage.getItem("userText");
-                    let userText = JSON.parse(userTextString);
-                    userPost = [...fileData, ...userText];
-                    // console.log(userPost);
+                // 사용자가 선택한 게시글을 찾아서 VIEW를 증가시키는 코드
+                if (title) {    
+                    const selectedPostIndex = userPost.findIndex(post => post.TITLE == title);
+                    if (selectedPostIndex !== -1) {
+                        // 해당 객체를 찾았으면 VIEW를 증가시킴
+                        userPost[selectedPostIndex].VIEW++;
+
+                        localStorage.setItem("userText", JSON.stringify(userPost));
+
+                        // 사용자가 선택한 게시글 객체를 찾아서 게시글 프레임에 적용
+                        const selectedPost = userPost[selectedPostIndex];
+                        $('.title').text(selectedPost.TITLE);
+                        $('.writer').text(selectedPost.ID);
+                        $('.date').text(selectedPost.DATE);
+                        $('.view').text(" 조회 " + selectedPost.VIEW);
+                        $('.category').text(selectedPost.SEL);
+                        $('.text').text(selectedPost.TEXTAREA);
+                    }
                 }
-
-                // 게시글 페이지에 정보를 불러오는 코드
-                function searchByKey(array, key, value) {       // 특정 키 값이 포함된 배열을 찾는 함수
-                    return array.filter(item => item[key] === value);
-                }
-                const keyToSearch = 'TITLE';     // 검색할 키
-                const valueToSearch = title;    // 검색할 값
-                const result = searchByKey(userPost, keyToSearch, valueToSearch);     // 검색된 객체
-
-                $('.title').text(result[0].TITLE);
-                $('.writer').text(result[0].ID);
-                $('.date').text(result[0].DATE);
-                $('.view').text(" 조회 " + result[0].VIEW);
-                $('.category').text(result[0].SEL);
-                $('.text').text(result[0].TEXTAREA)
-                
-                console.log(result)
-
 
                 // 게시글 목록을 출력하는 코드
-                postNum = 0; 
-                $.each(userPost, function(){
-                    if (postNum >= 5){
-                        return false;
-                    }
-                    else {
+                $.each(userPost, function(index, post){
+                    if (index > userPost.length - 6){
                         $("<tr class='post'>" +
-                            "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + userPost[i].TITLE + "</a>" + "</td>" +
-                            "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + userPost[i].ID + "</a>" + "</td>" +
-                            "<td>" + userPost[i].DATE + "</td>" +
-                        "</tr>").prependTo('tbody.postArea');
-                        console.log(userPost[i].TITLE);
-                        postNum++;
+                            "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + post.TITLE + "</a>" + "</td>" +
+                            "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + post.ID + "</a>" + "</td>" +
+                            "<td>" + post.DATE + "</td>" +
+                            "</tr>").prependTo('tbody.postArea');
                     }
                 });
 
                 // 작성자 클릭 시 해당 요소 아래에 툴팁이 나오는 코드 / 요소 바깥을 클릭하면 사라짐
-                $('.postWriterHL').on('click', function(e){
-                        let offset = $(this).offset();
-                        let triggerWidth = $(this).outerWidth();
-                        let ttWidth = $('#userFloat').outerWidth();
-                        let ttHeight = $('#userFloat').outerHeight();
-                        let ttTop = offset.top + $(this).outerHeight();
-                        $('#userFloat').css({'left': offset.left, 'top': ttTop});
-                        
-                        $('#userFloat').fadeIn('fast');
-
-                        $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
+                $('.postWriterHL, .writer').on('click', function(e){
+                    let offset = $(this).offset();
+                    let triggerWidth = $(this).outerWidth();
+                    let ttWidth = $('#userFloat').outerWidth();
+                    let ttHeight = $('#userFloat').outerHeight();
+                    let ttTop = offset.top + $(this).outerHeight();
+                    $('#userFloat').css({'left': offset.left, 'top': ttTop});
+                    $('#userFloat').fadeIn('fast');
+                    $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
                 });
-                $('body').on('click', function(e){
+                $(document).on('click', function(e){
                     let $tgPoint = $(e.target);
                     let $writerTT = $tgPoint.hasClass('postWriterHL');
                     let $hlArea = $tgPoint.hasClass('userFloat');
+                    let $writerTT2 = $tgPoint.hasClass('writer');
 
-                    if (!$writerTT && !$hlArea){
+                    if (!$writerTT && !$hlArea && !$writerTT2){
                         $('#userFloat').fadeOut('fast');
                     }
                 });
-                
-                // 첨부파일 보기 클릭 시 해당 요소 아래에 툴팁이 나오는 코드
-                // $('.postWriterHL').on('click', function(e){
-                //         let offset = $(this).offset();
-                //         let triggerWidth = $(this).outerWidth();
-                //         let ttWidth = $('#userFloat').outerWidth();
-                //         let ttHeight = $('#userFloat').outerHeight();
-                //         let ttTop = offset.top + $(this).outerHeight();
-                //         $('#userFloat').css({'left': offset.left, 'top': ttTop});
-                        
-                //         $('#userFloat').fadeIn('fast');
 
-                //         $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
-                // });
-                // $('body').on('click', function(e){
-                //     let $tgPoint = $(e.target);
-                //     let $writerTT = $tgPoint.hasClass('postWriterHL');
-                //     let $hlArea = $tgPoint.hasClass('userFloat');
+                // 게시글 제목 a 클릭 시 해당 게시글의 text를 가지고 게시글 페이지로 이동
+                $('.postTitleHL').on('click', function(){
+                    $(this).prop('href', "게시글.html?title=" + $(this).text());
+                });
 
-                //     if (!$writerTT && !$hlArea){
-                //         $('#userFloat').fadeOut('fast');
-                //     }
-                // });
+                // 카테고리명 a 클릭 시 해당 text를 가지고 게시판 페이지로 이동
+                $('.category').on('click', function(){
+                    $(this).prop('href', "게시판 페이지.html?cate=" + $(this).text());
+                });
+
+                // 게시글 최상단 목록 클릭 시 카테고리 text를 가지고 게시판 페이지로 이동
+                $('.articleIndex').on('click', function(){
+                    $(this).prop('href', "게시판 페이지.html?cate=" + $('.category').text());
+                });
+
+                // 게시글 하단부 userName 님의 게시글 더보기 클릭 시 유저페이지로 이동
+                $('.writerArticle').on('click', function(){
+                    $(this).prop('href', "유저페이지.html?name=" + $('strong.writer').text());
+                });
             });
+            
+            
+            
+            // 첨부파일 보기 클릭 시 해당 요소 아래에 툴팁이 나오는 코드
+            $('.file').on('click', function(e){
+                    let offset = $(this).offset();
+                    let triggerWidth = $(this).outerWidth();
+                    let ttWidth = $('#fileTooltip').outerWidth();
+                    let ttHeight = $('#fileTooltip').outerHeight();
+                    let ttTop = offset.top + $(this).outerHeight();
+                    $('#fileTooltip').css({'left': offset.left + triggerWidth - ttWidth, 'top': ttTop});
+                    $('#fileTooltip').fadeIn('fast');
+            });
+            $(document).on('click', function(e){
+                let $tgPoint = $(e.target);
+                let $fileTT = $tgPoint.hasClass('file');
+                let $hlArea = $tgPoint.hasClass('fileDown');
+
+                if (!$fileTT && !$hlArea){
+                    $('#fileTooltip').fadeOut('fast');
+                }
+            });
+
+            //url 복사 옆의 ... 클릭 시 툴팁
+            $('.etc').on('click', function(e){
+                let offset = $(this).offset();
+                let triggerWidth = $(this).outerWidth();
+                let ttWidth = $('#etcTooltip').outerWidth();
+                let ttHeight = $('#etcTooltip').outerHeight();
+                let ttTop = offset.top + $(this).outerHeight();
+                $('#etcTooltip').css({'left': offset.left + triggerWidth - ttWidth, 'top': ttTop});
+                $('#etcTooltip').fadeIn('fast');
+                $('#etcTooltip li a').prop('href', "javascript:window.print();");
+            });
+            $(document).on('click', function(e){
+                let $tgPoint = $(e.target);
+                let $etcTT = $tgPoint.hasClass('etc');
+                let $hlArea = $tgPoint.hasClass('print');
+                let $imgArea = $tgPoint.hasClass('dotImg');
+
+                if (!$etcTT && !$hlArea && !$imgArea){
+                    $('#etcTooltip').fadeOut('fast');
+                }
+            });
+            $('.articleTool .copyURL').on('click', clip);
         });
     </script>
+    <div id="userFloat">
+        <ul>
+            <li class="userFloat"><a href="#절대있을리없는아이디명" class="userFloatMenu">게시글 보기</a></li>
+            <li class="userFloat"><a href="#절대있을리없는아이디명" class="userFloatMenu">1:1 채팅</a></li>
+            <li class="userFloat"><a href="#절대있을리없는아이디명" class="userFloatMenu">쪽지보내기</a></li>
+        </ul>
+    </div>
+    <div id="etcTooltip">
+        <ul>
+            <li class="print">
+                <a href="#절대있을리없는아이디명" class="printBtn">인쇄하기</a>
+            </li>
+        </ul>
+    </div>
+    <div id="fileTooltip">
+        <ul>
+            <li class="fileDown">
+                <span>file.exe</span>
+                <a href="#절대있을리없는아이디명" class="fileDownBtn">내 PC 저장 |</a>
+                <a href="#절대있을리없는아이디명" class="cloudDownBtn">클라우드 저장</a>
+            </li>
+        </ul>
+    </div>
 </body>
 </html>

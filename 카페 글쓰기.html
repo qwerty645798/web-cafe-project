@@ -194,8 +194,55 @@
 	<script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 	<script>
 		$(function(){
-            $("writeBtn").click(function(){//제출버튼 아직 미완성
-
+            let timerIDA,timerIDB;
+            let a = 0;
+            $(".box-shadow").mouseenter(function(){
+                let $this=$(this);
+                timerIDA=setInterval(function(){
+                    $this.css({"box-shadow":`${a}px ${a}px ${a}px gray`});
+                    a += 0.1;
+                    if(a >= 8)clearInterval(timerIDA);
+                },1);
+            }).mouseleave(function(){
+                let $this=$(this);
+                let b = a;
+                clearInterval(timerIDA);
+                timeIDB = setInterval(function(){
+                $this.css({"box-shadow":`${b}px ${b}px ${b}px gray`});
+                    b -= 0.1;
+                    if(b <= 0)clearInterval(timerIDB);
+                },1);
+                a=0;
+            });
+            function ranNum(max){
+                let num=Math.floor(Math.random()*max+1);
+                return num;
+            }
+            let colorI=0;
+            let glitterColor=["red","orange","yellow","green","blue","navy","purple"];
+            $("html").mousemove(function(e){
+                let i = colorI % 7;
+                let div = document.createElement("div");
+                div.style.backgroundColor = glitterColor[i];
+                div.style.width = ranNum(5) + "px";
+                div.style.height = ranNum(5) + "px";
+                div.style.borderRadius = ranNum(5) + "px";
+                div.style.position = "absolute";
+                div.style.top = e.pageY + "px";
+                div.style.left = e.pageX + "px";
+                div.style.zIndex = 10;
+                let fall = 0;
+                document.body.appendChild(div);
+                let timerID = setInterval(function(){
+                    fall += 0.5;
+                    div.style.top = e.pageY + fall + "px";
+                    div.style.opacity = 1 - fall/100;
+                    if(fall >= 100) {
+                        clearInterval(timerID);
+                        document.body.removeChild(div);
+                    }
+                },1);
+                colorI++;
             });
             $("div#left>div#tools2>button").each(function(index,element){
                 $(element).click(function(){
@@ -371,16 +418,16 @@
                     <button id="underline"><u>U</u></button>
                     <button id="line-through"><s>T</s></button>
                     <input type="color" onchange="$('#textarea').css('color',this.value)">&nbsp;&nbsp;&nbsp;&nbsp;
-                    <!--<button id="draw" style="font-size:1em; width:7%;"><b>그림판</b></button>-->
+                    <!--<button id="draw" style="font-size:1em; width:7%;"><b>그림판</b></button>
                     &nbsp;&nbsp;&nbsp;&nbsp;<b>그림판</b>
                     <button id="pen">✒</button>
                     <input type="color" onchange="document.getElementById('canvas').getContext('2d').strokeStyle=this.value">
                     <button onclick="document.getElementById('canvas').getContext('2d').strokeStyle='#F5F6F8';
-                    document.getElementById('canvas').getContext('2d').lineWidth=30;">X</button>
+                    document.getElementById('canvas').getContext('2d').lineWidth=30;">X</button>-->
                 </div>
                 <div id="field">
                     <textarea id="textarea"></textarea>
-                    <canvas id="canvas" width="842" height="518"></canvas>
+                    <!--<canvas id="canvas" width="842" height="518"></canvas>-->
                 </div>
                 <div id="Btn"><input type="button" id="writeBtn" value="등록" onclick="uplocal()"></div>
             </div>

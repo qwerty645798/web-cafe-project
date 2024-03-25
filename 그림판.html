@@ -84,7 +84,6 @@
         <div id="map">
             <canvas id="canvas" width="1080" height="680"></canvas>
         </div>
-        <div id="cursor"></div>
     </div>
     <script>
         function draw(color,width){
@@ -92,7 +91,7 @@
             cursor=document.getElementById("cursor");
             canvas = document.getElementById("canvas");
             context = canvas.getContext("2d");
-            context.lineWidth=width;
+            context.lineWidth=30;
             context.strokeStyle=color;
             let startX,startY,draw;
             canvas.onmousedown=function(e){
@@ -104,15 +103,11 @@
             }
             canvas.onmousemove=function(e){
                 if(!draw){return;}
-                cursor.style.top=e.clientY + "px";
-                cursor.style.left=e.clientX + "px";
-                cursor.style.width=width + "px";
-                cursor.style.height=width + "px";
-                cursor.style.borderRadius=width + "px";
 
                 context.beginPath();
                 context.moveTo(startX,startY);
                 context.lineTo(e.offsetX,e.offsetY);
+                context.lineCap = "round";
                 context.stroke();
                 startX=e.offsetX,startY=e.offsetY;
             }

@@ -39,7 +39,7 @@
         th:nth-child(3) {width: 15%;}
         th:nth-child(4) {width: 10%;}
 
-        td:nth-child(1) {width: 15%; color:gray;}
+        td:nth-child(1) {width: 15%; color:rgb(128, 128, 128);}
         td:nth-child(2) {width: 55%;}
         td:nth-child(3) {width: 15%;}
         td:nth-child(4) {width: 10%;}
@@ -55,13 +55,14 @@
 
         #userFloat {
             display:none; position:absolute; 
-            width: 85px; height: 83px; font-size: 12px;
-            background: rgb(255, 204, 180);
+            width: auto; height: auto; font-size: 12px;
+            background: #3b3b3b;
         }
         #userFloat li {
             width: 100%; list-style-type: none; padding: 6px; box-sizing: border-box;
         }
-        #userFloat li:not(:first-child) {border-top: 1px solid black;}
+        #userFloat li:not(:first-child) {border-top: 1px solid #fff;}
+        #userFloat li a {color: #fff;}
 
         footer {
             margin: 10px;
@@ -131,13 +132,6 @@
                 <button class="letPost">글쓰기</button>
             </div>
         </div>
-        <div id="userFloat">
-            <ul>
-                <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">게시글 보기</a></li>
-                <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">1:1 채팅</a></li>
-                <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">쪽지보내기</a></li>
-            </ul>
-        </div>
     </section>
     <footer>
         <div class="footerBox">
@@ -147,6 +141,31 @@
         </div>
     </footer>
     <script>
+        function getWriterURl() {    
+            const serParams = new URLSearchParams(location.search);
+            for (const param of serParams){
+                return param[1];
+                // console.log(title);
+            }
+        }  
+        
+        // 로컬 스토리지에서 객체를 가져오는 함수
+        function getUserText() {
+            let userText = [];
+            if (localStorage.length > 0) {
+                let userTextString = localStorage.getItem("userText");
+                userText = JSON.parse(userTextString) || [];
+            }
+            return userText;
+        }
+
+        // 파일에서 객체를 가져오는 함수
+        function getFileData(callback) {
+            $.getJSON('게시글 객체.json', function(data) {
+                callback(data);
+            });
+        }
+
         $(function(){       // ready
 
             // 페이지 수를 출력
@@ -154,33 +173,21 @@
             let lastPage = $('.pageMove:last').text();
             let postNum = 0;
             let allPostNum = 0;
-            let writeName;
-
-            // 작성글 검색으로 넘어왔을 때 해당 이름 값을 가져오는 코드
-            const serParams = new URLSearchParams(location.search);
-            for (const param of serParams) {
-                // console.log(param);
-                writeName = param[1];
-                $('.userName').text(writeName);
-            }
             
-            // 게시판에 json파일 내부 정보를 토대로 글을 출력하는 코드
-            // json 파일 내 객체와 localstorage 내 객체를 합쳐 userData에 저장
-            let userPost = [];
-            let fileData = [];
-            $.getJSON('게시글 객체.json', function(data){
-                const jsonFile = data;
-                fileData = jsonFile;
-                if(localStorage.length > 0){
-                    let userTextString = localStorage.getItem("userText");
-                    let userText = JSON.parse(userTextString);
-                    userPost = [...fileData, ...userText];
-                    // console.log(userPost);
-                }
+            let writerName = getWriterURl();
+            $('.userName').text(writerName);
+
+            let userText = getUserText();
+            getFileData(function(fileData){
+                const userPost = userText.concat(fileData.filter(item => !userText.some(obj => obj.TITLE === item.TITLE)));
+
+                // 중복 제거된 userText를 localStorage에 저장
+                localStorage.setItem("userText", JSON.stringify(userPost));
+            
                 let i = 0;
                 $.each(userPost, function(){
                     allPostNum++;
-                    if (userPost[i].ID == writeName) {
+                    if (userPost[i].ID == writerName) {
                         postNum++;
                         $("<tr class='post'>" +
                                 "<td>" + allPostNum + "</td>" +
@@ -198,12 +205,14 @@
                     $('<tr><td class="noPost" colspan="4">등록된 게시글이 없습니다.</td></tr>').insertAfter('.postTh');
                     $('#postCounts').html("작성글 <span>" + postNum + "</span>");
                 }
+
+                // 게시글 제목 a 클릭 시 해당 게시글의 title을 가지고 게시글 페이지로 이동
+                $('.postTitleHL').on('click', function(){
+                    $(this).prop('href', "게시글.html?title=" + $(this).text());
+                });
             });
 
-            // 게시글 제목 a 클릭 시 해당 게시글의 title을 가지고 게시글 페이지로 이동
-            $('.postTitleHL').on('click', function(){
-                $(this).prop('href', "게시글.html?title=" + $(this).text());
-            });
+            
 
             // 작성자 클릭 시 해당 요소 아래에 툴팁이 나오는 코드 / 요소 바깥을 클릭하면 사라짐
             $('.userName').on('click', function(e){
@@ -212,14 +221,14 @@
                 let ttWidth = $('#userFloat').outerWidth();
                 let ttHeight = $('#userFloat').outerHeight();
                 let ttTop = offset.top + $(this).outerHeight();
-                $('#userFloat').css({'left': offset.left, 'top': ttTop});
+                $('#userFloat').css({'left': offset.left + 20, 'top': ttTop});
                 
                 $('#userFloat').fadeIn('fast');
 
                 // 작성자 툴팁의 첫번째 a(작성글 보기)를 클릭 하면 해당 유저의 name 정보를 가지고 유저페이지로 이동
                 $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
             });
-            $('body').on('click', function(e){
+            $(document).on('click', function(e){
                 let $tgPoint = $(e.target);
                 let $writerTT = $tgPoint.hasClass('userName');
                 let $hlArea = $tgPoint.hasClass('userFloat');
@@ -247,7 +256,7 @@
                     defaultFont = $(this).css('font-size');
                     defaultBG = $(this).css('background');
                     defaultText = $(this).html();
-                    $(this).css({'border': '1px solid rgb(10, 196, 4)', 'font-size': '11px', 'background': 'rgb(181, 255, 185', 'font-weight': 'bold'}).html('구독완료');
+                    $(this).css({'border': '1px solid rgb(214, 255, 217)', 'font-size': '11px', 'background': 'rgb(181, 255, 185', 'font-weight': 'bold'}).html('완료');
                     subs++;
                 }
                 else {
@@ -261,5 +270,12 @@
             });
         });
     </script>
+    <div id="userFloat">
+        <ul>
+            <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">게시글 보기</a></li>
+            <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">1:1 채팅</a></li>
+            <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">쪽지보내기</a></li>
+        </ul>
+    </div>
 </body>
 </html>

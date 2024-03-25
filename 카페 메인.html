@@ -25,7 +25,7 @@
             text-decoration:underline;
         }
         html,body{
-            width:100%; height:100%;
+            width:100%; height: auto;
             background:white;
             margin:0;
 
@@ -160,7 +160,8 @@
         }
         .frame {/*mainArticle구역의 전체를 iframe 구역으로 설정*/
             width: 100%;
-            height: 100%;
+            height: 100vh;
+            overflow: auto;
         }
         .cateMove {       /*카테고리 리스트*/
             text-decoration: none;
@@ -199,14 +200,32 @@
         div#menu:hover{/*클릭시 div#sideBar를 보이게 하는 버튼 (페이지 좌측 상중단에 위치) 상세 style을 인라인으로 설정해놓음*/
             text-decoration:underline;
         }
+        .postTitleHL {text-decoration: none; color: #000;}
 	</style>
 	<script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 	<script>
+        // 로컬 스토리지에서 객체를 가져오는 함수
+        function getUserText() {
+            let userText = [];
+            if (localStorage.length > 0) {
+                let userTextString = localStorage.getItem("userText");
+                userText = JSON.parse(userTextString) || [];
+            }
+            return userText;
+        }
+
+        // 파일에서 객체를 가져오는 함수
+        function getFileData(callback) {
+            $.getJSON('게시글 객체.json', function(data) {
+                callback(data);
+            });
+        }
+
 		$(function(){
             $("#writeBtn").click(function(){//글쓰기 버튼 누르면 글쓰기 웹페이지를 새창으로 불러오기
                 window.open("카페 글쓰기.html","_blank");
             });
-            $("#mark").click(function(){//즐겨찾기 메뉴 버튼 ▲ ▼
+            $("#hidemarkBtn").click(function(){//즐겨찾기 메뉴 버튼 ▲ ▼
                 if($("#mark").html()=="▼"){
                     $("#mark").html("▲");
                     $("#hidemark").slideDown("fast");
@@ -243,10 +262,13 @@
             // 카테고리 a 클릭 시 해당 카테고리의 text를 가지고 게시판 페이지로 이동
             $('.cateMove:not(#popularPost)').on('click', function(){
                 $(this).prop('href', "게시판 페이지.html?cate=" + $(this).text());
+                $('html, body').animate({
+                    scrollTop: $('iframe[name="iFrame"]').offset().top
+                }, 'fast');
             });
     
             // 최 상단 이미지 배너 클릭 시 카페 최초 화면으로 이동
-            $('.border-box').click(function(){
+            $('header.border-box').click(function(){
                 $('.frame').prop('src', "게시판 페이지.html?cate=전체글보기");
             });
 
@@ -270,6 +292,27 @@
                     "bottom":b/5 + "px"
                 });
             });
+
+
+//      ------------------------------ 최신 업데이트 부분 게시글 출력을 위한 코드 ---------------------------------------------            
+            let userText = getUserText();
+            getFileData(function(fileData){
+                const userPost = userText.concat(fileData.filter(item => !userText.some(obj => obj.TITLE === item.TITLE)));
+
+                // 게시글 목록을 출력하는 코드
+                $.each(userPost, function(index, post){
+                    if (index > userPost.length - 6){
+                        $("<li><a href='#절대있을리없는아이디명' class='postTitleHL' target='iFrame'>" + post.TITLE + "</a></li>").prependTo('.recentUpdate');
+                    }
+                });
+
+                // 게시글 제목 a 클릭 시 해당 게시글의 text를 가지고 게시글 페이지로 이동
+                $('.postTitleHL').on('click', function(){
+                    $(this).prop('href', "게시글.html?title=" + $(this).text());
+                });
+            });
+//      ---------------------------------------- 여기까지 -------------------------------------------------
+
 		});
 	</script>
 </head>
@@ -296,33 +339,28 @@
                             클릭하시면 추가됩니다.</div>
                         <hr></b>
                         <ul>
-                            <li id="AllPost"><a class="cateMove" href="" target="iFrame">전체글보기</a></li>
+                            <li id="AllPost"><a class="cateMove" href="#절대있을리없는아이디명" target="iFrame">전체글보기</a></li>
                             <li id="PopularPost"><a class="cateMove" id="popularPost" href="인기글.html" target="iFrame">인기글</a></li>
                             <hr>
-                            <li id="Notification"><a class="cateMove" href="" target="iFrame">공지사항</a></li>
-                            <li id="FreePost"><a class="cateMove" href="" target="iFrame">자유게시판</a></li>
+                            <li id="Notification"><a class="cateMove" href="#절대있을리없는아이디명" target="iFrame">공지사항</a></li>
+                            <li id="FreePost"><a class="cateMove" href="#절대있을리없는아이디명" target="iFrame">자유게시판</a></li>
                             <hr>
                             <b>코딩 학습</b>
                             <hr>
-                            <li id="Memo"><a class="cateMove" href="" target="iFrame">메모</a></li>
-                            <li id="HTML&CSS"><a class="cateMove" href="" target="iFrame">HTML / CSS</a></li>
-                            <li id="JavaScript"><a class="cateMove" href="" target="iFrame">JavaScript</a></li>
-                            <li id="jQuery&Ajax"><a class="cateMove" href="" target="iFrame">jQuery / Ajax</a></li>
+                            <li id="Memo"><a class="cateMove" href="#절대있을리없는아이디명" target="iFrame">메모</a></li>
+                            <li id="HTML / CSS"><a class="cateMove" href="#절대있을리없는아이디명" target="iFrame">HTML / CSS</a></li>
+                            <li id="JavaScript"><a class="cateMove" href="#절대있을리없는아이디명" target="iFrame">JavaScript</a></li>
+                            <li id="jQuery / Ajax"><a class="cateMove" href="#절대있을리없는아이디명" target="iFrame">jQuery / Ajax</a></li>
                             <hr>
-                            <li id="Git&Github"><a class="cateMove" href="" target="iFrame">Git / Github</a></li>
-                            <li id="Java"><a class="cateMove" href="" target="iFrame">Java</a></li>
-                            <li id="프로젝트진행"><a class="cateMove" href="" target="iFrame">프로젝트진행</a></li>
+                            <li id="Git / Github"><a class="cateMove" href="#절대있을리없는아이디명" target="iFrame">Git / Github</a></li>
+                            <li id="Java"><a class="cateMove" href="#절대있을리없는아이디명" target="iFrame">Java</a></li>
+                            <li id="프로젝트진행"><a class="cateMove" href="#절대있을리없는아이디명" target="iFrame">프로젝트진행</a></li>
                         </ul>
                 </div>
                 <div id="asideFooter" class="border-box">
                     <b>최신 업데이트</b>
                     <hr>
-                    <ul>
-                        <li><a>Java 환경설정</a></li>
-                        <li><a>네이버 드라이브 주소</a></li>
-                        <li><a>JS 파일</a></li>
-                        <li><a>서버 호스팅 하는법</a></li>
-                        <li><a>자바스크립트 이벤트 문법</a></li>
+                    <ul class="recentUpdate">
                     </ul>
                 </div>
             </aside>
@@ -338,7 +376,7 @@
                     <a href="https://www.itworld.co.kr/tags/2716/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D/252934">#SW교육 전문 스타트업 해피해킹, ‘하이퍼그로스’로 사명 변경</a><br>
                 </div>
                 <div id="mainArticle" class="border-box">
-                    <iframe style="border:none;" class="frame" name="iFrame" src="게시판 페이지.html?cate=전체글보기"></iframe>
+                    <iframe class="frame" name="iFrame" frameborder='0' src="게시판 페이지.html?cate=전체글보기"></iframe>
                 </div>
             </main>
         </div>

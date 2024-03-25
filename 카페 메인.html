@@ -15,6 +15,9 @@
             margin:0;
             padding:0;
         }
+        /*.box-shadow{
+            js로 천천히 그림자 생기고 사라지게 설정
+        }*/
         input:not([type="text"]),button,select,a{
             cursor:pointer;
         }
@@ -51,13 +54,13 @@
             justify-content: flex-end;
         }
         nav>input{
-            margin:auto 0;
             width:22%; height:70%;
             border:1px #D7D7D9 solid;
+            margin:auto 0;
         }
         nav>button{
-            margin:auto 0;
             width:5%; height:70%;
+            margin:auto 0;
             background:dodgerblue;
             color:white;
             outline:none;
@@ -77,7 +80,9 @@
         }
         div#asideHeader {
             padding: 3%;
-
+            background:lightblue;
+            position:relative;
+            z-index:2;
         }
         div#asideHeader>div#icon{
             width:100%;
@@ -109,6 +114,9 @@
             padding:10px;
             font-size:0.9em;
             border-top:2px black solid;
+            background:lightgreen;
+            position:relative;
+            z-index:1;
         }
         div#asideMain>b>button{
             font-size:0.8em;
@@ -124,6 +132,7 @@
             width:100%;
             padding:10px;
             font-size:0.9em;
+            background:lightcoral;
         }
         div#asideFooter>ul>li{
             list-style-position:inside;
@@ -142,9 +151,8 @@
         }
         div#mainHeader{
             height:25%;
-            border:5px #EEEEEE solid;
+            /*border:5px #EEEEEE solid;*/
             padding:30px;
-            box-shadow: 5px 0px 5px gray;
         }
         div#mainHeader>a{
             text-decoration:none;
@@ -156,7 +164,8 @@
         }
         div#mainArticle{/*iframe의 부모요소*/
             height:75%;
-            box-shadow: 5px 5px 5px gray;
+            position:relative;
+            z-index:0;
         }
         .frame {/*mainArticle구역의 전체를 iframe 구역으로 설정*/
             width: 100%;
@@ -194,7 +203,8 @@
         border-radius:0 20px 20px 0;
         cursor:pointer;
         font-size:1.5em;
-        font-weight: bold
+        font-weight: bold;
+        z-index:5;
         }
         div#menu:hover{/*클릭시 div#sideBar를 보이게 하는 버튼 (페이지 좌측 상중단에 위치) 상세 style을 인라인으로 설정해놓음*/
             text-decoration:underline;
@@ -270,6 +280,26 @@
                     "bottom":b/5 + "px"
                 });
             });
+            let timerIDA,timerIDB;
+            let a = 0;
+            $(".box-shadow").mouseenter(function(){
+                let $this=$(this);
+                timerIDA=setInterval(function(){
+                    $this.css({"box-shadow":`${a}px ${a}px ${a}px gray`});
+                    a += 0.1;
+                    if(a >= 8)clearInterval(timerIDA);
+                },1);
+            }).mouseleave(function(){
+                let $this=$(this);
+                let b = a;
+                clearInterval(timerIDA);
+                timeIDB = setInterval(function(){
+                $this.css({"box-shadow":`${b}px ${b}px ${b}px gray`});
+                    b -= 0.1;
+                    if(b <= 0)clearInterval(timerIDB);
+                },1);
+                a=0;
+            });
 		});
 	</script>
 </head>
@@ -278,19 +308,19 @@
         <header class="border-box">
         </header>
         <nav class="border-box">
-            <input type="text" placeholder="검색창">
-            <button type="submit">검색</button>
+                <input type="text" placeholder="검색창">
+                <button type="submit">검색</button>
         </nav>
         <div id="main" class="border-box">
             <aside class="border-box">
-                <div id="asideHeader" class="border-box">
+                <div id="asideHeader" class="border-box box-shadow">
                     <div id="icon">
 
                     </div>
                     <div id="left_welcome">
                     </div>
                 </div>
-                <div id="asideMain" class="border-box">
+                <div id="asideMain" class="border-box box-shadow">
                         <b id="hidemarkBtn" style="display:none;"><span style="color:#03C75A;">★</span> 즐겨찾는 게시판 <button id="mark" style="float:right;margin-top:3px;">▼</button><br>
                         <div id="hidemark" style="display:none; color:#aeaeb1;">게시판 상단의 아이콘을
                             클릭하시면 추가됩니다.</div>
@@ -314,7 +344,7 @@
                             <li id="프로젝트진행"><a class="cateMove" href="" target="iFrame">프로젝트진행</a></li>
                         </ul>
                 </div>
-                <div id="asideFooter" class="border-box">
+                <div id="asideFooter" class="border-box box-shadow">
                     <b>최신 업데이트</b>
                     <hr>
                     <ul>
@@ -327,7 +357,7 @@
                 </div>
             </aside>
             <main class="border-box">
-                <div id="mainHeader" class="border-box">
+                <div id="mainHeader" class="border-box box-shadow">
                     <H1>Coding News Title</H1>
                     <hr><br>
                     <a href="https://www.itworld.co.kr/tags/2716/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D/304285">#“프로그래밍 언어 개발의 감초” LLVM의 이해와 활용 방법</a><Br>
@@ -337,7 +367,7 @@
                     <a href="https://www.itworld.co.kr/tags/2716/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D/284815">#글로벌 칼럼ㅣ코파일럿 쓰는 120만 명 개발자가 놓치고 있는 것</a><br>
                     <a href="https://www.itworld.co.kr/tags/2716/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D/252934">#SW교육 전문 스타트업 해피해킹, ‘하이퍼그로스’로 사명 변경</a><br>
                 </div>
-                <div id="mainArticle" class="border-box">
+                <div id="mainArticle" class="border-box box-shadow">
                     <iframe style="border:none;" class="frame" name="iFrame" src="게시판 페이지.html?cate=전체글보기"></iframe>
                 </div>
             </main>
@@ -362,7 +392,9 @@
             font-size:1.5em;
             font-weight:bold;
             color:white;
-        " onclick="location='카페 글쓰기.html'">글쓰기</button>
+            position:relative;
+            z-index:4;
+        " onclick="location='카페 글쓰기.html'" class="box-shadow">글쓰기</button>
         <button style="
             outline:none;
             width:100%; height:20%;
@@ -371,7 +403,9 @@
             font-size:1.5em;
             font-weight:bold;
             color:white;
-        ">그림판</button>
+            position:relative;
+            z-index:3;
+        " class="box-shadow">그림판</button>
         <button style="
             outline:none;
             width:100%; height:20%;
@@ -380,7 +414,9 @@
             font-size:1.5em;
             font-weight:bold;
             color:white;
-        " onclick="location='지도.html'">지도</button>
+            position:relative;
+            z-index:2;
+        " onclick="location='지도.html'" class="box-shadow">지도</button>
         <button style="
             outline:none;
             width:100%; height:20%;
@@ -389,7 +425,9 @@
             font-size:1.5em;
             font-weight:bold;
             color:white;
-        " onclick="window.open('계산기.html','_blank','left=600,top=300,width=287,height=431')">계산기</button>
+            position:relative;
+            z-index:1;
+        " onclick="window.open('계산기.html','_blank','left=600,top=300,width=287,height=431')" class="box-shadow">계산기</button>
         <button style="
             outline:none;
             width:100%; height:20%;
@@ -399,9 +437,11 @@
             font-size:1.5em;
             font-weight:bold;
             color:white;
-        ">HTML</button>
+            position:relative;
+            z-index:0;
+        " class="box-shadow">HTML</button>
     </div>
-    <div id="menu" class="border-box">menu</div>
+    <div id="menu" class="border-box box-shadow">menu</div>
 	
 </body>
 </html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>content_page</title>
+    <style>
+        * {margin:0; padding:0;}
+        .contentHead {width: 100%; height: 180; box-sizing: border-box;}
+        #content_top {width: 100%; border-bottom: 2px solid black;}
+        #postCounts {margin: 15px 0 13px 10px; font-size: 13px;}
+        .filterBtnArea {margin:10px 0; padding:10px 0 10px 20px}
+        .filterBtnArea button {height: 3em; padding: 10px; border: 1px solid rgb(235, 235, 235); border-radius: 20px;}
+        .filterBtnArea button:not([class=on]) {background: white;}
+        .formSelectBox {margin: 10px 0;  float: right; box-sizing: border-box;}
+        .formSelectBox form {padding: 5px; box-sizing: border-box;}
+        #recent {margin-right: 10px; padding: 10px 0px 10px 10px; border-radius: 10px; box-sizing: border-box;}
+        .on {color: rgb(5, 143, 0); font-weight: bold; background: rgb(225, 255, 226);}
+
+        table, tr, th, td{padding:2px; text-align: center; 
+            width: 100%; border-collapse: collapse;
+        }
+        .postTh {font-size: 13px; background: rgb(181, 255, 185); height: 30px;}
+        td {font-size: 12px; padding: 5px;}
+        th:nth-child(1) {width: 15%;}
+        th:nth-child(2) {width: 25%;}
+        th:nth-child(3) {width: 20%;}
+        th:nth-child(4) {width: 20%;}
+        th:nth-child(5) {width: 10%;}
+
+        td:nth-child(1) {width: 15%;}
+        td:nth-child(2) {width: 30%;}
+        td:nth-child(3) {width: 20%;}
+        td:nth-child(4) {width: 20%;}
+        td:nth-child(5) {width: 15%;}
+
+        tr:nth-child(2n){
+            background: aliceblue;
+        }
+
+        footer {
+            margin: 10px;
+        }
+        .footerBox, .searchArea, .searchBoxes  {
+            width: 100%;
+            background: rgb(243, 243, 243);
+        }
+        
+        .exp {
+            display: flex;
+            margin-top: 35px;
+            color: black;
+            font-size: 14px;
+            text-decoration: none;
+        }
+        .postTitleHL {text-decoration: none;}
+        .postWriterHL {text-decoration: none;}
+        .postTitleHL:hover {text-decoration: underline;}
+        .postWriterHL:hover {text-decoration: underline;}
+        a {text-decoration: none; color: black;}
+        a:visited {text-decoration: none; color: black;}
+        span {font-weight: bold;}
+        
+        #userFloat {
+            display:none; position:absolute; 
+            width: auto; height: auto; font-size: 12px;
+            background: #3b3b3b;
+        }
+        #userFloat li {
+            width: 100%; list-style-type: none; padding: 6px; box-sizing: border-box;
+        }
+        #userFloat li:not(:first-child) {border-top: 1px solid #fff;}
+        #userFloat li a {color: #fff;}
+        
+    </style>
+    <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/dayjs@1.11.10/dayjs.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="contentHead">
+            <div id="content_top">
+                <h2 id="CategoryName">카페 인기글</h2>
+                <p id="postCounts">우리 카페 인기글을 모아서 볼 수 있습니다.</p>
+            </div>
+            <div class="filterBtnArea">
+                <button class="on">인기글</button>
+                <button>댓글 TOP</button>
+                <button>좋아요 TOP</button>
+                <div class="formSelectBox">
+                    <form>
+                        <select name="recentSelect" id="recent">
+                            <option value="last7Days" class="item" selected>최근 7일</option>
+                            <option value="last30Days" class="item">최근 30일</option>
+                            <option value="all" class="item">전체</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+    <nav></nav>
+    <section>
+        <div id="articles_area">
+            <div>
+                <table class="articleTable">
+                    <thead>
+                        <tr class="postTh">
+                            <th class="category"></th>
+                            <th class="title">제목</th>
+                            <th class="writer">작성자</th>
+                            <th class="date">작성일</th>
+                            <th class="view">조회수</th>
+                        </tr>
+                    </thead>
+                    <tbody class="postArea">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="footerBox">
+            <div class="expArea">
+                <div class="exp">최근 7일간 작성된 게시글 중 카페 멤버에게 인기가 많았던 게시글 입니다.</div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        let postNum = 0;
+        let weekly = 0;
+        let monthly = 0;
+        let alltime = 0;
+        let popularityCutOff = 0;
+        let $sel;
+
+        // 로컬 스토리지에서 객체를 가져오는 함수
+        function getUserText() {
+            let userText = [];
+            if (localStorage.length > 0) {
+                let userTextString = localStorage.getItem("userText");
+                userText = JSON.parse(userTextString) || [];
+            }
+            return userText;
+        }
+
+        // 파일에서 객체를 가져오는 함수
+        function getFileData(callback) {
+            $.getJSON('게시글 객체.json', function(data) {
+                callback(data);
+            });
+        }
+        
+        $(function(){       //ready
+            const now = dayjs();
+            now.format("YYYY.MM.DD HH:mm");
+
+            let userText = getUserText()
+
+            getFileData(function(fileData){
+                const userPost = userText.concat(fileData.filter(item => !userText.some(obj => obj.TITLE === item.TITLE)));
+
+                userPost.sort((a, b) => a.VIEW - b.VIEW);
+
+                // 글의 조회수가 설정한 기준점보다 높고, 작성일이 오늘 날짜-7일 한 것 보다 클 때 랭킹숫자 증가 (꼴찌값까지 증가시키기)
+                $.each(userPost, function(){
+                    if (this.VIEW >= popularityCutOff && this.DATE >= now.subtract(7, "day").format("YYYY.MM.DD")){
+                        weekly++;
+                    }
+                });
+
+                // 글의 조회수가 설정한 기준점보다 높고, 작성일이 오늘 날짜-7일 한 것 보다 클 때 글 수를 증가시키고 출력, 랭킹숫자를 하나씩 감소시킴
+                $.each(userPost, function(){
+                    if (this.VIEW >= popularityCutOff){
+                        if (this.DATE >= now.subtract(7, "day").format("YYYY.MM.DD")){
+                            postNum++;
+                            $("<tr class='post'>" +
+                            "<td>" + weekly + "</td>" +
+                            "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.TITLE + "</a>" + "</td>" +
+                            "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.ID + "</a>" + "</td>" +
+                            "<td>" + this.DATE + "</td>" +
+                            "<td>" + this.VIEW + "</td>" +
+                            "</tr>").prependTo('tbody.postArea');
+                            weekly--;
+                        }
+                    }
+                });
+                if (postNum == 0){
+                    $('<tr><td></td><td></td><td>인기글이 없습니다.</td><td></td><td></td></tr>').prependTo('tbody.postArea');
+                }
+
+                $('#recent').on('change', function(){
+                    $sel = $('#recent option:selected').val();
+                    postNum = 0;
+                    weekly = 0;
+                    monthly = 0;
+                    alltime = 0;
+                    $('.postArea tr').remove();
+                    $.each(userPost, function(){
+                        if (this.VIEW >= popularityCutOff){
+                            if (this.DATE >= now.subtract(7, "day").format("YYYY.MM.DD")){
+                                weekly++;
+                            }
+                            if (this.DATE >= now.subtract(30, "day").format("YYYY.MM.DD")){
+                                monthly++;
+                            }
+                            alltime++
+                        }
+                    });
+                    $.each(userPost, function(){
+                        if (this.VIEW >= popularityCutOff){
+                            switch($sel){
+                                case "last7Days" : 
+                                    if (this.DATE >= now.subtract(7, "day").format("YYYY.MM.DD")){
+                                        postNum++;
+                                        $("<tr class='post'>" +
+                                            "<td>" + weekly + "</td>" +
+                                            "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.TITLE + "</a>" + "</td>" +
+                                            "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.ID + "</a>" + "</td>" +
+                                            "<td>" + this.DATE + "</td>" +
+                                            "<td>" + this.VIEW + "</td>" +
+                                        "</tr>").prependTo('tbody.postArea');
+                                        weekly--;
+                                    }
+                                    break;
+                                case "last30Days" : 
+                                    if (this.DATE >= now.subtract(30, "day").format("YYYY.MM.DD")){
+                                        postNum++;
+                                        $("<tr class='post'>" +
+                                            "<td>" + monthly + "</td>" +
+                                            "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.TITLE + "</a>" + "</td>" +
+                                            "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.ID + "</a>" + "</td>" +
+                                            "<td>" + this.DATE + "</td>" +
+                                            "<td>" + this.VIEW + "</td>" +
+                                        "</tr>").prependTo('tbody.postArea');
+                                        monthly--;
+                                    }
+                                    break;
+                                default : 
+                                    postNum++;
+                                    $("<tr class='post'>" +
+                                        "<td>" + alltime + "</td>" +
+                                        "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.TITLE + "</a>" + "</td>" +
+                                        "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.ID + "</a>" + "</td>" +
+                                        "<td>" + this.DATE + "</td>" +
+                                        "<td>" + this.VIEW + "</td>" +
+                                    "</tr>").prependTo('tbody.postArea');
+                                    alltime--;
+                                    break;
+                            }
+                        }
+                    });
+                });
+
+                // 작성자 클릭 시 해당 요소 아래에 툴팁이 나오는 코드 / 요소 바깥을 클릭하면 사라짐
+                $('.postWriterHL').on('click', function(e){
+                    let offset = $(this).offset();
+                    let triggerWidth = $(this).outerWidth();
+                    let ttWidth = $('#userFloat').outerWidth();
+                    let ttHeight = $('#userFloat').outerHeight();
+                    let ttTop = offset.top + $(this).outerHeight();
+                    $('#userFloat').css({'left': offset.left, 'top': ttTop});
+                    $('#userFloat').fadeIn('fast');
+
+                    $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
+                });
+                $(document).on('click', function(e){
+                    let $tgPoint = $(e.target);
+                    let $writerTT = $tgPoint.hasClass('postWriterHL');
+                    let $hlArea = $tgPoint.hasClass('userFloat');
+
+                    if (!$writerTT && !$hlArea){
+                        $('#userFloat').fadeOut('fast');
+                    }
+                });
+
+                // 게시글 제목 a 클릭 시 해당 게시글의 text를 가지고 게시글 페이지로 이동
+                $('.postTitleHL').on('click', function(){
+                    $(this).prop('href', "게시글.html?title=" + $(this).text());
+                });
+
+            });
+
+                
+            // 필터 설정 이벤트
+            $('.filterBtnArea button').on('click', function(){
+                if ($(this).siblings().hasClass('on')){
+                    $(this).siblings().removeClass('on');
+                }
+                $(this).addClass('on');
+            });
+
+        });     // ready end
+    </script>
+    <div id="userFloat">
+        <ul>
+            <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">게시글 보기</ah></li>
+            <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">1:1 채팅</a></li>
+            <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">쪽지보내기</a></li>
+        </ul>
+    </div>
+</body>
+</html>

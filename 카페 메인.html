@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+	<style>
+        /*@media(max-width: 1000px) and (max-height: 450px){
+            #upDownBtn{
+                display:none;
+            }
+        }*/
+        .border-box{/*테두리 크기를 합쳐야 하는 요소는 class="boder-box"사용하기*/
+            box-sizing: border-box;
+        }
+        *:not(li,hr){
+            margin:0;
+            padding:0;
+        }
+        /*.box-shadow{
+            js로 천천히 그림자 생기고 사라지게 설정
+        }*/
+        input:not([type="text"]),button,select,a{
+            cursor:pointer;
+        }
+        a{
+            text-decoration:none;
+        }
+        input:not([type="text"]):hover,a:hover{
+            text-decoration:underline;
+        }
+        html,body{
+            width:100%; height:100%;
+            background:white;
+            margin:0;
+
+        }
+        div#whole{/*header,nav,div#main의 부모요소*/
+            width:1080px; height:1500px;
+            border:none;
+            margin:auto;
+        }
+        header{
+            height:14.5%;
+            background-image:url("image/cloud.jpeg");
+            background-size:cover;
+            background-position:center;
+        }
+        header:hover {
+            cursor:pointer;
+        }
+        nav{/*검색창 있는 중간 구역*/
+            width:100%;
+            height:3.5%;
+            display:flex;
+            justify-content: flex-end;
+        }
+        nav>input{
+            width:22%; height:70%;
+            border:1px #D7D7D9 solid;
+            margin:auto 0;
+        }
+        nav>button{
+            width:5%; height:70%;
+            margin:auto 0;
+            background:dodgerblue;
+            color:white;
+            outline:none;
+            border:none;
+        }
+        div#main{/*시맨틱 태그 aside,main 의 부모요소*/
+            width:100%; height:72%;
+        }
+        aside{
+            width:20%;
+            height:100%;
+            float:left;
+        }
+        div#asideHeader,div#asideFooter{
+            width:100%; height:25%;
+            border-top:2px black solid;
+        }
+        div#asideHeader {
+            padding: 3%;
+            background:lightblue;
+            position:relative;
+            z-index:2;
+        }
+        div#asideHeader>div#icon{
+            width:100%;
+            margin-bottom: 5px;
+            aspect-ratio:1/1;
+            background-origin: padding-box;
+            background-image: url("image/icon.jpg");
+            background-size: contain;
+            background-position: center;
+            border-radius: 50%;
+        }
+        div#asideHeader>div#left_welcome{
+            width:100%; height:20%;
+            text-align:center;
+            font-weight: bold;
+        }
+        div#asideHeader>div#left_welcome>input{ /*글쓰기버튼*/
+            margin:0 auto;
+            width:40%;
+            height:60%;
+            border-radius:8px;
+            border:1px #D7D7D9 solid;
+            background:#5A5A5A;
+            color:white;
+        }
+        div#asideMain{
+            width:100%;
+            height:50%;
+            padding:10px;
+            font-size:0.9em;
+            border-top:2px black solid;
+            background:lightgreen;
+            position:relative;
+            z-index:1;
+        }
+        div#asideMain>b>button{
+            font-size:0.8em;
+            outline:none;
+            background:none;
+            border:none;
+        }
+        div#asideMain>ul>li{
+            list-style-position:inside;
+            list-style-image:url("image/writeicon.png");
+        }
+        div#asideFooter{
+            width:100%;
+            padding:10px;
+            font-size:0.9em;
+            background:lightcoral;
+        }
+        div#asideFooter>ul>li{
+            list-style-position:inside;
+            list-style-image:url("image/불.png");
+        }
+        main{
+            width:80%;
+            height:100%;
+            float:left;
+        }
+        main>div{
+            width:100%;
+            border-width:0 0 1px 0;
+            border-color:black;
+            border-style:solid;
+        }
+        div#mainHeader{
+            height:25%;
+            /*border:5px #EEEEEE solid;*/
+            padding:30px;
+        }
+        div#mainHeader>a{
+            text-decoration:none;
+            color:black;
+        }
+        div#mainHeader>a:hover{
+            text-decoration:underline;
+            color:blue;
+        }
+        div#mainArticle{/*iframe의 부모요소*/
+            height:75%;
+            position:relative;
+            z-index:0;
+        }
+        .frame {/*mainArticle구역의 전체를 iframe 구역으로 설정*/
+            width: 100%;
+            height: 100%;
+        }
+        .cateMove {       /*카테고리 리스트*/
+            text-decoration: none;
+            color: black;
+        }
+        div#upDownBtn{/*페이지 우측 하단 버튼*/
+            position:fixed;
+            width:5%; height:20%;
+            right:0; bottom:0;
+        }
+        button#up,button#down{/*div#upDownBtn의 자식요소*/
+            width:100%; height:50%;
+            font-size:5em;
+            outline:none;
+            background:none;
+            border:none;
+        }
+        div#sideBar>button:hover{/*상세 style을 인라인으로 설정해놓음*/
+            text-decoration:underline;
+        }
+        div#menu{
+        width:100px; height:100px;
+        position:fixed;
+        top:calc(20% - 100px); left:0%;
+        border:1px #5A5A5A solid;
+        background:#5A5A5A;
+        text-align: center;
+        padding-top:32px;
+        color:white;
+        display:none;
+        border-radius:0 20px 20px 0;
+        cursor:pointer;
+        font-size:1.5em;
+        font-weight: bold;
+        z-index:5;
+        }
+        div#menu:hover{/*클릭시 div#sideBar를 보이게 하는 버튼 (페이지 좌측 상중단에 위치) 상세 style을 인라인으로 설정해놓음*/
+            text-decoration:underline;
+        }
+	</style>
+	<script src="http://code.jquery.com/jquery-3.6.0.js"></script>
+	<script>
+		$(function(){
+            $("#writeBtn").click(function(){//글쓰기 버튼 누르면 글쓰기 웹페이지를 새창으로 불러오기
+                window.open("카페 글쓰기.html","_blank");
+            });
+            $("#mark").click(function(){//즐겨찾기 메뉴 버튼 ▲ ▼
+                if($("#mark").html()=="▼"){
+                    $("#mark").html("▲");
+                    $("#hidemark").slideDown("fast");
+                }
+                else{
+                    $("#mark").html("▼");
+                    $("#hidemark").slideUp("fast");
+                }
+            });
+            let userIndexString=localStorage.getItem("userIndex");
+            console.log(userIndexString);
+            if(userIndexString){
+                $("#menu").show();
+                $("#hidemarkBtn").show();
+                let userIndex=JSON.parse(userIndexString);
+                let Index=userIndex[0].Index;
+                console.log(Index);
+                let userDataString=localStorage.getItem("userData");
+                let userData=JSON.parse(userDataString);
+                let userName=userData[Index].NAME;
+                console.log(userName);
+                $("#left_welcome").html("환영합니다 " + userName + "님<br><input type='button' id='logOutBtn' value='로그아웃'>");
+            }else{
+                $("#left_welcome").html("<input type='button' id='logInBtn' value='로그인' style='margin-top:5%'>");
+            }
+            $("#logOutBtn").click(function(){
+                localStorage.removeItem("userIndex");
+                window.open("카페 메인.html","_self");
+            });
+            $("#logInBtn").click(function(){
+                window.open("카페 로그인.html","_self");
+            });
+
+            // 카테고리 a 클릭 시 해당 카테고리의 text를 가지고 게시판 페이지로 이동
+            $('.cateMove:not(#popularPost)').on('click', function(){
+                $(this).prop('href', "게시판 페이지.html?cate=" + $(this).text());
+            });
+    
+            // 최 상단 이미지 배너 클릭 시 카페 최초 화면으로 이동
+            $('.border-box').click(function(){
+                $('.frame').prop('src', "게시판 페이지.html?cate=전체글보기");
+            });
+
+            //menu바 클릭시 sideBar 출현
+            $("#menu,#sideBar").click(function(){
+                if($("#sideBar").css("display")=="none"){
+                    $("#sideBar").fadeIn("fast");
+                    $("#menu").css("border-radius","0 20px 0 0");
+                }else{
+                    $("#sideBar").fadeOut("fast");
+                    $("#menu").css("border-radius","0 20px 20px 0");
+                }
+            });
+            
+            // 브라우저 크기가 변경될 때
+            window.addEventListener('resize', function(event){
+                    let a=1920-window.innerWidth;
+                    let b=953-window.innerHeight;
+                $("#upDownBtn").css({
+                    "right":a/30 + "px",
+                    "bottom":b/5 + "px"
+                });
+            });
+            let timerIDA,timerIDB;
+            let a = 0;
+            $(".box-shadow").mouseenter(function(){
+                let $this=$(this);
+                timerIDA=setInterval(function(){
+                    $this.css({"box-shadow":`${a}px ${a}px ${a}px gray`});
+                    a += 0.1;
+                    if(a >= 8)clearInterval(timerIDA);
+                },1);
+            }).mouseleave(function(){
+                let $this=$(this);
+                let b = a;
+                clearInterval(timerIDA);
+                timeIDB = setInterval(function(){
+                $this.css({"box-shadow":`${b}px ${b}px ${b}px gray`});
+                    b -= 0.1;
+                    if(b <= 0)clearInterval(timerIDB);
+                },1);
+                a=0;
+            });
+            function ranNum(max){
+                let num=Math.floor(Math.random()*max+1);
+                return num;
+            }
+            let colorI=0;
+            let glitterColor=["red","orange","yellow","green","blue","navy","purple"];
+            $("html").mousemove(function(e){
+                if(document.getElementsByTagName("div").length>=150)return false;
+                let i = colorI % 7;
+                let div = document.createElement("div");
+                div.style.backgroundColor = glitterColor[i];
+                div.style.width = ranNum(5) + "px";
+                div.style.height = ranNum(5) + "px";
+                div.style.borderRadius = ranNum(5) + "px";
+                div.style.position = "absolute";
+                div.style.top = e.pageY + "px";
+                div.style.left = e.pageX + "px";
+                div.style.zIndex = 10;
+                let fall = 0;
+                document.body.appendChild(div);
+                let timerID = setInterval(function(){
+                    fall += 0.5;
+                    div.style.top = e.pageY + fall + "px";
+                    div.style.opacity = 1 - fall/100;
+                    if(fall >= 100) {
+                        clearInterval(timerID);
+                        document.body.removeChild(div);
+                    }
+                },1);
+                colorI++;
+            });
+		});
+	</script>
+</head>
+<body>
+    <div id="whole">
+        <header class="border-box">
+        </header>
+        <nav class="border-box">
+                <input type="text" placeholder="검색창">
+                <button type="submit">검색</button>
+        </nav>
+        <div id="main" class="border-box">
+            <aside class="border-box">
+                <div id="asideHeader" class="border-box box-shadow">
+                    <div id="icon">
+
+                    </div>
+                    <div id="left_welcome">
+                    </div>
+                </div>
+                <div id="asideMain" class="border-box box-shadow">
+                        <b id="hidemarkBtn" style="display:none;"><span style="color:#03C75A;">★</span> 즐겨찾는 게시판 <button id="mark" style="float:right;margin-top:3px;">▼</button><br>
+                        <div id="hidemark" style="display:none; color:#aeaeb1;">게시판 상단의 아이콘을
+                            클릭하시면 추가됩니다.</div>
+                        <hr></b>
+                        <ul>
+                            <li id="AllPost"><a class="cateMove" href="" target="iFrame">전체글보기</a></li>
+                            <li id="PopularPost"><a class="cateMove" id="popularPost" href="인기글.html" target="iFrame">인기글</a></li>
+                            <hr>
+                            <li id="Notification"><a class="cateMove" href="" target="iFrame">공지사항</a></li>
+                            <li id="FreePost"><a class="cateMove" href="" target="iFrame">자유게시판</a></li>
+                            <hr>
+                            <b>코딩 학습</b>
+                            <hr>
+                            <li id="Memo"><a class="cateMove" href="" target="iFrame">메모</a></li>
+                            <li id="HTML&CSS"><a class="cateMove" href="" target="iFrame">HTML / CSS</a></li>
+                            <li id="JavaScript"><a class="cateMove" href="" target="iFrame">JavaScript</a></li>
+                            <li id="jQuery&Ajax"><a class="cateMove" href="" target="iFrame">jQuery / Ajax</a></li>
+                            <hr>
+                            <li id="Git&Github"><a class="cateMove" href="" target="iFrame">Git / Github</a></li>
+                            <li id="Java"><a class="cateMove" href="" target="iFrame">Java</a></li>
+                            <li id="프로젝트진행"><a class="cateMove" href="" target="iFrame">프로젝트진행</a></li>
+                        </ul>
+                </div>
+                <div id="asideFooter" class="border-box box-shadow">
+                    <b>최신 업데이트</b>
+                    <hr>
+                    <ul>
+                        <li><a>Java 환경설정</a></li>
+                        <li><a>네이버 드라이브 주소</a></li>
+                        <li><a>JS 파일</a></li>
+                        <li><a>서버 호스팅 하는법</a></li>
+                        <li><a>자바스크립트 이벤트 문법</a></li>
+                    </ul>
+                </div>
+            </aside>
+            <main class="border-box">
+                <div id="mainHeader" class="border-box box-shadow">
+                    <H1>Coding News Title</H1>
+                    <hr><br>
+                    <a href="https://www.itworld.co.kr/tags/2716/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D/304285">#“프로그래밍 언어 개발의 감초” LLVM의 이해와 활용 방법</a><Br>
+                    <a href="https://www.itworld.co.kr/tags/2716/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D/296623">#“AI가 소스코드 만들어 준다” LG CNS, 챗GPT 기반 코드 생성형 AI 개발</a><Br>
+                    <a href="https://www.itworld.co.kr/tags/2716/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D/290971">#고 개발자가 꼽은 가장 큰 불편함은 '오류 처리'</a><br>
+                    <a href="https://www.itworld.co.kr/tags/2716/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D/288193">#깃허브 코파일럿·아마존 코드위스퍼러에 맞선다… 구글 바드, 코드 생성 기능 추가</a><br>
+                    <a href="https://www.itworld.co.kr/tags/2716/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D/284815">#글로벌 칼럼ㅣ코파일럿 쓰는 120만 명 개발자가 놓치고 있는 것</a><br>
+                    <a href="https://www.itworld.co.kr/tags/2716/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D/252934">#SW교육 전문 스타트업 해피해킹, ‘하이퍼그로스’로 사명 변경</a><br>
+                </div>
+                <div id="mainArticle" class="border-box box-shadow">
+                    <iframe style="border:none;" class="frame" name="iFrame" src="게시판 페이지.html?cate=전체글보기"></iframe>
+                </div>
+            </main>
+        </div>
+    </div>
+    <div id="upDownBtn">
+    <button id="up" onclick="window.scrollTo(0,0)">▲</button>
+    <button id="down" onclick="window.scrollTo(0,document.body.scrollHeight)">▼</button>
+    </div>
+    <div id="sideBar" style="
+        position:fixed;
+        left:0; top:20%;
+        width:100px; height:500px;
+        border:none;
+        display:none;
+    ">
+        <button style="
+            outline:none;
+            width:100%; height:20%;
+            background-color:#5A5A5A;
+            border:none;
+            font-size:1.5em;
+            font-weight:bold;
+            color:white;
+            position:relative;
+            z-index:4;
+        " onclick="location='카페 글쓰기.html'" class="box-shadow">글쓰기</button>
+        <button style="
+            outline:none;
+            width:100%; height:20%;
+            background-color:#5A5A5A;
+            border:none;
+            font-size:1.5em;
+            font-weight:bold;
+            color:white;
+            position:relative;
+            z-index:3;
+        " class="box-shadow">그림판</button>
+        <button style="
+            outline:none;
+            width:100%; height:20%;
+            background-color:#5A5A5A;
+            border:none;
+            font-size:1.5em;
+            font-weight:bold;
+            color:white;
+            position:relative;
+            z-index:2;
+        " onclick="location='지도.html'" class="box-shadow">지도</button>
+        <button style="
+            outline:none;
+            width:100%; height:20%;
+            background-color:#5A5A5A;
+            border:none;
+            font-size:1.5em;
+            font-weight:bold;
+            color:white;
+            position:relative;
+            z-index:1;
+        " onclick="window.open('계산기.html','_blank','left=600,top=300,width=287,height=431')" class="box-shadow">계산기</button>
+        <button style="
+            outline:none;
+            width:100%; height:20%;
+            border-radius:0 0 20px 0;
+            background-color:#5A5A5A;
+            border:none;
+            font-size:1.5em;
+            font-weight:bold;
+            color:white;
+            position:relative;
+            z-index:0;
+        " class="box-shadow">HTML</button>
+    </div>
+    <div id="menu" class="border-box box-shadow">menu</div>
+	
+</body>
+</html>

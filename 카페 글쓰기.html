@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+	<style>
+        @font-face {
+            font-family: 'AmericanTypewriterBold';
+            src: url('fonts/AmericanTypewriterBQ-Bold.otf') format('truetype');
+        }
+        @font-face {
+            font-family: '나눔고딕';
+            src: url('fonts/NanumGothic.ttf') format('truetype');
+        }
+        @font-face {
+            font-family: '나눔바른고딕';
+            src: url('fonts/NanumBarunGothic.ttf') format('truetype');
+        }
+        @font-face {
+            font-family: '나눔명조';
+            src: url('fonts/NanumMyeongjo.ttf') format('truetype');
+        }
+        @font-face {
+            font-family: '나눔스퀘어';
+            src: url('fonts/NanumSquareR.ttf') format('truetype');
+        }
+        *{
+            margin:0;
+            box-sizing:border-box;
+            padding:0;
+        }
+        input:not([type="text"]),button,select,a{
+            cursor:pointer;
+            outline:none;
+            border:1px #D7D7D9 solid;
+        }
+        a{
+            text-decoration:none;
+        }
+        input:not([type="text"]):hover,a:hover{
+            text-decoration:underline;
+        }
+        input[type="text"],textarea{
+            padding:15px;
+        }
+        html,body{
+            width:100%; height:100%;
+            background-color:aliceblue;
+        }
+        div#web{
+            width:1080px; height:1500px;
+            border:none;
+            margin:auto;
+        }
+        div#top{
+            height:14.5%;
+            background-image:url("image/cloud.jpeg");
+            background-size:cover;
+            background-position:center;
+        }
+        div#search{
+            width:100%;
+            height:3.5%;
+            border-bottom:1px black solid;
+            display:flex;
+        }
+        div#search>span{
+            margin:auto 0;
+            font-size:1.2em;
+            font-weight:bold;
+        }
+        div#main{
+            width:100%; height:72%;
+            display:flex;
+        }
+        div#left{
+            width:80%; height:100%;
+        }
+        div#left>*{
+            border-color:black;
+            border-style:solid;
+        }
+        div#left>select{
+            width:40%; height:4%;
+            margin:0;
+            border:none;
+            background:#F5F6F8;
+            border-radius:10px;
+            border:1px #D7D7D9 solid;
+            outline-color:#D7D7D9;
+        }
+        div#left>input{
+            width:60%; height:4%;
+            border:1px #D7D7D9 solid;
+            border-radius:10px;
+            margin-top:1px;
+            background:#F5F6F8;
+            outline-color:#D7D7D9;
+        }
+        div#left>div#tools1{
+            width:100%;height:5%;
+            border:1px #D7D7D9 solid;
+            display:flex;
+            background:#F5F6F8;
+        }
+        div#left>div#tools1>button{
+            outline:none;
+            border:none;
+            width:6%; height:100%;
+            font-size:0.7em;
+            background:#F5F6F8;
+        }
+        div#left>div#tools1>button:hover{
+            color:#88D8AC;
+        }
+        div#left>div#tools1>button>img{
+            width:40%; height:40%;
+        }
+        div#left>div#tools2{
+            width:100%; height:3%;
+            border:1px #D7D7D9 solid;
+            background:#F5F6F8;
+            border-width:0 1px;
+        }
+        div#left>div#tools2>select{
+            margin: 0 0 auto 5px;
+            outline:none;
+            background:none;
+            border:none;
+        }
+        div#left>div#tools2>button{
+            font-family:"AmericanTypewriterBold", sans-serif;
+            width:3%; height:100%;
+            border:none;
+            background:#F5F6F8;
+            font-size:1.2em;
+        }
+        div#left>div#tools2>input[type="color"]{
+            border:none;
+            width:3%; height:70%;
+        }
+        div#left>div#field{
+            position:relative;
+            border:none;
+            width:100%; height:50%;
+            border:1px #D7D7D9 solid;
+        }
+        div#left>div#field>textarea{
+            width:100%; height:100%;
+            resize:none;
+            outline:none;
+            font-size:30px;
+            border:none;
+            z-index:1;
+        }
+        div#left>div#field>canvas{
+            border:none;
+            position:absolute;
+            outline:none;
+            display:none;
+            top:50%; left:50%;
+            transform:translate(-50%,-50%);
+            z-index:2;
+            cursor:crosshair;
+            margin:auto;
+            background:#F5F6F8;
+        }
+        div#left>div#Btn{
+            text-align:right;
+            border:none;
+            height:4%;
+        }
+        div#left>div#Btn>input{
+            width:15%;
+            height:100%;
+            border-radius:8px;
+            border:1px #D7D7D9 solid;
+            background:dodgerblue;
+            color:white;
+        }
+        div#right{
+            width:20%; height:100%;
+        }
+        div#right>div#tools3{
+            margin:10% 0 0 10%;
+            font-size:0.8em;
+            background:#F5F6F8;
+            padding:15%;
+            width:90%;
+            height:15%;
+            border:1px #D7D7D9 solid;
+            border-radius:8px;
+        }
+	</style>
+	<script src="http://code.jquery.com/jquery-3.6.0.js"></script>
+	<script>
+		$(function(){
+            let timerIDA,timerIDB;
+            let a = 0;
+            $(".box-shadow").mouseenter(function(){
+                let $this=$(this);
+                timerIDA=setInterval(function(){
+                    $this.css({"box-shadow":`${a}px ${a}px ${a}px gray`});
+                    a += 0.1;
+                    if(a >= 8)clearInterval(timerIDA);
+                },1);
+            }).mouseleave(function(){
+                let $this=$(this);
+                let b = a;
+                clearInterval(timerIDA);
+                timeIDB = setInterval(function(){
+                $this.css({"box-shadow":`${b}px ${b}px ${b}px gray`});
+                    b -= 0.1;
+                    if(b <= 0)clearInterval(timerIDB);
+                },1);
+                a=0;
+            });
+            function ranNum(max){
+                let num=Math.floor(Math.random()*max+1);
+                return num;
+            }
+            let colorI=0;
+            let glitterColor=["red","orange","yellow","green","blue","navy","purple"];
+            $("html").mousemove(function(e){
+                let i = colorI % 7;
+                let div = document.createElement("div");
+                div.style.backgroundColor = glitterColor[i];
+                div.style.width = ranNum(5) + "px";
+                div.style.height = ranNum(5) + "px";
+                div.style.borderRadius = ranNum(5) + "px";
+                div.style.position = "absolute";
+                div.style.top = e.pageY + "px";
+                div.style.left = e.pageX + "px";
+                div.style.zIndex = 10;
+                let fall = 0;
+                document.body.appendChild(div);
+                let timerID = setInterval(function(){
+                    fall += 0.5;
+                    div.style.top = e.pageY + fall + "px";
+                    div.style.opacity = 1 - fall/100;
+                    if(fall >= 100) {
+                        clearInterval(timerID);
+                        document.body.removeChild(div);
+                    }
+                },1);
+                colorI++;
+            });
+            $("div#left>div#tools2>button").each(function(index,element){
+                $(element).click(function(){
+                    if($(this).css("color")=="rgb(0, 0, 0)"){
+                        $(this).css("color","#0db645");
+                    }else{
+                        $(this).css("color","black");
+                    }
+                });
+            });
+            $("#bold").click(function(){
+                if($('#textarea').css('font-weight')!="700"){
+                    $('#textarea').css('font-weight','bold');
+                }else{
+                    $('#textarea').css('font-weight','normal');
+                }
+            });
+            $("#italic").click(function(){
+                if($('#textarea').css('font-style')!="italic"){
+                    $('#textarea').css('font-style','italic');
+                }else{
+                    $('#textarea').css('font-style','normal');
+                }
+            });
+            $("#underline").click(function(){
+                if($('#textarea').css('text-decoration').includes("underline")){
+                    $('#textarea').css('text-decoration','none');
+                }else{
+                    if($('#textarea').css('text-decoration').includes("line-through")){return false;}
+                    $('#textarea').css('text-decoration','underline');
+                }
+            });
+            $("#line-through").click(function(){
+                if($('#textarea').css('text-decoration').includes("line-through")){
+                    $('#textarea').css('text-decoration','none');
+                }else{
+                    if($('#textarea').css('text-decoration').includes("underline")){return false;}
+                    $('#textarea').css('text-decoration','line-through');
+                }
+            });
+            let color,context,canvas;
+            canvas=document.getElementById("canvas");
+            context=canvas.getContext("2d");
+            context.lineWidth=2;
+            context.strokeStyle="black";
+            let startX,startY,draw;
+            canvas.onmousedown=function(e){
+                startX=e.offsetX,startY=e.offsetY;
+                draw=true;
+            }
+            canvas.onmouseup=function(){
+                draw=false;
+            }
+            canvas.onmousemove=function(e){
+                if(!draw){return;}
+                context.beginPath();
+                context.moveTo(startX,startY);
+                context.lineTo(e.offsetX,e.offsetY);
+                context.stroke();
+                startX=e.offsetX,startY=e.offsetY;
+            }
+            $("#pen").click(function(){
+                $("#canvas").toggle();
+            });
+		});
+
+        function uplocal(){//글 등록 버튼 클릭시 로컬스토리지로 제목,선택계시판,내용 저장
+            let title=document.getElementById("title").value;
+            let sel=document.getElementById("sel").value;
+            let textarea=document.getElementById("textarea").value;
+            
+            let userText=[];
+            let jsonDataString = localStorage.getItem("userText");
+            if(jsonDataString){
+                let jsonData = JSON.parse(jsonDataString);
+                userText=jsonData;
+                console.log(userText);
+            }
+            let userIndexString=localStorage.getItem("userIndex");
+            if(userIndexString){
+                let userIndex=JSON.parse(userIndexString);
+                let Index=userIndex[0].Index;
+                let ID;
+                let userDataString=localStorage.getItem("userData");
+                if(userDataString){
+                    let userData=JSON.parse(userDataString);
+                    ID=userData[Index].ID;
+                }
+                let local=new Date();
+                let year=local.getFullYear();
+                let month=local.getMonth()+1;
+                if(month<10)month="0" + month;
+                let date=local.getDate();
+                if(date<10)date="0" + month;
+                userText.push({
+                    "ID" : ID,
+                    "SEL" : sel,
+                    "TITLE" : title,
+                    "TEXTAREA" : textarea,
+                    "VIEW" : 0,
+                    "DATE" : `${year}.${month}.${date}`
+                });
+                localStorage.setItem("userText", JSON.stringify(userText));
+                location="카페 메인.html";
+            }else{
+                alert("세션이 만료되었습니다.");
+                location="카페 로그인.html";
+            }
+        }
+	</script>
+</head>
+<body>
+    <div id="web">
+        <div id="top" style="position:relative;">
+            <a href="카페 메인.html" style="position:absolute; bottom:0; border:0; color:black; font-weight:bold;">메인으로 바로가기</a>
+        </div>
+        <div id="search">
+            <span>카페 글쓰기</span>
+        </div>
+        <div id="main">
+            <div id="left">
+                <br>
+                <select id="sel">
+                    <option value="자유게시판" >자유게시판</option>
+                    <option value="공지사항">공지사항</option>
+                    <option value="메모">메모</option>
+                    <option value="HTML / CSS">HTML / CSS</option>
+                    <option value="JavaScript">JavaScript</option>
+                    <option value="jQuery / Ajax">jQuery / Ajax</option>
+                    <option value="Git / Github">Git / Github</option>
+                    <option value="Java">Java</option>
+                    <option value="프로젝트진행">프로젝트진행</option>
+                </select><br>
+                <input type="text" placeholder="제목을 입력해주세요." id="title"><br><br>
+                <div id="tools1">
+                    <button><img src="image/picture.png"><br>사진</button>
+                    <button><img src="image/video.png"><br>동영상</button>
+                    <button><img src="image/스티커.png"><br>스티커</button>
+                    <button><img src="image/파일.png"><br>파일</button>
+                    <button><img src="image/링크.png"><br>링크</button>
+                    <button><img src="image/장소.png"><br>장소</button>
+                    <button><img src="image/투표.png"><br>투표</button>
+                    <button><img src="image/일정.png"><br>일정</button>
+                    <button><img src="image/표.png"><br>표</button>
+                    <button><img src="image/소스코드.png"><br>소스코드</button>
+                </div>
+                <div id="tools2">
+                    <select>
+                        <option value="본문">본문</option>
+                        <option value="인용구">인용구</option>
+                    </select>
+                    <select onchange="$('#textarea').css('font-family',this.value)">
+                        <option value="기본서체">기본서체</option>
+                        <option value="나눔고딕" style="font-family: '나눔고딕';">나눔고딕</option>
+                        <option value="나눔명조" style="font-family: '나눔명조';">나눔명조</option>
+                        <option value="나눔바른고딕" style="font-family: '나눔바른고딕';">나눔바른고딕</option>
+                        <option value="나눔스퀘어" style="font-family: '나눔스퀘어';">나눔스퀘어</option>
+                    </select>
+                    <select onchange="$('#textarea').css('font-size',this.value+'px')">
+                        <option value="11">11</option>
+                        <option value="13">13</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="19">19</option>
+                        <option value="24">24</option>
+                        <option value="28">28</option>
+                        <option value="30" selected>30</option>
+                        <option value="34">34</option>
+                        <option value="38">38</option>
+                    </select>&nbsp;&nbsp;&nbsp;
+                    <button style="width:2%;" id="bold"><b>B</b></button>
+                    <button id="italic"><i>I</i></button>
+                    <button id="underline"><u>U</u></button>
+                    <button id="line-through"><s>T</s></button>
+                    <input type="color" onchange="$('#textarea').css('color',this.value)">&nbsp;&nbsp;&nbsp;&nbsp;
+                    <!--<button id="draw" style="font-size:1em; width:7%;"><b>그림판</b></button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<b>그림판</b>
+                    <button id="pen">✒</button>
+                    <input type="color" onchange="document.getElementById('canvas').getContext('2d').strokeStyle=this.value">
+                    <button onclick="document.getElementById('canvas').getContext('2d').strokeStyle='#F5F6F8';
+                    document.getElementById('canvas').getContext('2d').lineWidth=30;">X</button>-->
+                </div>
+                <div id="field">
+                    <textarea id="textarea"></textarea>
+                    <!--<canvas id="canvas" width="842" height="518"></canvas>-->
+                </div>
+                <div id="Btn"><input type="button" id="writeBtn" value="등록" onclick="uplocal()"></div>
+            </div>
+            <div id="right">
+                <div id="tools3">
+                    <input type="checkbox" checked> 댓글 허용<p></p>
+                    <input type="checkbox" checked> 카페 공유 허용<p></p>
+                    <input type="checkbox" checked> 복사 저장 허용<p></p>
+                    <input type="checkbox" > 자동출처 허용<p></p>
+                    <input type="checkbox" > CCL 사용<p></p>
+                </div>
+            </div>
+        </div>
+    </div>
+	<script>
+        
+	</script>
+</body>
+</html>

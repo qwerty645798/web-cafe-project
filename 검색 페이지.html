@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>content_page</title>
+    <style>
+        * {margin:0; padding:0;}
+        #content_top {width: 100%; height: 110px; box-sizing: border-box; border-bottom: 2px solid black;}
+        
+        .textWithBtn {width: auto; height: 40px; padding:5px; box-sizing: border-box;}
+        .searchArea {background: rgb(245, 245, 245);}
+        .filterArea {width: 100%; height: 30px; margin-top: 20px;}
+        .serText {width: auto; height: auto; display: inline-block;}
+        .filterBtnArea {width: auto; height: 100%; float:right;}
+        .filterBtnArea select {
+            height: 2.5em; padding-left: 0.5em;
+            font-size: 12px;}
+
+        body {width: 100%; margin: 0; box-sizing: border-box; padding: 10px;}
+
+        table, tr, th, td{padding:2px; text-align: center; 
+            width: 100%; border-collapse: collapse;
+        }
+        .postTh {font-size: 13px; background: rgb(181, 255, 185); height: 30px;}
+        td {font-size: 12px; padding: 5px;}
+        th:nth-child(1) {width: 15%;}
+        th:nth-child(2) {width: 25%;}
+        th:nth-child(3) {width: 20%;}
+        th:nth-child(4) {width: 20%;}
+        th:nth-child(5) {width: 10%;}
+
+        td:nth-child(1) {width: 15%;}
+        td:nth-child(2) {width: 30%;}
+        td:nth-child(3) {width: 20%;}
+        td:nth-child(4) {width: 20%;}
+        td:nth-child(5) {width: 15%;}
+
+        tr:nth-child(2n){
+            background: aliceblue;
+        }
+
+        footer {margin-top: 20px;}
+        .footerBox {padding-bottom: 10px;}
+        .footerBox, .searchArea, .searchBoxes  {
+            width: 100%;
+            background: rgb(245, 245, 245);
+        }
+        
+        .searchBoxes {
+            width: 100%;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+        }
+        .searchBoxes div {
+            height: auto; 
+        }
+        #searTimes, #searDetail, .searchText, .searchBtn {
+            font-size: 12px;
+            height: 30px;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            flex-wrap: nowrap;
+            border-radius: 10px;
+        }
+        .searchSelect {margin-right: 8px;}
+        #searTimes {width: 7em; padding-left: 0.5em;}
+        #searDetail {width: 7em; padding-left: 0.5em;}
+        .searchText {width: 18em; padding-left: 1em;}
+        .searchBtn {font-size: 14px; width: 4em; background: rgb(80, 80, 80); font-weight: bold; text-align: center; color: white;}
+        
+        .pageNum {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .pageMove {
+            display: flex;
+            margin: 15px;
+            color: black;
+            font-size: 15px;
+            text-decoration: none;
+        }
+        .postTitleHL {text-decoration: none;}
+        .postWriterHL {text-decoration: none;}
+        .postTitleHL:hover {text-decoration: underline;}
+        .postWriterHL:hover {text-decoration: underline;}
+        a {text-decoration: none; color: #000;}
+        a:visited {text-decoration: none;}
+        span {font-weight: bold;}
+
+        #userFloat {
+            display:none; position:absolute; 
+            width: auto; height: auto; font-size: 12px;
+            background: #3b3b3b;
+        }
+        #userFloat li {
+            width: 100%; list-style-type: none; padding: 6px; box-sizing: border-box;
+        }
+        #userFloat li:not(:first-child) {border-top: 1px solid #fff;}
+        #userFloat li a {color: #fff;}
+    </style>
+    <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/dayjs@1.11.10/dayjs.min.js"></script>
+</head>
+<body>
+    <header>
+        <div id="content_top">
+            <div class="filterArea">
+                <div class="serText"><strong class="postTexts">"searText"</strong>의 검색 결과 : <strong class="postCounts">"postNum" 건</strong></div>
+                <div class="filterBtnArea">
+                    <select name="filterTable" id="filterTable">
+                        <option value="제목">제목만 보기</option>
+                        <option value="제목/내용">제목+내용 보기</option>
+                    </select>
+                    <select name="postNum" id="postNum">
+                        <option value="5개씩">5개씩</option>
+                        <option value="10개씩">10개씩</option>
+                        <option value="15개씩" selected>15개씩</option>
+                        <option value="20개씩">20개씩</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </header>
+    <nav></nav>
+    <section>
+        <div id="articlesArea">
+            <div>
+                <table class="articleTable">
+                    <thead>
+                        <tr class="postTh">
+                            <th class="category"></th>
+                            <th class="title">제목</th>
+                            <th class="writer">작성자</th>
+                            <th class="date">작성일</th>
+                            <th class="view">조회수</th>
+                        </tr>
+                    </thead>
+                    <tbody class="postArea">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="footerBox">
+            <div class="pageNum">
+                <a href="#" class="pageMove">1</a>
+            </div>
+            <div class="searchArea">
+                <form name="search" class="searchBoxes">
+                    <div class = "searchSelect">
+                        <select name="searTimes" id="searTimes">
+                            <option name="searTime" value="allTime" selected>전체기간</option>
+                            <option name="searTime" value="day">1일</option>
+                            <option name="searTime" value="week">1주</option>
+                            <option name="searTime" value="month">1개월</option>
+                            <option name="searTime" value="year">1년</option>
+                        </select>
+                        <select name="searDetail" id="searDetail">
+                            <option name="searDet" value="postTitleAndText" selected>제목+내용</option>
+                            <option name="searDet" value="postTitle">제목만</option>
+                            <option name="searDet" value="writer">글작성자</option>
+                        </select>
+                    </div>
+                    <div>
+                        <input class="searchText" id="searchText" type="text" placeholder="검색어를 입력해주세요.">
+                        <input class="searchBtn" type="button" value="검색">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // 페이지 URL에서 카테고리를 가져오는 함수
+        function getParamURl() { 
+            const serParams = new URLSearchParams(location.search);
+            return {
+                searTime: serParams.get('searTime'),
+                searDetail: serParams.get('searDetail'),
+                searText: serParams.get('searText')
+            };
+        }
+
+        // 로컬 스토리지에서 객체를 가져오는 함수
+        function getUserText() {
+            let userText = [];
+            if (localStorage.length > 0) {
+                let userTextString = localStorage.getItem("userText");
+                userText = JSON.parse(userTextString) || [];
+            }
+            return userText;
+        }
+
+        // 파일에서 객체를 가져오는 함수
+        function getFileData(callback) {
+            $.getJSON('게시글 객체.json', function(data) {
+                callback(data);
+            });
+        }
+        
+        // 텍스트 박스를 클릭시 placeholder를 숨기는 함수
+        function textBoxPH (){      
+            let $box = $('.searchText');
+            $.each($box, function(){
+                $(this).on({
+                    'focus': () => {this.placeholder = "";},
+                    'blur': () => {if (this.placeholder == ""){
+                        this.placeholder = "검색어를 입력해주세요.";
+                    }}
+                });
+            });
+        }
+        
+        $(function(){       // ready
+            // 페이지 수를 출력
+            let pageCount = $('.pageMove').length;
+            let lastPage = $('.pageMove:last').text();
+            let postNum = 0;
+
+            const now = dayjs();
+            now.format("YYYY.MM.DD HH:mm");
+
+            textBoxPH();
+            let searOptions = getParamURl();
+            $('.postTexts').text("\"" + searOptions.searText + "\"");
+            // console.log(searOptions.searTime);
+            // console.log(searOptions.searDetail);
+            // console.log(searOptions.searText);
+            
+            let userText = getUserText()
+
+            getFileData(function(fileData){
+                const userPost = userText.concat(fileData.filter(item => !userText.some(obj => obj.TITLE === item.TITLE)));
+
+                let searPostsTitle = userPost.filter(post => post.TITLE.includes(searOptions.searText));        // Detail postTitle
+                let searPostsWriter = userPost.filter(post => post.ID.includes(searOptions.searText));          // Detail writer
+                let searPostsTitleAndText = userPost.filter(post => post.TITLE.includes(searOptions.searText) || post.TEXTAREA.includes(searOptions.searText));      // Detail postTitleAndText
+                // console.log(searPostsWriter);
+
+                // 검색 결과 출력 코드 (기간 / 검색 대상 / 검색 키워드 별 조건)
+                if (searOptions.searDetail == "postTitle"){
+                    $.each(searPostsTitle, function(index){
+                        if (searOptions.searTime == "year"){
+                            if (this.DATE >= now.subtract(1, "year").format("YYYY.MM.DD")){
+                                $("<tr class='post'>" +
+                                    "<td class='postCateHL'>" + this.SEL + "</td>" +
+                                    "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.TITLE + "</a>" + "</td>" +
+                                    "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.ID + "</a>" + "</td>" +
+                                    "<td class='postDateHL'>" + this.DATE + "</td>" +
+                                    "<td class='postViewHL'>" + this.VIEW + "</td>" +
+                                "</tr>").prependTo('tbody.postArea');
+                                postNum++;
+                                // console.log(this.SEL);
+                            }
+                        }
+                        else if (searOptions.searTime == "month"){
+                            if (this.DATE >= now.subtract(1, "month").format("YYYY.MM.DD")){
+                                $("<tr class='post'>" +
+                                    "<td class='postCateHL'>" + this.SEL + "</td>" +
+                                    "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.TITLE + "</a>" + "</td>" +
+                                    "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.ID + "</a>" + "</td>" +
+                                    "<td class='postDateHL'>" + this.DATE + "</td>" +
+                                    "<td class='postViewHL'>" + this.VIEW + "</td>" +
+                                "</tr>").prependTo('tbody.postArea');
+                                postNum++;
+                                // console.log(this.SEL);
+                            }
+                        }
+                        else if (searOptions.searTime == "week"){
+                            if (this.DATE >= now.subtract(1, "week").format("YYYY.MM.DD")){
+                                $("<tr class='post'>" +
+                                    "<td class='postCateHL'>" + this.SEL + "</td>" +
+                                    "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.TITLE + "</a>" + "</td>" +
+                                    "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.ID + "</a>" + "</td>" +
+                                    "<td class='postDateHL'>" + this.DATE + "</td>" +
+                                    "<td class='postViewHL'>" + this.VIEW + "</td>" +
+                                "</tr>").prependTo('tbody.postArea');
+                                postNum++;
+                                // console.log(this.SEL);
+                            }
+                        }
+                        else if (searOptions.searTime == "day"){
+                            if (this.DATE >= now.subtract(1, "day").format("YYYY.MM.DD")){
+                                $("<tr class='post'>" +
+                                    "<td class='postCateHL'>" + this.SEL + "</td>" +
+                                    "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.TITLE + "</a>" + "</td>" +
+                                    "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.ID + "</a>" + "</td>" +
+                                    "<td class='postDateHL'>" + this.DATE + "</td>" +
+                                    "<td class='postViewHL'>" + this.VIEW + "</td>" +
+                                "</tr>").prependTo('tbody.postArea');
+                                postNum++;
+                                // console.log(this.SEL);
+                            }
+                        }
+                        else {
+                            $("<tr class='post'>" +
+                                "<td class='postCateHL'>" + this.SEL + "</td>" +
+                                "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.TITLE + "</a>" + "</td>" +
+                                "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.ID + "</a>" + "</td>" +
+                                "<td class='postDateHL'>" + this.DATE + "</td>" +
+                                "<td class='postViewHL'>" + this.VIEW + "</td>" +
+                            "</tr>").prependTo('tbody.postArea');
+                            postNum++;
+                            // console.log(this.SEL);
+                        }
+                        $('.postCounts').text(postNum + "건");
+                    });
+                }
+                else if (searOptions.searDetail == "writer"){
+                    $.each(searPostsWriter, function(index){
+                        if (searOptions.searTime == "year"){
+                            if (this.DATE >= now.subtract(1, "year").format("YYYY.MM.DD")){
+                                $("<tr class='post'>" +
+                                    "<td class='postCateHL'>" + this.SEL + "</td>" +
+                                    "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.TITLE + "</a>" + "</td>" +
+                                    "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.ID + "</a>" + "</td>" +
+                                    "<td class='postDateHL'>" + this.DATE + "</td>" +
+                                    "<td class='postViewHL'>" + this.VIEW + "</td>" +
+                                "</tr>").prependTo('tbody.postArea');
+                                postNum++;
+                                // console.log(this.SEL);
+                            }
+                        }
+                        else if (searOptions.searTime == "month"){
+                            if (this.DATE >= now.subtract(1, "month").format("YYYY.MM.DD")){
+                                $("<tr class='post'>" +
+                                    "<td class='postCateHL'>" + this.SEL + "</td>" +
+                                    "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.TITLE + "</a>" + "</td>" +
+                                    "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.ID + "</a>" + "</td>" +
+                                    "<td class='postDateHL'>" + this.DATE + "</td>" +
+                                    "<td class='postViewHL'>" + this.VIEW + "</td>" +
+                                "</tr>").prependTo('tbody.postArea');
+                                postNum++;
+                                // console.log(this.SEL);
+                            }
+                        }
+                        else if (searOptions.searTime == "week"){
+                            if (this.DATE >= now.subtract(1, "week").format("YYYY.MM.DD")){
+                                $("<tr class='post'>" +
+                                    "<td class='postCateHL'>" + this.SEL + "</td>" +
+                                    "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.TITLE + "</a>" + "</td>" +
+                                    "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.ID + "</a>" + "</td>" +
+                                    "<td class='postDateHL'>" + this.DATE + "</td>" +
+                                    "<td class='postViewHL'>" + this.VIEW + "</td>" +
+                                "</tr>").prependTo('tbody.postArea');
+                                postNum++;
+                                // console.log(this.SEL);
+                            }
+                        }
+                        else if (searOptions.searTime == "day"){
+                            if (this.DATE >= now.subtract(1, "day").format("YYYY.MM.DD")){
+                                $("<tr class='post'>" +
+                                    "<td class='postCateHL'>" + this.SEL + "</td>" +
+                                    "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.TITLE + "</a>" + "</td>" +
+                                    "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.ID + "</a>" + "</td>" +
+                                    "<td class='postDateHL'>" + this.DATE + "</td>" +
+                                    "<td class='postViewHL'>" + this.VIEW + "</td>" +
+                                "</tr>").prependTo('tbody.postArea');
+                                postNum++;
+                                // console.log(this.SEL);
+                            }
+                        }
+                        else {
+                            $("<tr class='post'>" +
+                                "<td class='postCateHL'>" + this.SEL + "</td>" +
+                                "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.TITLE + "</a>" + "</td>" +
+                                "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.ID + "</a>" + "</td>" +
+                                "<td class='postDateHL'>" + this.DATE + "</td>" +
+                                "<td class='postViewHL'>" + this.VIEW + "</td>" +
+                            "</tr>").prependTo('tbody.postArea');
+                            postNum++;
+                            // console.log(this.SEL);
+                        }
+                        $('.postCounts').text(postNum + "건");
+                    });
+                }
+                else if (searOptions.searDetail == "postTitleAndText"){
+                    $.each(searPostsTitleAndText, function(index){
+                        if (searOptions.searTime == "year"){
+                            if (this.DATE >= now.subtract(1, "year").format("YYYY.MM.DD")){
+                                $("<tr class='post'>" +
+                                    "<td class='postCateHL'>" + this.SEL + "</td>" +
+                                    "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.TITLE + "</a>" + "</td>" +
+                                    "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.ID + "</a>" + "</td>" +
+                                    "<td class='postDateHL'>" + this.DATE + "</td>" +
+                                    "<td class='postViewHL'>" + this.VIEW + "</td>" +
+                                "</tr>").prependTo('tbody.postArea');
+                                postNum++;
+                                // console.log(this.SEL);
+                            }
+                        }
+                        else if (searOptions.searTime == "month"){
+                            if (this.DATE >= now.subtract(1, "month").format("YYYY.MM.DD")){
+                                $("<tr class='post'>" +
+                                    "<td class='postCateHL'>" + this.SEL + "</td>" +
+                                    "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.TITLE + "</a>" + "</td>" +
+                                    "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.ID + "</a>" + "</td>" +
+                                    "<td class='postDateHL'>" + this.DATE + "</td>" +
+                                    "<td class='postViewHL'>" + this.VIEW + "</td>" +
+                                "</tr>").prependTo('tbody.postArea');
+                                postNum++;
+                                // console.log(this.SEL);
+                            }
+                        }
+                        else if (searOptions.searTime == "week"){
+                            if (this.DATE >= now.subtract(1, "week").format("YYYY.MM.DD")){
+                                $("<tr class='post'>" +
+                                    "<td class='postCateHL'>" + this.SEL + "</td>" +
+                                    "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.TITLE + "</a>" + "</td>" +
+                                    "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.ID + "</a>" + "</td>" +
+                                    "<td class='postDateHL'>" + this.DATE + "</td>" +
+                                    "<td class='postViewHL'>" + this.VIEW + "</td>" +
+                                "</tr>").prependTo('tbody.postArea');
+                                postNum++;
+                                // console.log(this.SEL);
+                            }
+                        }
+                        else if (searOptions.searTime == "day"){
+                            if (this.DATE >= now.subtract(1, "day").format("YYYY.MM.DD")){
+                                $("<tr class='post'>" +
+                                    "<td class='postCateHL'>" + this.SEL + "</td>" +
+                                    "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.TITLE + "</a>" + "</td>" +
+                                    "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.ID + "</a>" + "</td>" +
+                                    "<td class='postDateHL'>" + this.DATE + "</td>" +
+                                    "<td class='postViewHL'>" + this.VIEW + "</td>" +
+                                "</tr>").prependTo('tbody.postArea');
+                                postNum++;
+                                // console.log(this.SEL);
+                            }
+                        }
+                        else {
+                            $("<tr class='post'>" +
+                                "<td class='postCateHL'>" + this.SEL + "</td>" +
+                                "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + this.TITLE + "</a>" + "</td>" +
+                                "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + this.ID + "</a>" + "</td>" +
+                                "<td class='postDateHL'>" + this.DATE + "</td>" +
+                                "<td class='postViewHL'>" + this.VIEW + "</td>" +
+                            "</tr>").prependTo('tbody.postArea');
+                            postNum++;
+                            // console.log(this.SEL);
+                        }
+                        $('.postCounts').text(postNum + "건");
+                    });
+                }
+
+                // 게시글 제목 a 클릭 시 해당 게시글의 text를 가지고 게시글 페이지로 이동
+                $('.postTitleHL').on('click', function(){
+                    $(this).prop('href', "게시글.html?title=" + $(this).text());
+                });
+
+                // 작성자 클릭 시 해당 요소 아래에 툴팁이 나오는 코드 / 요소 바깥을 클릭하면 사라짐
+                $('.postWriterHL').on('click', function(e){
+                    let offset = $(this).offset();
+                    let triggerWidth = $(this).outerWidth();
+                    let ttWidth = $('#userFloat').outerWidth();
+                    let ttHeight = $('#userFloat').outerHeight();
+                    let ttTop = offset.top + $(this).outerHeight();
+                    $('#userFloat').css({'left': offset.left, 'top': ttTop});
+                    
+                    $('#userFloat').fadeIn('fast');
+
+                    // 작성자 툴팁의 첫번째 a(작성글 보기)를 클릭 하면 해당 유저의 name 정보를 가지고 유저페이지로 이동
+                    $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
+                    $('#userFloat a:last').prop('href', "javascript:void(window.open('쪽지.html?name=" + $(this).text() + "', '_blank','width=500, height=450'))");
+                });
+                $(document).on('click', function(e){
+                    let $tgPoint = $(e.target);
+                    let $writerTT = $tgPoint.hasClass('postWriterHL');
+                    let $hlArea = $tgPoint.hasClass('userFloat');
+
+                    if (!$writerTT && !$hlArea){
+                        $('#userFloat').fadeOut('fast');
+                    }
+                });
+                // 여기까지 작성자 클릭
+
+                // 게시판에 아무런 글도 없을 경우 출력
+                if (postNum == 0){
+                    $('<tr><td></td><td></td><td>등록된 게시글이 없습니다.</td><td></td><td></td></tr>').insertAfter('.postTh');
+                    $('.postCounts').text(postNum + "건");
+                }
+            });
+
+            // 검색 버튼 클릭 시 이벤트
+            $('.searchBtn').on('click', function(){
+                let searTime = $('select[name=searTimes]').val();
+                let searDetail = $('select[name=searDetail]').val();
+                let searText = $('#searchText').val();
+                if (searText.trim() == ""){
+                    alert("잘못된 검색어입니다.");
+                    return false;
+                }
+                location.href = "검색 페이지.html?searTime=" + searTime + "&searDetail=" + searDetail + "&searText=" + searText; 
+            });
+        });
+    </script>
+    <div id="userFloat">
+        <ul>
+            <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">게시글 보기</a></li>
+            <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">1:1 채팅</a></li>
+            <li class="userFloat"><a href="#절대있을리없는아이디명" class="useFloatMenu">쪽지보내기</a></li>
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>content_page</title>
+    <style>
+        * {margin: 0; padding: 0;}
+        html {width: 100%; height: auto; padding: 20px; box-sizing: border-box;}
+        .letterHead {width: 100%;}
+        .titleH2 {padding: 5px; margin-bottom: 20px;}
+        .letter {width: 100%;}
+        .sendText {width: 26em; font-size: 17px; margin-top: 5px; overflow: auto;}
+        #sendTextSmall {height: 1.5em;}
+        #sendTextBig {height: 7em; line-height: 10px;}
+        table {width: 100%; margin-bottom: 20px; border-collapse: collapse;}
+        table td{padding: 5px;}
+        form[name="letterArea"] {padding: 5px;}
+        .textBox {width: 100%;}
+        .textBtn {width: 100%; margin: 10px 20px 0 0;}
+        #sendLetter {
+            width: auto; height: auto; padding: 5px 10px; 
+            color: #fff; font-size: 15px; position: fixed; right: 40px; bottom: 20px;
+            background: rgb(121, 121, 121); border: 0; border-radius: 5px;
+        }
+
+    </style>
+    <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
+</head>
+<body>
+    <header>
+        <div class="letterHead">
+            <h2 class="titleH2">쪽지 발송</h2>
+            <table>
+                <tr>
+                    <td><span class="text">받는 사람 : </span><strong class="dear"></strong></td>
+                </tr>
+                <tr>
+                    <td><span class="text">보내는 사람 : </span><strong class="from"></strong></td>
+                </tr>
+                <tr>
+                    <td><span class="text">쪽지 제목 : </span><input id="sendTextSmall" class="sendText" type="text" placeholder="텍스트를 입력하세요."></td>
+                </tr>
+            </table>
+        </div>
+    </header>
+    <section>
+        <div class="letter">
+            <form name="letterArea">
+                <div class="textBox"><span class="text">보낼 내용 : </span><input id="sendTextBig" class="sendText" type="textarea" placeholder="텍스트를 입력하세요."></div>
+                <div class="textBtn"><input id="sendLetter" type="button" value="발송"></div>
+            </form>
+        </div>
+    </section>
+    <script>
+        // 페이지 URL에서 유저명을 가져오는 함수
+        function getWriterURl() {    
+            const serParams = new URLSearchParams(location.search);
+            for (const param of serParams){
+                return param[1];
+            }
+        }  
+
+        // 텍스트 박스를 클릭시 placeholder를 숨기는 함수
+        function textBoxPH (){      
+            let $box = $('.sendText');
+            $.each($box, function(){
+                $(this).on({
+                    'focus': () => {this.placeholder = "";},
+                    'blur': () => {if (this.placeholder == ""){
+                        this.placeholder = "텍스트를 입력하세요.";
+                    }}
+                });
+            });
+        }
+
+        function loginUser (){
+            let userIndexString = localStorage.getItem("userIndex");
+            // console.log(userIndexString);
+            if (userIndexString) {
+                let userIndex = JSON.parse(userIndexString);
+                let Index = userIndex[0].Index;
+                // console.log(Index);
+                let userDataString = localStorage.getItem("userData");
+                let userData = JSON.parse(userDataString);
+                let from = userData[Index].ID;
+                // console.log(userName);
+                return from;
+            }
+        }
+        
+        $(function(){       // Ready
+            let dearUserName = getWriterURl();
+            let fromUserName = loginUser();
+
+            $('.dear').text(dearUserName);
+            $('.from').text(fromUserName);
+
+            textBoxPH();
+
+            $('#sendLetter').on('click', () => {
+                let check = confirm("쪽지를 발송하시겠습니까?");
+                if (check) {alert(dearUserName + "님께 쪽지를 발송했습니다.");}
+                window.close();
+            });
+        });     // Ready End
+    </script>
+</body>
+</html>

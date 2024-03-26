@@ -264,6 +264,7 @@
                     $('#userFloat').fadeIn('fast');
 
                     $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
+                    $('#userFloat a:last').prop('href', "javascript:void(window.open('쪽지.html?name=" + $(this).text() + "', '_blank','width=500, height=450'))");
                 });
                 $(document).on('click', function(e){
                     let $tgPoint = $(e.target);

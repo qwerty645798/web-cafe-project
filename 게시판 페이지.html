@@ -9,6 +9,8 @@
         #content_top {border-bottom: 2px solid black;}
         .postCounts {margin: 15px 0 13px 10px; font-size: 13px;}
 
+        body {width: 100%; margin: 0; box-sizing: border-box; padding: 10px;}
+
         table, tr, th, td{padding:2px; text-align: center; 
             width: 100%; border-collapse: collapse;
         }
@@ -30,43 +32,42 @@
             background: aliceblue;
         }
 
-        footer {
-            margin: 10px;
-        }
+        footer {margin-top: 20px;}
+        .footerBox {padding-bottom: 10px;}
         .footerBox, .searchArea, .searchBoxes  {
             width: 100%;
-            background: rgb(243, 243, 243);
+            background: rgb(245, 245, 245);
         }
-        .pageNum {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+
         .searchBoxes {
             width: 100%;
             height: 30px;
             display: flex;
             justify-content: center;
-            padding-bottom: 10px;
         }
         .searchBoxes div {
-            height:90%; 
+            height: auto; 
         }
         #searTimes, #searDetail, .searchText, .searchBtn {
-            font-size: 10px;
-            height: 100%;
-            margin: 0 5px;
-            padding: 2px;
+            font-size: 12px;
+            height: 30px;
             -moz-box-sizing: border-box;
             -webkit-box-sizing: border-box;
             box-sizing: border-box;
             flex-wrap: nowrap;
-            border-radius: 50px;
+            border-radius: 10px;
         }
-        #searTimes {width: 70px; text-align: center;}
-        #searDetail {width: 100px; text-align: center;}
-        .searchText {width: 200px; padding-left: 1em;}
-        .searchBtn {width: 50px; background: dodgerblue; font-weight: bold; text-align: center; color: white;}
+        .searchSelect {margin-right: 8px;}
+        #searTimes {width: 7em; padding-left: 0.5em;}
+        #searDetail {width: 7em; padding-left: 0.5em;}
+        .searchText {width: 18em; padding-left: 1em;}
+        .searchBtn {font-size: 14px; width: 4em; background: rgb(80, 80, 80); font-weight: bold; text-align: center; color: white;}
+        
+        .pageNum {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
         .pageMove {
             display: flex;
             margin: 15px;
@@ -149,11 +150,9 @@
                             <option name="searTime" value="year">1년</option>
                         </select>
                         <select name="searDetail" id="searDetail">
-                            <option name="searDet" value="postAndComment" selected>게시글 + 댓글</option>
+                            <option name="searDet" value="postTitleAndText" selected>제목+내용</option>
                             <option name="searDet" value="postTitle">제목만</option>
                             <option name="searDet" value="writer">글작성자</option>
-                            <option name="searDet" value="comment">댓글내용</option>
-                            <option name="searDet" value="commenter">댓글작성자</option>
                         </select>
                     </div>
                     <div>
@@ -165,12 +164,12 @@
         </div>
     </footer>
     <script>
-        // 페이지 URL에서 title을 가져오는 함수
-        function getTitleURl() {    
+        // 페이지 URL에서 카테고리를 가져오는 함수
+        function getCateURl() { 
             const serParams = new URLSearchParams(location.search);
-            for (const param of serParams){
+            for (const param of serParams) {
+                // console.log(param);
                 return param[1];
-                // console.log(title);
             }
         }  
 
@@ -191,16 +190,15 @@
             });
         }
         
-        // 텍스트 박스를 클릭시 placeholder를 숨기는 함수
         function textBoxPH (){      
-            let box = document.getElementById("searchText");
-            box.addEventListener('focus', function(){
-                this.placeholder = "";
-            });
-            box.addEventListener('blur', function(){
-                if (this.placeholder == ""){
-                    this.placeholder = "검색어를 입력해주세요.";
-                }
+            let $box = $('#searchText');
+            $.each($box, function(){
+                $(this).on({
+                    'focus': () => {this.placeholder = "";},
+                    'blur': () => {if (this.placeholder == ""){
+                        this.placeholder = "검색어를 입력해주세요.";
+                    }}
+                });
             });
         }
         
@@ -211,16 +209,10 @@
             let lastPage = $('.pageMove:last').text();
             let postNum = 0;
             let allPostNum = 0;
-            let cateName;
+            let cateName = getCateURl();
 
             textBoxPH();
 
-            // 카테고리 클릭으로 넘어왔을 때 해당 이름 값을 가져오는 코드
-            const serParams = new URLSearchParams(location.search);
-            for (const param of serParams) {
-                // console.log(param);
-                cateName = param[1];
-            }
             
             $('#CategoryName').text(cateName);
             
@@ -269,17 +261,18 @@
 
                 // 작성자 클릭 시 해당 요소 아래에 툴팁이 나오는 코드 / 요소 바깥을 클릭하면 사라짐
                 $('.postWriterHL').on('click', function(e){
-                        let offset = $(this).offset();
-                        let triggerWidth = $(this).outerWidth();
-                        let ttWidth = $('#userFloat').outerWidth();
-                        let ttHeight = $('#userFloat').outerHeight();
-                        let ttTop = offset.top + $(this).outerHeight();
-                        $('#userFloat').css({'left': offset.left, 'top': ttTop});
-                        
-                        $('#userFloat').fadeIn('fast');
+                    let offset = $(this).offset();
+                    let triggerWidth = $(this).outerWidth();
+                    let ttWidth = $('#userFloat').outerWidth();
+                    let ttHeight = $('#userFloat').outerHeight();
+                    let ttTop = offset.top + $(this).outerHeight();
+                    $('#userFloat').css({'left': offset.left, 'top': ttTop});
+                    
+                    $('#userFloat').fadeIn('fast');
 
-                        // 작성자 툴팁의 첫번째 a(작성글 보기)를 클릭 하면 해당 유저의 name 정보를 가지고 유저페이지로 이동
-                        $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
+                    // 작성자 툴팁의 첫번째 a(작성글 보기)를 클릭 하면 해당 유저의 name 정보를 가지고 유저페이지로 이동
+                    $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
+                    $('#userFloat a:last').prop('href', "javascript:void(window.open('쪽지.html?name=" + $(this).text() + "', '_blank','width=500, height=450'))");
                 });
                 $(document).on('click', function(e){
                     let $tgPoint = $(e.target);
@@ -300,6 +293,18 @@
             });
             $('.letPost').on('click', function(){
                 window.open("카페 글쓰기.html");
+            });
+
+            // 검색 버튼 클릭 시 이벤트
+            $('.searchBtn').on('click', function(){
+                let searTime = $('select[name=searTimes]').val();
+                let searDetail = $('select[name=searDetail]').val();
+                let searText = $('#searchText').val();
+                if (searText.trim() == ""){
+                    alert("잘못된 검색어입니다.");
+                    return false;
+                }
+                location.href = "검색 페이지.html?searTime=" + searTime + "&searDetail=" + searDetail + "&searText=" + searText; 
             });
         });
     </script>

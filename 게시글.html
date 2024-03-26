@@ -16,8 +16,8 @@
             box-sizing: border-box; background: rgb(235, 235,235);
             border-radius: 10px;
         }
-        .nextArtArea {width: 80px;}
-        .artIndexArea {width: 60px;}
+        .artDelArea {width: auto;}
+        .artIndexArea {width: auto;}
         
         #articleHead {
             width: 100%; height: 124px;
@@ -137,6 +137,11 @@
     <header>
         <div class="articleTop">
             <div class="articleBtnArea">
+                <div class="artDelArea">
+                    <a href="#절대있을리없는아이디명" class="articleDelete">
+                        <span>글 삭제</span>
+                    </a>
+                </div>
                 <div class="artIndexArea">
                     <a href="#절대있을리없는아이디명" target="iFrame" class="articleIndex">
                         <span>목록</span>
@@ -296,6 +301,7 @@
                     $('#userFloat').css({'left': offset.left, 'top': ttTop});
                     $('#userFloat').fadeIn('fast');
                     $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
+                    $('#userFloat a:last').prop('href', "javascript:void(window.open('쪽지.html?name=" + $(this).text() + "', '_blank','width=500, height=450'))");
                 });
                 $(document).on('click', function(e){
                     let $tgPoint = $(e.target);
@@ -326,6 +332,22 @@
                 // 게시글 하단부 userName 님의 게시글 더보기 클릭 시 유저페이지로 이동
                 $('.writerArticle').on('click', function(){
                     $(this).prop('href', "유저페이지.html?name=" + $('strong.writer').text());
+                });
+                
+                // 게시글 삭제 클릭 시 이벤트
+                $('.articleDelete').on('click', function(){
+                    let del = confirm("정말로 삭제하시겠습니까?");
+                    if (del) {
+                        if (title) {
+                            const selectedPostIndex = userPost.findIndex(post => post.TITLE == title);
+                            if (selectedPostIndex !== -1) {     // findIndex는 지정한 것을 찾지 못했을 경우 -1 반환
+                                userPost.splice(selectedPostIndex, 1);
+                                localStorage.setItem("userText", JSON.stringify(userPost));
+                            }
+                        }
+                        alert("글이 삭제되었습니다.")
+                        location.href = "게시판 페이지.html?cate=전체글보기"
+                    }
                 });
             });
             

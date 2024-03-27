@@ -59,6 +59,62 @@
         }
     </style>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=91923fd361ed583dba90f7d5171f8349"></script>
+    <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
+    <script>
+        $(function(){
+            let timerIDA,timerIDB;
+            let a = 0;
+            $(".box-shadow").mouseenter(function(){
+                let $this=$(this);
+                timerIDA=setInterval(function(){
+                    $this.css({"box-shadow":`${a}px ${a}px ${a}px gray`});
+                    a += 0.1;
+                    if(a >= 8)clearInterval(timerIDA);
+                },1);
+            }).mouseleave(function(){
+                let $this=$(this);
+                let b = a;
+                clearInterval(timerIDA);
+                timeIDB = setInterval(function(){
+                $this.css({"box-shadow":`${b}px ${b}px ${b}px gray`});
+                    b -= 0.1;
+                    if(b <= 0)clearInterval(timerIDB);
+                },1);
+                a=0;
+            });
+            function ranNum(max){
+                let num=Math.floor(Math.random()*max+1);
+                return num;
+            }
+            let colorI=0;
+            let glitterColor=["red","orange","yellow","green","blue","navy","purple"];
+            $("html").mousemove(function(e){/*console.log(e.pageX + "," + e.pageY);*/
+                if(e.pageX >= 411 && e.pageX <= 1494 && e.pageY >=268 && e.pageY <= 865 || e.pageX >=1886 || e.pageY >= 943)return false;
+                let i = colorI % 7;
+                let div = document.createElement("div");
+                div.style.backgroundColor = glitterColor[i];
+                div.style.width = ranNum(10) + "px";
+                div.style.height = ranNum(10) + "px";
+                div.style.borderRadius = ranNum(10) + "px";
+                div.style.position = "absolute";
+                div.style.top = e.pageY + "px";
+                div.style.left = e.pageX + "px";
+                div.style.zIndex = 10;
+                let fall = 0;
+                document.body.appendChild(div);
+                let timerID = setInterval(function(){
+                    fall += 0.5;
+                    div.style.top = e.pageY + fall + "px";
+                    div.style.opacity = 1 - fall/100;
+                    if(fall >= 100 || parseInt(div.style.top) >= 943 || document.getElementsByTagName("div").length>=50) {
+                        document.body.removeChild(div);
+                        clearInterval(timerID);
+                    }
+                },1);
+                colorI++;
+            });
+        });
+    </script>
 </head>
 <body>
     <div id="web">

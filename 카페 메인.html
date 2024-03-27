@@ -57,6 +57,8 @@
             width:22%; height:70%;
             border:1px #D7D7D9 solid;
             margin:auto 0;
+            position:relative;
+            z-index:0;
         }
         nav>button{
             width:5%; height:70%;
@@ -183,15 +185,23 @@
         }
         button#up,button#down{/*div#upDownBtn의 자식요소*/
             width:100%; height:50%;
-            font-size:5em;
+            font-size:3em;
             outline:none;
             background:none;
             border:none;
         }
-        div#sideBar>button:hover{/*상세 style을 인라인으로 설정해놓음*/
-            text-decoration:underline;
+        button#up:hover,button#down:hover{
+            background:dodgerblue;
         }
-        div#menu{
+        div#sideBar>button{
+            background-color:#5A5A5A;
+            border:1px #5A5A5A solid;
+        }
+        div#sideBar>button:hover{/*상세 style을 인라인으로 설정해놓음*/
+            text-decoration:none;
+            background:dodgerblue;
+        }
+        div#menu{/*클릭시 div#sideBar를 보이게 하는 버튼 (페이지 좌측 상중단에 위치) 상세 style을 인라인으로 설정해놓음*/
         width:100px; height:100px;
         position:fixed;
         top:calc(20% - 100px); left:0%;
@@ -207,8 +217,8 @@
         font-weight: bold;
         z-index:5;
         }
-        div#menu:hover{/*클릭시 div#sideBar를 보이게 하는 버튼 (페이지 좌측 상중단에 위치) 상세 style을 인라인으로 설정해놓음*/
-            text-decoration:underline;
+        div#menu:hover{
+            background-color:dodgerblue;
         }
         .postTitleHL {text-decoration: none; color: #000;}
 	</style>
@@ -327,10 +337,17 @@
                 return num;
             }
             let colorI=0;
+            let Y=200;
+            $("div#menu").click(function(){
+                if(Y == 200)Y=697;
+                else if(Y == 697)Y=200;
+            });
             let glitterColor=["red","orange","yellow","green","blue","navy","purple"];
-            $("html").mousemove(function(e){console.log(e.pageX + "," + e.pageY);
-                if(e.pageX >= 411 && e.pageX <= 1494 && e.pageY >=268 && e.pageY <= 1352 || e.pageX >=1886)return false;
-                if(e.clientX >= 0 && e.clientX <= 104 && e.clientY >= 85 && e.clientY <= 697)return false;
+            $("html").mousemove(function(e){console.log(e.clientX + "," + e.clientY);
+                if(e.pageX >= 411 && e.pageX <= 1494 && e.pageY >=268 && e.pageY <= 1352 || e.pageX >=1886 || e.pageY >= 1490)return false;
+                if(e.clientX >= 0 && e.clientX <= 104 && e.clientY >= 85 && e.clientY <= Y)return false;
+                if(e.pageX >= 1196 && e.pageX <= 1494 && e.pageY >=221 && e.pageY <= 266)return false;
+                if(e.clientX >= 1808 && e.clientY >= 760)return false;
                 let i = colorI % 7;
                 let div = document.createElement("div");
                 div.style.backgroundColor = glitterColor[i];
@@ -347,7 +364,7 @@
                     fall += 0.5;
                     div.style.top = e.pageY + fall + "px";
                     div.style.opacity = 1 - fall/100;
-                    if(fall >= 100 || parseInt(div.style.top) >= 1495 || document.getElementsByTagName("div").length>=50) {
+                    if(fall >= 100 || parseInt(div.style.top) >= 1490 || document.getElementsByTagName("div").length>=50) {
                         document.body.removeChild(div);
                         clearInterval(timerID);
                     }
@@ -380,8 +397,8 @@
         <header class="border-box">
         </header>
         <nav class="border-box">
-            <input type="text" placeholder="검색창">
-            <button type="submit">검색</button>
+            <input type="text" placeholder="검색창" class="box-shadow">
+            <button type="submit" class="box-shadow">검색</button>
         </nav>
         <div id="main" class="border-box">
             <aside class="border-box">
@@ -416,7 +433,7 @@
                             <li id="프로젝트진행"><a class="cateMove" href="#절대있을리없는아이디명" target="iFrame">프로젝트진행</a></li>
                         </ul>
                 </div>
-                <div id="asideFooter" class="border-box">
+                <div id="asideFooter" class="border-box box-shadow">
                     <b>최신 업데이트</b>
                     <hr>
                     <ul class="recentUpdate">
@@ -443,8 +460,8 @@
         <div style="text-align: right;"><b style="float:left;">강남그린(프로젝트기반 자바 풀스택 웹 개발)</b><small>https://cafe.naver.com/kanggreen2024</small></div>
     </div>
     <div id="upDownBtn">
-    <button id="up" onclick="window.scrollTo(0,0)">▲</button>
-    <button id="down" onclick="window.scrollTo(0,document.body.scrollHeight)">▼</button>
+    <button id="up" onclick="window.scrollTo(0,0)">↑</button>
+    <button id="down" onclick="window.scrollTo(0,document.body.scrollHeight)">↓</button>
     </div>
     <div id="sideBar" style="
         position:fixed;
@@ -456,8 +473,6 @@
         <button style="
             outline:none;
             width:100%; height:20%;
-            background-color:#5A5A5A;
-            border:none;
             font-size:1.5em;
             font-weight:bold;
             color:white;
@@ -467,8 +482,6 @@
         <button style="
             outline:none;
             width:100%; height:20%;
-            background-color:#5A5A5A;
-            border:none;
             font-size:1.5em;
             font-weight:bold;
             color:white;
@@ -478,8 +491,6 @@
         <button style="
             outline:none;
             width:100%; height:20%;
-            background-color:#5A5A5A;
-            border:none;
             font-size:1.5em;
             font-weight:bold;
             color:white;
@@ -489,8 +500,6 @@
         <button style="
             outline:none;
             width:100%; height:20%;
-            background-color:#5A5A5A;
-            border:none;
             font-size:1.5em;
             font-weight:bold;
             color:white;
@@ -501,8 +510,6 @@
             outline:none;
             width:100%; height:20%;
             border-radius:0 0 20px 0;
-            background-color:#5A5A5A;
-            border:none;
             font-size:1.5em;
             font-weight:bold;
             color:white;

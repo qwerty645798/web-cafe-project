@@ -31,10 +31,24 @@
         #iconPlus {width: 0.8em;}
         .subscribed {border: 1px solid rgb(10, 196, 4)}
 
-        .articleTable, .post, th {width: 100%; border-collapse: collapse;}
-        td:not(:nth-child(2)) {text-align: center; }
-        .postTh {font-size: 13px; background: rgb(181, 255, 185); height: 30px;}
-        td {font-size: 12px; padding: 5px;}
+        .articleTable {text-align: center; width: 100%; border-collapse: separate; border-spacing: 0 5px;}
+        tr {
+            margin: 10px 0 0; padding: 5px; box-sizing: border-box;
+            background: rgb(240, 240, 240);
+        }
+        tr:not(.postTh):hover {
+            transition: 1s ease-out; opacity : 1;
+            background: rgb(149, 69, 255);
+        }
+        .postTh {font-size: 13px; background: #fff; height: 30px;}
+        .flex {height: 100%; display: flex;  justify-content: center; align-items: center;}
+        td {height: 30px; font-size: 14px; padding: 5px;}
+        tr td:first-child {
+            border-radius: 10px 0 0 10px;
+        }
+        tr td:last-child {
+            border-radius: 0 10px 10px 0;
+        }
         th:nth-child(1) {width: 15%;}
         th:nth-child(2) {width: 55%;}
         th:nth-child(3) {width: 15%;}
@@ -44,10 +58,6 @@
         td:nth-child(2) {width: 55%;}
         td:nth-child(3) {width: 15%;}
         td:nth-child(4) {width: 10%;}
-
-        tr:nth-child(4n){
-            background: aliceblue;
-        }
 
         .letPostArea {width: 100%; height: 35px; margin: 10px 0 20px 0}
         .postBtnArea {width: 80px; height: 35px; padding: 0 20px 0 0; float:right; box-sizing: border-box;}
@@ -90,7 +100,8 @@
         .postWriterHL {text-decoration: none;}
         .postTitleHL:hover {text-decoration: underline;}
         .postWriterHL:hover {text-decoration: underline;}
-        a {text-decoration: none; color: black;}
+
+        a {width: auto; text-decoration: none; color: black;}
         a:visited {text-decoration: none;}
         .bold {font-weight: bold;}
         .noPost {text-align: center;}
@@ -220,7 +231,7 @@
                         postNum++;
                         $("<tr class='post'>" +
                                 "<td>" + allPostNum + "</td>" +
-                                "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + post.TITLE + "</a>" + "</td>" +
+                                "<td><div class='flex'><a href='#절대있을리없는아이디명' class='postTitleHL'>" + post.TITLE + "</a></div></td>" +
                                 "<td>" + post.DATE + "</td>" +
                                 "<td>" + post.VIEW + "</td>" +
                             "<tr>").prependTo('tbody.postArea');
@@ -235,7 +246,7 @@
                 }
 
                 // 게시글 제목 a 클릭 시 해당 게시글의 title을 가지고 게시글 페이지로 이동
-                $('.postTitleHL').on('click', function(){
+                $('.postTitleHL').on('click', function() {
                     $(this).prop('href', "게시글.html?title=" + $(this).text());
                 });
             });
@@ -276,7 +287,8 @@
             $('.letPost').on('click', function(){
                 window.open("카페 글쓰기.html");
             });
-        });
+            
+        });     // Ready End
     </script>
     <div id="userFloat">
         <ul>

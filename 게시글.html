@@ -6,8 +6,9 @@
     <title>content_page</title>
     <style>
         * {margin:0; padding:0;}
-        section {padding: 20px;}
-        .articleTop {width: 100%; height: 2.5em;}
+        html {padding: 20px;}
+        section {padding: 10px 0 ;}
+        .articleTop {width: 100%; height: 2.5em; padding-bottom: 10px;}
         .articleBtnArea {float: right; width: auto; height: 2.5em;}
         .articleBtnArea div{
             height: 2.5em; margin: 5px 5px 0 0; padding: 8px;
@@ -78,10 +79,24 @@
         }
         #fileTooltip li a:nth-child(2) {padding: 6px 0 6px 12px; box-sizing: border-box; color: #fff;}
 
-        table, tr, td{padding: 2px; text-align: center; 
-            width: 100%; border-collapse: collapse;
+        table {text-align: center; width: 100%; border-collapse: separate; border-spacing: 0 5px; margin-top: 10px;}
+        tr {
+            margin: 10px 0 0; padding: 5px; box-sizing: border-box;
+            background: rgb(240, 240, 240);
         }
-        td {font-size: 12px; padding: 5px;}
+        tr:not(.postTh):hover {
+            transition: 1s ease-out; opacity : 1;
+            background: rgb(149, 69, 255);
+        }
+        .postTh {font-size: 13px; background: #fff; height: 30px;}
+        .flex {height: 100%; display: flex;  justify-content: center; align-items: center;}
+        td {height: 30px; font-size: 14px; padding: 5px;}
+        tr td:first-child {
+            border-radius: 10px 0 0 10px;
+        }
+        tr td:last-child {
+            border-radius: 0 10px 10px 0;
+        }
         th:nth-child(1) {width: 15%;}
         th:nth-child(2) {width: 25%;}
         th:nth-child(3) {width: 20%;}
@@ -94,25 +109,10 @@
         td:nth-child(4) {width: 20%;}
         td:nth-child(5) {width: 15%;}
 
-        tr:nth-child(4n){
-            background: aliceblue;
-        }
-
-        footer {
-            margin: 10px;
-        }
-        .pageNum {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .pageMove {
-            display: flex;
-            margin: 15px;
-            color: black;
-            font-size: 15px;
-            text-decoration: none;
-        }
+        footer {width: 100%; margin: 10px;}
+        .commentTable{margin-top: 10px;}
+        .otherArticleTable {width: 100%;}
+        
         .postTitleHL {text-decoration: none;}
         .postWriterHL {text-decoration: none;}
         .postTitleHL:hover {text-decoration: underline;}
@@ -191,6 +191,14 @@
                 <span class="writerArticleText"><strong class="writer">userName</strong>님의 게시글 더보기</span>
             </a>
         </div>
+        <div class="commentBox">
+            <table class="commentTable">
+                <thead></thead>
+                <tbody>
+                    <tr><div><td>a</td><td>b</td><td>c</td></div></tr>
+                </tbody>
+            </table>
+        </div>
     </section>
     <footer>
         <div>
@@ -202,9 +210,6 @@
             </table>
         </div>
         <div class="footerBox">
-            <div class="pageNum">
-                <a href="#" class="pageMove">1</a>
-            </div>
         </div>
     </footer>
     <script>
@@ -274,8 +279,6 @@
 
         $(function(){       // ready
             // 페이지 수를 출력
-            let pageCount = $('.pageMove').length;
-            let lastPage = $('.pageMove:last').text();
             let postNum = 0;
             let allPostNum = 0;
             let cateName, writer, date, view;
@@ -309,8 +312,8 @@
                 $.each(userPost, function(index, post){
                     if (index > userPost.length - 6){
                         $("<tr class='post'>" +
-                            "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + post.TITLE + "</a>" + "</td>" +
-                            "<td>" + "<a href='#절대있을리없는아이디명' class='postWriterHL'>" + post.ID + "</a>" + "</td>" +
+                            "<td><div class='flex'><a href='#절대있을리없는아이디명' class='postTitleHL'>" + post.TITLE + "</a></div></td>" +
+                            "<td><div class='flex'><a href='#절대있을리없는아이디명' class='postWriterHL'>" + post.ID + "</a></div></td>" +
                             "<td>" + post.DATE + "</td>" +
                             "</tr>").prependTo('tbody.postArea');
                     }

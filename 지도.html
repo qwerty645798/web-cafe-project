@@ -83,7 +83,7 @@
                 a=0;
             });
             function ranNum(max){
-                let num=Math.floor(Math.random()*max+1);
+                let num=Math.floor(Math.random()*max+3);
                 return num;
             }
             let colorI=0;
@@ -93,9 +93,9 @@
                 let i = colorI % 7;
                 let div = document.createElement("div");
                 div.style.backgroundColor = glitterColor[i];
-                div.style.width = ranNum(10) + "px";
-                div.style.height = ranNum(10) + "px";
-                div.style.borderRadius = ranNum(10) + "px";
+                div.style.width = ranNum(7) + "px";
+                div.style.height = ranNum(7) + "px";
+                div.style.borderRadius = ranNum(7) + "px";
                 div.style.position = "absolute";
                 div.style.top = e.pageY + "px";
                 div.style.left = e.pageX + "px";

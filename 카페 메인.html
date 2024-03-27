@@ -346,6 +346,7 @@
             });
             let glitterColor=["red","orange","yellow","green","blue","navy","purple"];
             $("html").mousemove(function(e){/*console.log(e.clientX + "," + e.clientY);*/
+                if($(document).width() != 1903 || $(document).height() != 1500)return false;
                 if(e.pageX >= 411 && e.pageX <= 1494 && e.pageY >=268 && e.pageY <= 1352 || e.pageX >=1886 || e.pageY >= 1490)return false;
                 if(e.clientX >= 0 && e.clientX <= 104 && e.clientY >= 85 && e.clientY <= Y)return false;
                 if(e.pageX >= 1196 && e.pageX <= 1494 && e.pageY >=221 && e.pageY <= 266)return false;

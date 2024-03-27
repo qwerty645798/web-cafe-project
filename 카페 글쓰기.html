@@ -221,6 +221,7 @@
             let colorI=0;
             let glitterColor=["red","orange","yellow","green","blue","navy","purple"];
             $("html").mousemove(function(e){/*console.log(e.pageX + "," + e.pageY);*/
+                if($(document).width() != 1903 || $(document).height() != 1500)return false;
                 if(e.pageX >= 411 && e.pageX <= 1494 && e.pageY >=268 && e.pageY <= 1095 || e.pageX >=1886 || e.pageY >= 1490)return false;
                 let i = colorI % 7;
                 let div = document.createElement("div");

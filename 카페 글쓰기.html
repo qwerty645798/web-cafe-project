@@ -215,19 +215,20 @@
                 a=0;
             });
             function ranNum(max){
-                let num=Math.floor(Math.random()*max+1);
+                let num=Math.floor(Math.random()*max+3);
                 return num;
             }
             let colorI=0;
             let glitterColor=["red","orange","yellow","green","blue","navy","purple"];
             $("html").mousemove(function(e){/*console.log(e.pageX + "," + e.pageY);*/
-                if(e.pageX >= 411 && e.pageX <= 1494 && e.pageY >=268 && e.pageY <= 1080 || e.pageX >=1886 || e.pageY >= 1490)return false;
+                if($(document).width() != 1903 || $(document).height() != 1500)return false;
+                if(e.pageX >= 411 && e.pageX <= 1494 && e.pageY >=268 && e.pageY <= 1095 || e.pageX >=1886 || e.pageY >= 1490)return false;
                 let i = colorI % 7;
                 let div = document.createElement("div");
                 div.style.backgroundColor = glitterColor[i];
-                div.style.width = ranNum(10) + "px";
-                div.style.height = ranNum(10) + "px";
-                div.style.borderRadius = ranNum(10) + "px";
+                div.style.width = ranNum(7) + "px"; /* "10px"; */
+                div.style.height = ranNum(7) + "px"; /* "10px"; */
+                div.style.borderRadius = ranNum(7) + "px"; /* "0px"; */
                 div.style.position = "absolute";
                 div.style.top = e.pageY + "px";
                 div.style.left = e.pageX + "px";
@@ -352,7 +353,7 @@
                     <option value="Git / Github">Git / Github</option>
                     <option value="Java">Java</option>
                     <option value="프로젝트진행">프로젝트진행</option>
-                </select><br>
+                </select><br><br>
                 <input type="text" placeholder="제목을 입력해주세요." id="title"><br><br>
                 <div id="tools1">
                     <button><img src="image/picture.png"><br>사진</button>

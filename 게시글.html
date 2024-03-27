@@ -234,6 +234,31 @@
             });
         }
 
+        // 작성자 툴팁을 나타나게 하고 속성을 수정하는 함수
+        function userFloatShow(e){
+            let offset = $(this).offset();
+            let triggerWidth = $(this).outerWidth();
+            let ttWidth = $('#userFloat').outerWidth();
+            let ttHeight = $('#userFloat').outerHeight();
+            let ttTop = offset.top + $(this).outerHeight();
+            $('#userFloat').css({'left': offset.left, 'top': ttTop});
+            $('#userFloat').fadeIn('fast');
+
+            $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
+            $('#userFloat a:last').prop('href', "javascript:void(window.open('쪽지.html?name=" + $(this).text() + "', '_blank','width=500, height=450'))");
+        }
+
+        // 작성자 툴팁을 사라지게 하는 함수
+        function userFloatHide(e){
+            let $tgPoint = $(e.target);
+            let $writerTT = $tgPoint.hasClass('postWriterHL');
+            let $hlArea = $tgPoint.hasClass('userFloat');
+
+            if (!$writerTT && !$hlArea){
+                $('#userFloat').fadeOut('fast');
+            }
+        }
+
         // url 복사기능
         function clip(){
             var url = '';
@@ -292,27 +317,8 @@
                 });
 
                 // 작성자 클릭 시 해당 요소 아래에 툴팁이 나오는 코드 / 요소 바깥을 클릭하면 사라짐
-                $('.postWriterHL, .writer').on('click', function(e){
-                    let offset = $(this).offset();
-                    let triggerWidth = $(this).outerWidth();
-                    let ttWidth = $('#userFloat').outerWidth();
-                    let ttHeight = $('#userFloat').outerHeight();
-                    let ttTop = offset.top + $(this).outerHeight();
-                    $('#userFloat').css({'left': offset.left, 'top': ttTop});
-                    $('#userFloat').fadeIn('fast');
-                    $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
-                    $('#userFloat a:last').prop('href', "javascript:void(window.open('쪽지.html?name=" + $(this).text() + "', '_blank','width=500, height=450'))");
-                });
-                $(document).on('click', function(e){
-                    let $tgPoint = $(e.target);
-                    let $writerTT = $tgPoint.hasClass('postWriterHL');
-                    let $hlArea = $tgPoint.hasClass('userFloat');
-                    let $writerTT2 = $tgPoint.hasClass('writer');
-
-                    if (!$writerTT && !$hlArea && !$writerTT2){
-                        $('#userFloat').fadeOut('fast');
-                    }
-                });
+                $('.postWriterHL, .writer').on('click', userFloatShow);
+                $(document).on('click', userFloatHide);
 
                 // 게시글 제목 a 클릭 시 해당 게시글의 text를 가지고 게시글 페이지로 이동
                 $('.postTitleHL').on('click', function(){

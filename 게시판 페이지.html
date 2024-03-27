@@ -11,11 +11,18 @@
 
         body {width: 100%; margin: 0; box-sizing: border-box; padding: 10px;}
 
-        table, tr, th, td{padding:2px; text-align: center; 
-            width: 100%; border-collapse: collapse;
+        table, tr, th, td{text-align: center; width: 100%; border-collapse: collapse;}
+        tr {
+            padding: 5px; box-sizing: border-box; 
+            border: 5px solid #fff; border-radius: 20px;
+            background: aliceblue;
+        }
+        tr:not(.postTh):hover {
+            transition: 1s ease-out; opacity : 1;
+            background: rgb(207, 124, 255);
         }
         .postTh {font-size: 13px; background: rgb(181, 255, 185); height: 30px;}
-        td {font-size: 12px; padding: 5px;}
+        td {height: 30px; font-size: 14px; padding: 5px;}
         th:nth-child(1) {width: 15%;}
         th:nth-child(2) {width: 25%;}
         th:nth-child(3) {width: 20%;}
@@ -27,10 +34,6 @@
         td:nth-child(3) {width: 20%;}
         td:nth-child(4) {width: 20%;}
         td:nth-child(5) {width: 15%;}
-
-        tr:nth-child(2n){
-            background: aliceblue;
-        }
 
         footer {margin-top: 20px;}
         .footerBox {padding-bottom: 10px;}
@@ -79,7 +82,11 @@
         .postWriterHL {text-decoration: none;}
         .postTitleHL:hover {text-decoration: underline;}
         .postWriterHL:hover {text-decoration: underline;}
-        a {text-decoration: none; color: #000;}
+        a {
+            width: 100%; height: 100%;
+            text-decoration: none; color: #000; 
+            display: flex;  justify-content: center; align-items: center;
+        }
         a:visited {text-decoration: none;}
         span {font-weight: bold;}
 
@@ -189,7 +196,33 @@
                 callback(data);
             });
         }
+
+        // 작성자 툴팁을 나타나게 하고 속성을 수정하는 함수
+        function userFloatShow(e){
+            let offset = $(this).offset();
+            let triggerWidth = $(this).outerWidth();
+            let ttWidth = $('#userFloat').outerWidth();
+            let ttHeight = $('#userFloat').outerHeight();
+            let ttTop = offset.top + $(this).outerHeight();
+            $('#userFloat').css({'left': offset.left, 'top': ttTop});
+            $('#userFloat').fadeIn('fast');
+
+            $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
+            $('#userFloat a:last').prop('href', "javascript:void(window.open('쪽지.html?name=" + $(this).text() + "', '_blank','width=500, height=450'))");
+        }
+
+        // 작성자 툴팁을 사라지게 하는 함수
+        function userFloatHide(e){
+            let $tgPoint = $(e.target);
+            let $writerTT = $tgPoint.hasClass('postWriterHL');
+            let $hlArea = $tgPoint.hasClass('userFloat');
+
+            if (!$writerTT && !$hlArea){
+                $('#userFloat').fadeOut('fast');
+            }
+        }
         
+        // text박스 포커스 placeholder 이벤트
         function textBoxPH (){      
             let $box = $('#searchText');
             $.each($box, function(){
@@ -252,37 +285,11 @@
                 // 게시글 제목 a 클릭 시 해당 게시글의 text를 가지고 게시글 페이지로 이동
                 $('.postTitleHL').on('click', function(){
                     $(this).prop('href', "게시글.html?title=" + $(this).text());
-                    // + 
-                    // "&writer=" + $(this).parent().next('td').find('a').text() + 
-                    // "&date=" + $(this).closest('tr').find('.postDateHL').text() + 
-                    // "&view=" + $(this).closest('tr').find('.postViewHL').text() + 
-                    // "&cate=" + $(this).closest('tr').find('.postCateHL').text());
                 });
 
                 // 작성자 클릭 시 해당 요소 아래에 툴팁이 나오는 코드 / 요소 바깥을 클릭하면 사라짐
-                $('.postWriterHL').on('click', function(e){
-                    let offset = $(this).offset();
-                    let triggerWidth = $(this).outerWidth();
-                    let ttWidth = $('#userFloat').outerWidth();
-                    let ttHeight = $('#userFloat').outerHeight();
-                    let ttTop = offset.top + $(this).outerHeight();
-                    $('#userFloat').css({'left': offset.left, 'top': ttTop});
-                    
-                    $('#userFloat').fadeIn('fast');
-
-                    // 작성자 툴팁의 첫번째 a(작성글 보기)를 클릭 하면 해당 유저의 name 정보를 가지고 유저페이지로 이동
-                    $('#userFloat a:first').prop('href', "유저페이지.html?name=" + $(this).text());
-                    $('#userFloat a:last').prop('href', "javascript:void(window.open('쪽지.html?name=" + $(this).text() + "', '_blank','width=500, height=450'))");
-                });
-                $(document).on('click', function(e){
-                    let $tgPoint = $(e.target);
-                    let $writerTT = $tgPoint.hasClass('postWriterHL');
-                    let $hlArea = $tgPoint.hasClass('userFloat');
-
-                    if (!$writerTT && !$hlArea){
-                        $('#userFloat').fadeOut('fast');
-                    }
-                });
+                $('.postWriterHL').on('click', userFloatShow);
+                $(document).on('click', userFloatHide);
                 // 여기까지 작성자 클릭
 
                 // 게시판에 아무런 글도 없을 경우 출력

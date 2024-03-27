@@ -80,7 +80,7 @@
         }
         div#asideHeader {
             padding: 3%;
-            background:lightblue;
+           /* background:#F8F8F8;*/
             position:relative;
             z-index:2;
         }
@@ -114,7 +114,7 @@
             padding:10px;
             font-size:0.9em;
             border-top:2px black solid;
-            background:lightgreen;
+           /*background:#F8F8F8;*/
             position:relative;
             z-index:1;
         }
@@ -132,7 +132,7 @@
             width:100%;
             padding:10px;
             font-size:0.9em;
-            background:lightcoral;
+            background:#F8F8F8;
         }
         div#asideFooter>ul>li{
             list-style-position:inside;
@@ -151,7 +151,7 @@
         }
         div#mainHeader{
             height:25%;
-            /*border:5px #EEEEEE solid;*/
+            border:5px #EEEEEE solid;
             padding:30px;
         }
         div#mainHeader>a{
@@ -166,6 +166,7 @@
             height:75%;
             position:relative;
             z-index:0;
+            border:none;
         }
         .frame {/*mainArticle구역의 전체를 iframe 구역으로 설정*/
             width: 100%;
@@ -327,14 +328,15 @@
             }
             let colorI=0;
             let glitterColor=["red","orange","yellow","green","blue","navy","purple"];
-            $("html").mousemove(function(e){
-                if(document.getElementsByTagName("div").length>=150)return false;
+            $("html").mousemove(function(e){console.log(e.pageX + "," + e.pageY);
+                if(e.pageX >= 411 && e.pageX <= 1494 && e.pageY >=268 && e.pageY <= 1352 || e.pageX >=1886)return false;
+                if(e.clientX >= 0 && e.clientX <= 104 && e.clientY >= 85 && e.clientY <= 697)return false;
                 let i = colorI % 7;
                 let div = document.createElement("div");
                 div.style.backgroundColor = glitterColor[i];
-                div.style.width = ranNum(5) + "px";
-                div.style.height = ranNum(5) + "px";
-                div.style.borderRadius = ranNum(5) + "px";
+                div.style.width = ranNum(10) + "px";
+                div.style.height = ranNum(10) + "px";
+                div.style.borderRadius = ranNum(10) + "px";
                 div.style.position = "absolute";
                 div.style.top = e.pageY + "px";
                 div.style.left = e.pageX + "px";
@@ -345,7 +347,7 @@
                     fall += 0.5;
                     div.style.top = e.pageY + fall + "px";
                     div.style.opacity = 1 - fall/100;
-                    if(fall >= 100) {
+                    if(fall >= 100 || parseInt(div.style.top) >= 1495 || document.getElementsByTagName("div").length>=50) {
                         clearInterval(timerID);
                         document.body.removeChild(div);
                     }
@@ -436,7 +438,9 @@
                     <iframe style="border:none;" class="frame" name="iFrame" frameborder='0' src="게시판 페이지.html?cate=전체글보기"></iframe>
                 </div>
             </main>
-        </div>
+        </div><br>
+        <hr style="height:2px; background:black;">
+        <div style="text-align: right;"><b style="float:left;">강남그린(프로젝트기반 자바 풀스택 웹 개발)</b><small>https://cafe.naver.com/kanggreen2024</small></div>
     </div>
     <div id="upDownBtn">
     <button id="up" onclick="window.scrollTo(0,0)">▲</button>

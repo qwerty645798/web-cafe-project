@@ -348,8 +348,8 @@
                     div.style.top = e.pageY + fall + "px";
                     div.style.opacity = 1 - fall/100;
                     if(fall >= 100 || parseInt(div.style.top) >= 1495 || document.getElementsByTagName("div").length>=50) {
-                        clearInterval(timerID);
                         document.body.removeChild(div);
+                        clearInterval(timerID);
                     }
                 },1);
                 colorI++;

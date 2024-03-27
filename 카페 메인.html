@@ -28,7 +28,7 @@
             text-decoration:underline;
         }
         html,body{
-            width:100%; height:auto;
+            width:100%; height:100%;
             background:white;
             margin:0;
 
@@ -58,7 +58,6 @@
             border:1px #D7D7D9 solid;
             margin:auto 0;
             position:relative;
-            z-index:0;
         }
         nav>button{
             width:5%; height:70%;
@@ -82,9 +81,9 @@
         }
         div#asideHeader {
             padding: 3%;
-            /* background:#F8F8F8;*/
+            background:#FFFFFF;
             position:relative;
-            z-index:2;
+            z-index:3;
         }
         div#asideHeader>div#icon{
             width:100%;
@@ -116,9 +115,9 @@
             padding:10px;
             font-size:0.9em;
             border-top:2px black solid;
-            /*background:#F8F8F8;*/
+            background:#FFFFFF;
             position:relative;
-            z-index:1;
+            z-index:4;
         }
         div#asideMain>b>button{
             font-size:0.8em;
@@ -135,6 +134,8 @@
             padding:10px;
             font-size:0.9em;
             background:#F8F8F8;
+            position:relative;
+            z-index:5;
         }
         div#asideFooter>ul>li{
             list-style-position:inside;
@@ -155,6 +156,10 @@
             height:25%;
             border:5px #EEEEEE solid;
             padding:30px;
+            background:#FFFFFF;
+            position:relative;
+            z-index:1;
+
         }
         div#mainHeader>a{
             text-decoration:none;
@@ -167,8 +172,10 @@
         div#mainArticle{/*iframe의 부모요소*/
             height:75%;
             position:relative;
-            z-index:0;
             border:none;
+            background:#FFFFFF;
+            z-index:2;
+
         }
         .frame {/*mainArticle구역의 전체를 iframe 구역으로 설정*/
             width: 100%;
@@ -215,7 +222,7 @@
         cursor:pointer;
         font-size:1.5em;
         font-weight: bold;
-        z-index:5;
+        z-index:0;
         }
         div#menu:hover{
             background-color:dodgerblue;
@@ -312,25 +319,33 @@
                     "bottom":b/5 + "px"
                 });
             });
-            let timerIDA,timerIDB;
-            let a = 0;
+            let timerIDA;
+            let c=[];
+            let i=0;
             $(".box-shadow").mouseenter(function(){
+                i %= 10;
+                let a=0;
                 let $this=$(this);
                 timerIDA=setInterval(function(){
-                    $this.css({"box-shadow":`${a}px ${a}px ${a}px gray`});
+                    $this.css({"box-shadow":`0 ${a}px ${a}px gray`,"transform":`translateY(-${a}px)`});
                     a += 0.1;
+                    console.log(a);
                     if(a >= 8)clearInterval(timerIDA);
+                    c[i]=a;
                 },1);
+                i++;
             }).mouseleave(function(){
-                let $this=$(this);
-                let b = a;
                 clearInterval(timerIDA);
-                timeIDB = setInterval(function(){
-                $this.css({"box-shadow":`${b}px ${b}px ${b}px gray`});
+                let b=c[i];
+                let $this=$(this);
+                let timerIDB = setInterval(function(){
                     b -= 0.1;
-                    if(b <= 0)clearInterval(timerIDB);
+                    console.log(b);
+                    $this.css({"box-shadow":`0 ${b}px ${b}px gray`,"transform":`translateY(-${b}px)`});
+                    if(b <= 0){
+                        clearInterval(timerIDB);
+                    }
                 },1);
-                a=0;
             });
             function ranNum(max){
                 let num=Math.floor(Math.random()*max+3);
@@ -347,11 +362,10 @@
             let glitterColor=["red","orange","yellow","green","blue","navy","purple"];
             $("html").mousemove(function(e){/*console.log(e.clientX + "," + e.clientY);*/
                 if($(document).width() != 1903 || $(document).height() != 1500)return false;
-                if(e.pageX >= ($(document).width() - 1080)/2 && e.pageX <= 1080 + ($(document).width() - 1080)/2 && e.pageY >=268 && e.pageY <= 1352 || e.pageX >=1886 || e.pageY >= 1490)return false;
+                if(e.pageX >= 411 && e.pageX <= 1494 && e.pageY >=268 && e.pageY <= 1352 || e.pageX >=1886 || e.pageY >= 1490)return false;
                 if(e.clientX >= 0 && e.clientX <= 104 && e.clientY >= 85 && e.clientY <= Y)return false;
                 if(e.pageX >= 1196 && e.pageX <= 1494 && e.pageY >=221 && e.pageY <= 266)return false;
                 if(e.clientX >= 1808 && e.clientY >= 760)return false;
-                
                 let i = colorI % 7;
                 let div = document.createElement("div");
                 div.style.backgroundColor = glitterColor[i];
@@ -401,8 +415,8 @@
         <header class="border-box">
         </header>
         <nav class="border-box">
-            <input type="text" placeholder="검색창" class="box-shadow">
-            <button type="submit" class="box-shadow">검색</button>
+            <input type="text" placeholder="검색창">
+            <button type="submit">검색</button>
         </nav>
         <div id="main" class="border-box">
             <aside class="border-box">
@@ -473,6 +487,7 @@
         width:100px; height:500px;
         border:none;
         display:none;
+        z-index:1;
     ">
         <button style="
             outline:none;
@@ -481,7 +496,7 @@
             font-weight:bold;
             color:white;
             position:relative;
-            z-index:4;
+            z-index:1;
         " onclick="location='카페 글쓰기.html'" class="box-shadow">글쓰기</button>
         <button style="
             outline:none;
@@ -490,7 +505,7 @@
             font-weight:bold;
             color:white;
             position:relative;
-            z-index:3;
+            z-index:2;
         " class="box-shadow">그림판</button>
         <button style="
             outline:none;
@@ -499,7 +514,7 @@
             font-weight:bold;
             color:white;
             position:relative;
-            z-index:2;
+            z-index:3;
         " onclick="location='지도.html'" class="box-shadow">지도</button>
         <button style="
             outline:none;
@@ -508,7 +523,7 @@
             font-weight:bold;
             color:white;
             position:relative;
-            z-index:1;
+            z-index:4;
         " onclick="window.open('계산기.html','_blank','left=600,top=300,width=287,height=431')" class="box-shadow">계산기</button>
         <button style="
             outline:none;
@@ -518,7 +533,7 @@
             font-weight:bold;
             color:white;
             position:relative;
-            z-index:0;
+            z-index:5;
         " class="box-shadow">HTML</button>
     </div>
     <div id="menu" class="border-box box-shadow">MENU</div>

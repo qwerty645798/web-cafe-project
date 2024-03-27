@@ -119,12 +119,16 @@
         <div id="articles_area">
             <div>
                 <table class="articleTable">
-                    <tr class="postTh">
-                        <th class="postNumber"></th>
-                        <th class="title">제목</th>
-                        <th class="date">작성일</th>
-                        <th class="view">조회수</th>
-                    </tr>
+                    <thead>
+                        <tr class="postTh">
+                            <th class="postNumber"></th>
+                            <th class="title">제목</th>
+                            <th class="date">작성일</th>
+                            <th class="view">조회수</th>
+                        </tr>
+                    </thead>
+                    <tbody class="postArea">
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -210,25 +214,23 @@
                 // 중복 제거된 userText를 localStorage에 저장
                 localStorage.setItem("userText", JSON.stringify(userPost));
             
-                let i = 0;
-                $.each(userPost, function(){
+                $.each(userPost, function(index, post){
                     allPostNum++;
-                    if (userPost[i].ID == writerName) {
+                    if (writerName == post.ID) {
                         postNum++;
                         $("<tr class='post'>" +
                                 "<td>" + allPostNum + "</td>" +
-                                "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + userPost[i].TITLE + "</a>" + "</td>" +
-                                "<td>" + userPost[i].DATE + "</td>" +
-                                "<td>" + userPost[i].VIEW + "</td>" +
-                            "<tr>").insertAfter('.postTh');
+                                "<td>" + "<a href='#절대있을리없는아이디명' class='postTitleHL'>" + post.TITLE + "</a>" + "</td>" +
+                                "<td>" + post.DATE + "</td>" +
+                                "<td>" + post.VIEW + "</td>" +
+                            "<tr>").prependTo('tbody.postArea');
                         $('#postCounts').html("작성글 <span>" + postNum + "</span>");
                     }
-                    i++;
                 });
 
                 // 게시판에 아무런 글도 없을 경우 출력
                 if (postNum == 0){
-                    $('<tr><td class="noPost" colspan="4">등록된 게시글이 없습니다.</td></tr>').insertAfter('.postTh');
+                    $('<tr><td class="noPost" colspan="4">등록된 게시글이 없습니다.</td></tr>').prependTo('tbody.postArea');
                     $('#postCounts').html("작성글 <span>" + postNum + "</span>");
                 }
 

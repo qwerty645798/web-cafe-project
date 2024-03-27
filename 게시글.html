@@ -305,7 +305,7 @@
                     }
                 }
 
-                // 게시글 목록을 출력하는 코드
+                // 게시글 목록을 5개까지만 출력하는 코드
                 $.each(userPost, function(index, post){
                     if (index > userPost.length - 6){
                         $("<tr class='post'>" +
@@ -369,6 +369,7 @@
                     $('#fileTooltip').css({'left': offset.left + triggerWidth - ttWidth, 'top': ttTop});
                     $('#fileTooltip').fadeIn('fast');
             });
+            // 툴팁과 버튼 외 문서를 클릭할 때의 이벤트
             $(document).on('click', function(e){
                 let $tgPoint = $(e.target);
                 let $fileTT = $tgPoint.hasClass('file');

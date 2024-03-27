@@ -28,7 +28,7 @@
             text-decoration:underline;
         }
         html,body{
-            width:100%; height:100%;
+            width:100%; height:auto;
             background:white;
             margin:0;
 
@@ -82,7 +82,7 @@
         }
         div#asideHeader {
             padding: 3%;
-           /* background:#F8F8F8;*/
+            /* background:#F8F8F8;*/
             position:relative;
             z-index:2;
         }
@@ -116,7 +116,7 @@
             padding:10px;
             font-size:0.9em;
             border-top:2px black solid;
-           /*background:#F8F8F8;*/
+            /*background:#F8F8F8;*/
             position:relative;
             z-index:1;
         }
@@ -347,10 +347,11 @@
             let glitterColor=["red","orange","yellow","green","blue","navy","purple"];
             $("html").mousemove(function(e){/*console.log(e.clientX + "," + e.clientY);*/
                 if($(document).width() != 1903 || $(document).height() != 1500)return false;
-                if(e.pageX >= 411 && e.pageX <= 1494 && e.pageY >=268 && e.pageY <= 1352 || e.pageX >=1886 || e.pageY >= 1490)return false;
+                if(e.pageX >= ($(document).width() - 1080)/2 && e.pageX <= 1080 + ($(document).width() - 1080)/2 && e.pageY >=268 && e.pageY <= 1352 || e.pageX >=1886 || e.pageY >= 1490)return false;
                 if(e.clientX >= 0 && e.clientX <= 104 && e.clientY >= 85 && e.clientY <= Y)return false;
                 if(e.pageX >= 1196 && e.pageX <= 1494 && e.pageY >=221 && e.pageY <= 266)return false;
                 if(e.clientX >= 1808 && e.clientY >= 760)return false;
+                
                 let i = colorI % 7;
                 let div = document.createElement("div");
                 div.style.backgroundColor = glitterColor[i];

@@ -83,7 +83,6 @@
             padding: 3%;
             background:#FFFFFF;
             position:relative;
-            z-index:3;
         }
         div#asideHeader>div#icon{
             width:100%;
@@ -117,7 +116,6 @@
             border-top:2px black solid;
             background:#FFFFFF;
             position:relative;
-            z-index:4;
         }
         div#asideMain>b>button{
             font-size:0.8em;
@@ -135,7 +133,6 @@
             font-size:0.9em;
             background:#F8F8F8;
             position:relative;
-            z-index:5;
         }
         div#asideFooter>ul>li{
             list-style-position:inside;
@@ -158,8 +155,6 @@
             padding:30px;
             background:#FFFFFF;
             position:relative;
-            z-index:1;
-
         }
         div#mainHeader>a{
             text-decoration:none;
@@ -174,8 +169,6 @@
             position:relative;
             border:none;
             background:#FFFFFF;
-            z-index:2;
-
         }
         .frame {/*mainArticle구역의 전체를 iframe 구역으로 설정*/
             width: 100%;
@@ -228,7 +221,7 @@
         cursor:pointer;
         font-size:1.5em;
         font-weight: bold;
-        z-index:0;
+        z-index:2;
         }
         div#menu:hover{
             background-color:dodgerblue;
@@ -333,7 +326,7 @@
                 let a=0;
                 let $this=$(this);
                 timerIDA=setInterval(function(){
-                    $this.css({"box-shadow":`0 ${a}px ${a}px gray`,"transform":`translateY(-${a}px)`});
+                    $this.css({"box-shadow":`0 ${a}px ${a}px gray`,"transform":`translateY(-${a}px)`,"z-index":"1"});
                     a += 0.1;
                     console.log(a);
                     if(a >= 6)clearInterval(timerIDA);
@@ -347,7 +340,8 @@
                 let timerIDB = setInterval(function(){
                     b -= 0.1;
                     console.log(b);
-                    $this.css({"box-shadow":`0 ${b}px ${b}px gray`,"transform":`translateY(-${b}px)`});
+                    $this.css({"box-shadow":`0 ${b}px ${b}px gray`,"transform":`translateY(-${b}px)`,"z-index":"0"});
+                    if($this.is("div#menu"))$this.css("z-index","2");
                     if(b <= 0){
                         clearInterval(timerIDB);
                     }
@@ -498,21 +492,12 @@
         width:100px; height:400px;
         border:none;
         display:none;
-        z-index:1;
+        z-index:2;
     ">
-        <button style="
-            z-index:1;
-        " onclick="location='카페 글쓰기.html'" class="box-shadow">글쓰기</button>
-        <button style="
-            z-index:2;
-        " class="box-shadow">그림판</button>
-        <button style="
-            z-index:3;
-        " onclick="location='지도.html'" class="box-shadow">지도</button>
-        <button style="
-            z-index:4;
-            border-radius:0 0 20px 0;
-        " onclick="window.open('계산기.html','_blank','left=600,top=300,width=287,height=431')" class="box-shadow">계산기</button>
+        <button onclick="location='카페 글쓰기.html'" class="box-shadow">글쓰기</button>
+        <button class="box-shadow">그림판</button>
+        <button onclick="location='지도.html'" class="box-shadow">지도</button>
+        <button style="border-radius:0 0 20px 0;" onclick="window.open('계산기.html','_blank','left=600,top=300,width=287,height=431')" class="box-shadow">계산기</button>
     </div>
 </body>
 </html>

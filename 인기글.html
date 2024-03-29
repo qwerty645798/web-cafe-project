@@ -146,7 +146,7 @@
         let weekly = 0;
         let monthly = 0;
         let alltime = 0;
-        let popularityCutOff = 5;
+        let popularityCutOff = 2;
         let $sel;
 
         // 로컬 스토리지에서 객체를 가져오는 함수
@@ -195,7 +195,7 @@
             const now = dayjs();
             now.format("YYYY.MM.DD HH:mm");
 
-            let userText = getUserText()
+            let userText = getUserText();
 
             getFileData(function(fileData){
                 const userPost = userText.concat(fileData.filter(item => !userText.some(obj => obj.TITLE === item.TITLE)));
@@ -226,7 +226,7 @@
                     }
                 });
                 if (postNum == 0){
-                    $('<tr><td></td><td></td><td>인기글이 없습니다.</td><td></td><td></td></tr>').prependTo('tbody.postArea');
+                    $('<tr><td colspan="5">인기글이 없습니다.</td></tr>').prependTo('tbody.postArea');
                 }
 
                 $('#recent').on('change', function(){
@@ -251,7 +251,8 @@
                     });
                     $.each(userPost, function(index, post){
                         if (popularityCutOff <= post.VIEW){
-                            if (index > userPost.length - 11){
+                            if((userPost.length > 11 && index > userPost.length - 11) || userPost.length < 11){
+                                console.log("되나 안되나");
                                 switch($sel){
                                     case "last7Days" : 
                                         if (post.DATE >= now.subtract(7, "day").format("YYYY.MM.DD")){
@@ -297,6 +298,11 @@
                             }
                         }
                     });
+                    // 글이 없을 때
+                    if (postNum == 0){
+                        $('<tr><td colspan="5">인기글이 없습니다.</td></tr>').prependTo('tbody.postArea');
+                    }
+
                     // 작성자 클릭 시 해당 요소 아래에 툴팁이 나오고 요소 바깥을 클릭하면 사라짐 (기준 변경 내부)
                     $('.postWriterHL').on('click', userFloatShow);
                     $(document).on('click', userFloatHide);

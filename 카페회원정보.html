@@ -23,7 +23,7 @@
         <table>
             <tr>
                 <td>아이디 : </td>
-                <td><input type="text" placeholder="영문,숫자 조합 6자리 이상" id="ID"><button id="checkID" type="button" onclick="check()">중복체크</button></td>
+                <td><input type="text" placeholder="영문,숫자 조합 6자리 이상" id="ID"> <button id="checkID" type="button" onclick="check()">중복체크</button></td>
             </tr>
             <tr>
                 <td>비밀번호 : </td>
@@ -85,7 +85,6 @@
                 input[1].focus();
             }
         }
-        
         input[0].onfocus=function(){
             idcheck=false;
         }
@@ -186,10 +185,10 @@
                     return false;
                 }
             }
-            if(!validateDateOfBirth("2000-02-30")){
-            alert("생년월일을 제대로 입력해주세요.");
-            input[5].value="";
-            input[5].focus();
+            if(!validateDateOfBirth(input[5].value+"")){
+                alert("생년월일을 제대로 입력해주세요.");
+                input[5].value="";
+                input[5].focus();
             }
         }
         $(function(){
@@ -204,14 +203,28 @@
             td[i].style.textAlign="right";
         }
         function go(){
+            let userDataString = localStorage.getItem("userData");
+            let userData = JSON.parse(userDataString);
+            let NAME = document.getElementById("NAME");
+            let BIRTH=document.getElementById("BIRTH");
+
+            if(userDataString){
+                for(let i=0; i<userData.length; i++){
+                    if(userData[i].NAME == NAME.value && userData[i].BIRTH == BIRTH.value){
+                        alert("이미 가입된 사용자입니다.");
+                        window.close();
+                        return;
+                    }
+                }
+            }
             let ID=document.getElementById("ID").value;
             let PW=document.getElementById("PW").value;
             let PWC=document.getElementById("PWC").value;
-            let NAME=document.getElementById("NAME").value;
+            NAME=document.getElementById("NAME").value;
             let TEL=document.getElementById("TEL").value;
-            let BIRTH=document.getElementById("BIRTH").value;
+            BIRTH=document.getElementById("BIRTH").value;
 
-            let userData = [];
+            userData = [];
             let jsonDataString = localStorage.getItem("userData");
             if(jsonDataString){
                 let jsonData = JSON.parse(jsonDataString);

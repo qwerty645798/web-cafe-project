@@ -7,11 +7,11 @@
     <style>
         @font-face {
             font-family: "NanumGothic";
-            src: url(./fonts/NanumGothic.ttf);
+            src: url(./fonts/NanumGothic.otf);
         }
         * {margin:0; padding:0; font-family: 'NanumGothic'; line-height: 1.4em;}
         html {padding: 20px;}
-        section {padding: 10px 0 ; margin-bottom: 20px;}
+        section {padding: 10px 0 ;}
         .articleTop {width: 100%; height: 2.5em; padding-bottom: 10px;}
         .articleBtnArea {float: right; width: auto; height: 2.5em;}
         .articleBtnArea div{
@@ -65,10 +65,32 @@
             width: 100%; height: 25em; padding: 15px 15px; box-sizing: border-box;
         }
         .mainArticle {width: 100%; height: auto;}
-        .moreArea {width: 100%; height: 40px; box-sizing: border-box; overflow: hidden;}
+        .moreArea {width: 100%; height: auto; box-sizing: border-box; overflow: hidden;}
+        .moreBtn {width: 100%; height: 2.5em; margin-top: 40px; padding: 0 10px; box-sizing: border-box;}
+
         .writerArticle {width: auto; height: 100%; display: flex; align-items: center;}
         .writerArtTextArea {box-sizing: border-box;}
         .writerArticleText {font-size: 13px; line-height: 20px;}
+
+        .artIndexArea2 {height: auto; float: right; box-sizing: border-box;}
+        .artIndexArea2 div{
+            width: auto; height: 2.5em; padding: 8px;
+            font-size: 14px; text-align: center; 
+            display: inline-block;
+            box-sizing: border-box; background: rgb(235, 235,235);
+            border-radius: 10px;
+        }
+        .artIndex2 {margin-right: 10px;}
+        .articleIndex {width: auto;}
+        .topBtn, .letPost {width: auto; border: 0;}
+        .letPost:hover {cursor:pointer;}
+        .letPostArea {
+            width: auto; height: 2.5em; padding: 8px;
+            font-size: 14px; text-align: center; 
+            display: inline-block;
+            box-sizing: border-box; background: rgb(235, 235,235);
+            border-radius: 10px;
+        }
 
 
         .fileArea {width: 100%; height: 18px; padding: 0 10px; box-sizing: border-box;}
@@ -85,7 +107,7 @@
 
         table {text-align: center; width: 100%; border-collapse: separate; border-spacing: 0 5px; margin-top: 10px;}
         .otherCaption {
-            width: 100%; height: auto;padding: 10px 15px; 
+            width: 100%; height: auto; padding: 0 15px 10px; 
             box-sizing: border-box; text-align: left; 
             font-size: 17px; font-weight: bold;
         }
@@ -195,10 +217,21 @@
             </div>
         </div>
         <div class="moreArea">
-            <a href="#절대있을리없는아이디명" class="writerArticle">
-                <img src="image/icon.jpg" class="profileIcon2" alt="userProfileIcon">
-                <span class="writerArticleText"><strong class="writer">userName</strong>님의 게시글 더보기</span>
-            </a>
+            <div class="userProfile2">
+                <a href="#절대있을리없는아이디명" class="writerArticle">
+                    <img src="image/icon.jpg" class="profileIcon2" alt="userProfileIcon">
+                    <span class="writerArticleText"><strong class="writer">userName</strong>님의 게시글 더보기</span>
+                </a>
+            </div>
+            <div class=" moreBtn">
+                <div class="letPostArea"><button class="letPost">글쓰기</button></div>
+                <div class="artIndexArea2">
+                    <div class="artIndex2">
+                        <a href="#절대있을리없는아이디명" target="iFrame" class="articleIndex"><span>목록</span></a>
+                    </div>
+                    <div><a href="#" target="iFrame"><svg xmlns="http://www.w3.org/2000/svg" height="15" width="12.5" viewBox="0 0 512 256"><path fill="#000000" d="M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"/></svg><span>TOP</span></a></div>
+                </div>
+            </div>
         </div>
         <div class="commentBox">
         </div>
@@ -339,8 +372,10 @@
                 });
 
                 // 게시글 최상단 목록 클릭 시 카테고리 text를 가지고 게시판 페이지로 이동
-                $('.articleIndex').on('click', function(){
-                    $(this).prop('href', "게시판 페이지.html?cate=" + $('.category').text());
+                $.each($('.articleIndex'), function(index, button){
+                    $(this).on('click', function(){
+                        $(this).prop('href', "게시판 페이지.html?cate=" + $('.category').text());
+                    });
                 });
 
                 // 게시글 하단부 userName 님의 게시글 더보기 클릭 시 유저페이지로 이동
@@ -410,6 +445,9 @@
                 }
             });
             $('.articleTool .copyURL').on('click', clip);
+            $('.letPost').on('click', function(){
+                window.open("카페 글쓰기.html");
+            });
         });
     </script>
     <div id="userFloat">

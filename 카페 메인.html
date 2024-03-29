@@ -8,6 +8,11 @@
                 display:none;
             }
         }*/
+        @font-face {
+            font-family: "NanumGothic";
+            src: url(./fonts/NanumGothic.ttf);
+        }
+        * {font-family: 'NanumGothic'; line-height: 1.4em;}
         .border-box{/*테두리 크기를 합쳐야 하는 요소는 class="boder-box"사용하기*/
             box-sizing: border-box;
         }
@@ -227,6 +232,7 @@
             background-color:dodgerblue;
         }
         .postTitleHL {text-decoration: none; color: #000;}
+        .searchText {padding-left: 1em;}
 	</style>
 	<script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 	<script>
@@ -245,6 +251,17 @@
             $.getJSON('게시글 객체.json', function(data) {
                 callback(data);
             });
+        }
+
+        // 검색 시 검색 페이지로 이동하는 함수
+        function searcher() {
+            let $iFrame = $('iframe[name="iFrame"]');
+            let searText = $('.searchText').val();
+            if (searText.trim() == ""){
+                alert("잘못된 검색어입니다.");
+                return false;
+            }
+            $iFrame.prop('src', "검색 페이지.html?searTime=allTime&searDetail=postTitleAndText&searText=" + searText);  
         }
 
 		$(function(){
@@ -328,7 +345,7 @@
                 timerIDA=setInterval(function(){
                     $this.css({"box-shadow":`0 ${a}px ${a}px gray`,"transform":`translateY(-${a}px)`,"z-index":"1"});
                     a += 0.1;
-                    console.log(a);
+                    // console.log(a);
                     if(a >= 6)clearInterval(timerIDA);
                     c[i]=a;
                 },1);
@@ -339,7 +356,7 @@
                 let $this=$(this);
                 let timerIDB = setInterval(function(){
                     b -= 0.1;
-                    console.log(b);
+                    // console.log(b);
                     $this.css({"box-shadow":`0 ${b}px ${b}px gray`,"transform":`translateY(-${b}px)`,"z-index":"0"});
                     if($this.is("div#menu"))$this.css("z-index","2");
                     if(b <= 0){
@@ -408,7 +425,15 @@
                     $(this).prop('href', "게시글.html?title=" + $(this).text());
                 });
             });
-//      ---------------------------------------- 여기까지 -------------------------------------------------
+
+            // 검색 버튼 클릭 시 이벤트
+            $('.searchBtn').on('click', searcher);
+            // 검색 Enter 시 이벤트
+            $('.searchText').keydown(function(e){
+                if (e.key=="Enter") {
+                    searcher();
+                }
+            });
 		});     // Ready End
 	</script>
 </head>
@@ -417,8 +442,8 @@
         <header class="border-box">
         </header>
         <nav class="border-box">
-            <input type="text" placeholder="검색창">
-            <button type="submit">검색</button>
+            <input class="searchText" type="text" placeholder="검색창">
+            <button class="searchBtn" type="submit">검색</button>
         </nav>
         <div id="main" class="border-box">
             <aside class="border-box">
@@ -495,7 +520,7 @@
         z-index:2;
     ">
         <button onclick="location='카페 글쓰기.html'" class="box-shadow">글쓰기</button>
-        <button class="box-shadow">그림판</button>
+        <button onclick="location='그림판.html'" class="box-shadow">그림판</button>
         <button onclick="location='지도.html'" class="box-shadow">지도</button>
         <button style="border-radius:0 0 20px 0;" onclick="window.open('계산기.html','_blank','left=600,top=300,width=287,height=431')" class="box-shadow">계산기</button>
     </div>

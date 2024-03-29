@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>content_page</title>
     <style>
-        * {margin:0; padding:0;}
+        @font-face {
+            font-family: "NanumGothic";
+            src: url(./fonts/NanumGothic.ttf);
+        }
+        * {margin:0; padding:0; font-family: 'NanumGothic'; line-height: 1.4em;}
         #content_top {border-bottom: 2px solid black;}
         .postCounts {margin: 15px 0 13px 10px; font-size: 13px;}
 
@@ -147,7 +151,7 @@
                 <a href="#절대있을리없는아이디명" class="pageMove">1</a>
             </div>
             <div class="searchArea">
-                <form name="search" class="searchBoxes">
+                <div class="searchBoxes">
                     <div class = "searchSelect">
                         <select name="searTimes" id="searTimes">
                             <option name="searTime" value="allTime" selected>전체기간</option>
@@ -166,7 +170,7 @@
                         <input class="searchText" id="searchText" type="text" placeholder="검색어를 입력해주세요.">
                         <input class="searchBtn" type="button" value="검색">
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </footer>
@@ -233,6 +237,18 @@
                     }}
                 });
             });
+        }
+
+        // 검색 시 검색 페이지로 이동하는 함수
+        function searcher() {
+            let searTime = $('select[name=searTimes]').val();
+            let searDetail = $('select[name=searDetail]').val();
+            let searText = $('#searchText').val();
+            if (searText.trim() == ""){
+                alert("잘못된 검색어입니다.");
+                return false;
+            }
+            location.href = "검색 페이지.html?searTime=" + searTime + "&searDetail=" + searDetail + "&searText=" + searText; 
         }
         
         $(function(){       // ready
@@ -301,15 +317,12 @@
             });
 
             // 검색 버튼 클릭 시 이벤트
-            $('.searchBtn').on('click', function(){
-                let searTime = $('select[name=searTimes]').val();
-                let searDetail = $('select[name=searDetail]').val();
-                let searText = $('#searchText').val();
-                if (searText.trim() == ""){
-                    alert("잘못된 검색어입니다.");
-                    return false;
+            $('.searchBtn').on('click', searcher);
+            // 검색 Enter 시 이벤트
+            $('.searchText').keydown(function(e){
+                if (e.key=="Enter") {
+                    searcher();
                 }
-                location.href = "검색 페이지.html?searTime=" + searTime + "&searDetail=" + searDetail + "&searText=" + searText; 
             });
         });
     </script>

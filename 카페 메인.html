@@ -369,13 +369,8 @@
                 return num;
             }
             let colorI=0;
-            let Y;
-            if(document.getElementById("sideBar").style.display == "none")Y=200;
-            else Y=597;
-            $("div#menu").click(function(){
-                if(Y == 200)Y=597;
-                else if(Y == 597)Y=200;
-            });
+            let Y = 597;
+            
             let glitterColor=["red","orange","yellow","green","blue","navy","purple"];
             $("html").mousemove(function(e){/*console.log(e.clientX + "," + e.clientY);*/
                 if($(document).width() != 1903 || $(document).height() != 1500)return false;

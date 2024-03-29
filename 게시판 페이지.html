@@ -270,6 +270,7 @@
             getFileData(function(fileData){
                 const userPost = userText.concat(fileData.filter(item => !userText.some(obj => obj.TITLE === item.TITLE)));
 
+                localStorage.setItem("userText", JSON.stringify(userPost));
                 $.each(userPost, function(index, post){
                     allPostNum++;
                     if (cateName == "전체글보기"){
@@ -308,7 +309,7 @@
 
                 // 게시판에 아무런 글도 없을 경우 출력
                 if (postNum == 0){
-                    $('<tr><td colspan="5">등록된 게시글이 없습니다.</td></tr>').prependTo('tbody.postArea');
+                    $('<tr><td colspan="5">등록된 게시글이 없습니다.</td></tr>').prepend('tbody.postArea');
                     $('#postCounts').html("<span>" + postNum + "</span>개의 게시글");
                 }
             });

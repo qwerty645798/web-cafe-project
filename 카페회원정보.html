@@ -10,6 +10,16 @@
             text-align:center;
             background-color: aliceblue;
         }
+        input#ok{
+            background:#03C75A; color:white;
+            outline:none; border:1px #03C75A solid; border-radius:5px;
+            width:150px; height:30px;
+            
+        }
+        input#ok:hover{
+            text-decoration: underline;
+            cursor:pointer;
+        }
     </style>
     <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
     <script>
@@ -31,7 +41,7 @@
             </tr>
             <tr>
                 <td>비밀번호확인 : </td>
-                <td style="width:16em;"><input type="password" placeholder="비밀번호를 다시 입력하세요" id="PWC"><span id="warn" style="color:red;"></span></td>
+                <td style="width:16em;"><input type="password" placeholder="비밀번호를 다시 입력하세요" id="PWC"></span></td>
             </tr>
             <tr>
                 <td>이름 : </td>
@@ -47,8 +57,8 @@
             </tr>
             <tr>
                 <td></td>
-                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="button" value="입력" onclick="go()"></td>
+                <td>
+                <input type="button" value="입력" onclick="go()" id="ok"></td>
             </tr>
         </table>
     </form>

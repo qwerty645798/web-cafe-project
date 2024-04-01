@@ -150,6 +150,9 @@
         .postWriterHL:hover {text-decoration: underline;}
         a {text-decoration: none; color: #000;}
         a:visited {text-decoration: none;}
+        p {
+            white-space: pre-wrap;
+        }
         
         #userFloat {
             display:none; position:absolute; 
@@ -254,25 +257,31 @@
         function getQSURl() {    
             const serParams = new URLSearchParams(location.search);
             const title = serParams.get('title');
-            const writer = serParams.get('writer');
-            const date = serParams.get('date');
-            const cate = serParams.get('cate');
-            if (cate){    
-                return {
-                    title: title,
-                    writer: writer,
-                    cate: cate,
-                    date: date
-                };
-            }
-            else {
-                return {
-                    title: title,
-                    writer: writer,
-                    date: date
-                };
-            }
+            return title;
         } 
+
+        // function getQSURl() {    
+        //     const serParams = new URLSearchParams(location.search);
+        //     const title = serParams.get('title');
+        //     const writer = serParams.get('writer');
+        //     const date = serParams.get('date');
+        //     const cate = serParams.get('cate');
+        //     if (cate){    
+        //         return {
+        //             title: title,
+        //             writer: writer,
+        //             cate: cate,
+        //             date: date
+        //         };
+        //     }
+        //     else {
+        //         return {
+        //             title: title,
+        //             writer: writer,
+        //             date: date
+        //         };
+        //     }
+        // } 
 
         // 로컬 스토리지에서 객체를 가져오는 함수
         function getUserText() {
@@ -335,20 +344,23 @@
             let postNum = 0;
             let allPostNum = 0;
             let cateName, writer, date, view;
-            let queryString = getQSURl();
-            let title = queryString.title;
-            let writerName = queryString.writer;
-            let categoryName = queryString.cate;
-            let postDate = queryString.date;
-            console.log(title + ", " + writerName + ", " +  categoryName + ", " + postDate);
+            let title = getQSURl();
+            // let queryString = getQSURl();
+            // let title = queryString.title;
+            // let writerName = queryString.writer;
+            // let categoryName = queryString.cate;
+            // let postDate = queryString.date;
+            // console.log(title + ", " + writerName + ", " +  categoryName + ", " + postDate);
             
             let userText = getUserText();
             getFileData(function(fileData){
                 const userPost = userText.concat(fileData.filter(item => !userText.some(obj => obj.TITLE === item.TITLE)));
 
                 // 사용자가 선택한 게시글을 찾아서 VIEW를 증가시키는 코드
-                if (title && writerName && categoryName && postDate) {    
-                    const selectedPostIndex = userPost.findIndex(post => post.TITLE == title && post.ID == writerName && post.SEL == categoryName && post.DATE == postDate);
+                if (title) {    
+                    const selectedPostIndex = userPost.findIndex(post => post.TITLE == title);
+                // if (title && writerName && categoryName && postDate) {    
+                //     const selectedPostIndex = userPost.findIndex(post => post.TITLE == title && post.ID == writerName && post.SEL == categoryName && post.DATE == postDate);
                     if (selectedPostIndex !== -1) {
                         // 해당 객체를 찾았으면 VIEW를 증가시킴
                         userPost[selectedPostIndex].VIEW++;
@@ -380,7 +392,7 @@
                         $('.date').text(selectedPost.DATE);
                         $('.view').text(" 조회 " + selectedPost.VIEW);
                         $('.category').text(selectedPost.SEL);
-                        $('.text').text(selectedPost.TEXTAREA);
+                        $('.text').html(selectedPost.TEXTAREA);
                     }
                 }
 

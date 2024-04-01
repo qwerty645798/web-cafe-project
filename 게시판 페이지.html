@@ -299,14 +299,15 @@
 
                 // 게시글 제목 a 클릭 시 해당 게시글의 text를 가지고 게시글 페이지로 이동
                 $('.postTitleHL').on('click', function(){
-                    let title = $(this).text();
-                    let writer = $(this).closest('td').siblings().find(".postWriterHL").text();
-                    let date = $(this).closest('td').siblings(".postDateHL").text();
-                    let cate = $(this).closest('td').siblings(".postCateHL").text();
-                    if (cate){
-                        $(this).prop('href', "게시글.html?title=" + title + "&writer=" + writer + "&cate=" + cate + "&date=" + date);
-                    }
-                    else {$(this).prop('href', "게시글.html?title=" + title + "&writer=" + writer + "&date=" + date);}
+                    // let title = $(this).text();
+                    // let writer = $(this).closest('td').siblings().find(".postWriterHL").text();
+                    // let date = $(this).closest('td').siblings(".postDateHL").text();
+                    // let cate = $(this).closest('td').siblings(".postCateHL").text();
+                    // if (cate){
+                    //     $(this).prop('href', "게시글.html?title=" + title + "&writer=" + writer + "&cate=" + cate + "&date=" + date);
+                    // }
+                    // else {$(this).prop('href', "게시글.html?title=" + title + "&writer=" + writer + "&date=" + date);}
+                    $(this).prop('href', "게시글.html?title=" + $(this).text());
                 });
 
                 // 작성자 클릭 시 해당 요소 아래에 툴팁이 나오는 코드 / 요소 바깥을 클릭하면 사라짐

@@ -3,31 +3,31 @@
         "ID": "Psm4240",
         "SEL": "HTML / CSS",
         "TITLE" : "HTML ppt파일 모음",
-        "TEXTAREA": "HTML 파워포인트 파일은 좌 상단 다운로드 버튼으로 다운 받을 수 있습니다.",
+        "TEXTAREA": "HTML 파워포인트 파일은 우 상단 파일 첨부 보기 버튼으로 다운 받을 수 있습니다.",
         "DATE": "2024.02.16",
-        "VIEW": 0
+        "VIEW": 2
     },
     {
         "ID": "bison1020",
         "SEL": "JavaScript",
-        "TITLE" : "자바스크립트 이벤트 문법",
-        "TEXTAREA": "addEventListener, on-이벤트이름 등",
+        "TITLE" : "자바스크립트 이벤트 정리",
+        "TEXTAREA": "onblur : 입력양식에서 포커스가 다른 곳으로 이동했을 때\nonclick : 입력양식이나 링크를 마우스로 클릭했을 때\nonfocus : 입력양식 필드로 포커스가 들어왔을 때\nonload : 브라우저에서 문서가 읽혀졌을 때\nonmouseover : 링크위로 마우스가 지나갔을 때\nonselect : 입력양식의 한 필드를 선택했을 때\nonsubmit : 입력양식을 서버로 보낼 때\nonunload : 브라우저에서 문서가 없어졌을 때\n onabort : 이미지를 읽다가 중단시켰을 때\nonerror : 문서나 이미지를 읽다가 에러가 발생했을 때\nonmouseout : 마우스가 링크나 특정영역 안에 있다가 나갔을 때\nonreset : 입력양식에서 리셋 시켰을 때\nondbclick : 마우스를 더블클릭 했을 때 등등...",
         "DATE": "2024.02.27",
-        "VIEW": 0
+        "VIEW": 4
     },
     {
         "ID": "qwerty645798",
         "SEL": "jQuery / Ajax",
         "TITLE" : "서버 호스팅 하는 법",
-        "TEXTAREA": "닷홈 페이지에서 무료 호스팅 가능",
+        "TEXTAREA": "https://www.dothome.co.kr/ 으로 이동해서 회원가입 \n웹호스팅 - 무료호스팅 - 신청하기 클릭 후 양식 작성 ",
         "DATE": "2024.03.02",
-        "VIEW": 0
+        "VIEW": 3
     },
     {
-        "ID": "bison1020",
+        "ID": "Psm4240",
         "SEL": "JavaScript",
-        "TITLE" : "JS 파일",
-        "TEXTAREA": "localtext.js",
+        "TITLE" : "메모",
+        "TEXTAREA": "*자료 표현 단위 \n비트 -> 주기억 장치에서 정보표현의 최소단위 (예, 0또는 1의 두 상태를 기억하는 단위/정보 유무)\n n개의 bit --> 2^n개 상태 표현\n*bit String : 기계 bit의 모임\n - 해석 방법에 따라 - 외부적 표현 --> 비수치(문자)\n - 내부적 표현 --> 수치, 논리자료, Pointer",
         "DATE": "2024.03.08",
         "VIEW": 0
     },
@@ -36,15 +36,15 @@
         "SEL": "메모",
         "TITLE" : "네이버 드라이브 주소",
         "TEXTAREA": "https://naver.me/x58ojOAD",
-        "DATE": "2024.03.13",
-        "VIEW": 0
+        "DATE": "2024.03.15",
+        "VIEW": 1
     },
     {
         "ID": "qwerty645798",
         "SEL": "Java",
         "TITLE" : "Java 환경설정",
-        "TEXTAREA": "이클립스가 어쩌구 탐캣이 어쩌구 window-preference가 어쩌구",
-        "DATE": "2024.03.14",
+        "TEXTAREA": "1. 변수이름 : JAVA_HOME \n 변수값 : C:\\Program Files\\Java\\jdk-11.0.10\n\n (JAVAC.EXE/JAVA.EXE를 어떤 위치에서든 실행할 수 있게 해줌)\n2. PATH설정 :  시스템변수-PATH에서 편집\n 변수값 맨앞에서 %JAVA_HOME%\\BIN; 뒤에 내용 절대 지우지 마세요.\n\n3. 3. 변수이름 : CLASSPATH --> 도스상에서 컴파일하거나 실행할 때 필요\n %JAVA_HOME%\\lib;\n\nc:\\>javac -version--> 컴파일러 확인(자연어를 기계어로 변경하는 번역기)\nc:\\>java -version--> 실행 확인",
+        "DATE": "2024.03.25",
         "VIEW": 0
     }
 ]
